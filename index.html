@@ -1198,7 +1198,7 @@
       container.innerHTML = pendentesData.map(photo => {
         const imgUrl = getDirectImageUrl(photo.foto_link);
         const id = photo.id;
-        const tituloEsc = (photo.foto_titulo || '').replace(/"/g, '&quot;');
+        const tituloEsc = String(photo.foto_titulo || '').replace(/"/g, '&quot;');
         return `
           <div class="bg-white rounded-2xl shadow-md border-2 border-yellow-200 p-6 mb-4">
             <div class="flex flex-col md:flex-row gap-6">

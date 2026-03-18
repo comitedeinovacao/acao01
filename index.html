@@ -1,0 +1,1285 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de Ideias - Comitê de Inovação Senac Araçatuba</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Montserrat', sans-serif; }
+    
+    .cyber-grid {
+      background-image: 
+        linear-gradient(rgba(0, 69, 135, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 69, 135, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    
+    .organic-blob {
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      animation: morph 8s ease-in-out infinite;
+    }
+    
+    @keyframes morph {
+      0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+      50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(247, 148, 29, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(247, 148, 29, 0.6); }
+    }
+    
+    .float-animation { animation: float 6s ease-in-out infinite; }
+    .float-delay-1 { animation-delay: -2s; }
+    .float-delay-2 { animation-delay: -4s; }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #004587, #F7941D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .cyber-line {
+      background: linear-gradient(90deg, transparent, #F7941D, transparent);
+      height: 2px;
+    }
+    
+    .card-cyber {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card-cyber::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #F7941D, transparent);
+      animation: scan 3s linear infinite;
+    }
+    
+    @keyframes scan {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    
+    .neural-network {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+      pointer-events: none;
+    }
+    
+    .node {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #004587;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.5); opacity: 1; }
+    }
+
+    .submit-btn:hover {
+      animation: pulse-glow 1.5s ease-in-out infinite;
+    }
+
+    .scroll-smooth {
+      scroll-behavior: smooth;
+    }
+
+    .toast {
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-[#F2F2F2] cyber-grid overflow-auto scroll-smooth"><!-- Neural Network Background Elements -->
+  <div class="neural-network">
+   <div class="node" style="top: 10%; left: 5%;"></div>
+   <div class="node" style="top: 20%; left: 15%; animation-delay: -0.5s;"></div>
+   <div class="node" style="top: 15%; left: 85%; animation-delay: -1s;"></div>
+   <div class="node" style="top: 30%; left: 90%; animation-delay: -1.5s;"></div>
+   <div class="node" style="top: 60%; left: 8%; animation-delay: -0.3s;"></div>
+   <div class="node" style="top: 80%; left: 92%; animation-delay: -0.8s;"></div>
+  </div><!-- Header -->
+  <header class="bg-[#004587] text-white py-4 px-6 sticky top-0 z-50 shadow-lg">
+   <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-4"><!-- Logo SVG -->
+     <div class="w-12 h-12 bg-white rounded-lg p-2 flex items-center justify-center">
+      <svg viewbox="0 0 40 40" class="w-full h-full"><circle cx="20" cy="20" r="18" fill="#004587" /> <path d="M12 20 L18 26 L28 14" stroke="#F7941D" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" /> <circle cx="20" cy="20" r="8" stroke="#F7941D" stroke-width="1.5" fill="none" stroke-dasharray="3 2" />
+      </svg>
+     </div>
+     <div>
+      <h1 class="text-lg font-bold tracking-wide">Comitê de Inovação</h1>
+      <p class="text-xs text-[#F7941D] font-medium">Senac Araçatuba</p>
+     </div>
+    </div><!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium"><a href="#quemsomos" class="hover:text-[#F7941D] transition-colors">Quem Somos</a> <a href="#oquefazemos" onclick="showOQueFazemos(); return false;" class="hover:text-[#F7941D] transition-colors">O que Fazemos</a> <a href="#eventos" onclick="showEventos(); return false;" class="hover:text-[#F7941D] transition-colors">Eventos &amp; Fotos</a> <a href="#thinkers" class="hover:text-[#F7941D] transition-colors">Thinkers</a> <a href="#" onclick="showComiteArea(); return false;" class="hover:text-[#F7941D] transition-colors">🔐 Restrito</a> <a href="#enviar" class="bg-[#F7941D] px-4 py-2 rounded-full hover:bg-orange-500 transition-colors">Envie sua Ideia</a>
+    </nav><!-- Mobile Menu Button --> <button id="mobileMenuBtn" class="md:hidden flex items-center justify-center p-2 hover:bg-white/10 rounded-lg transition-colors">
+     <svg id="menuIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+     </svg>
+     <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+     </svg></button>
+   </div><!-- Mobile Navigation Menu -->
+   <nav id="mobileMenu" class="hidden md:hidden bg-[#003366] mt-4 rounded-lg overflow-hidden"><a href="#quemsomos" class="block px-4 py-3 hover:bg-[#004587] transition-colors">Quem Somos</a> <a href="#" class="mobile-oquefazemos block px-4 py-3 hover:bg-[#004587] transition-colors" onclick="event.preventDefault(); showOQueFazemos(); mobileMenu.classList.add('hidden'); document.getElementById('menuIcon').classList.remove('hidden'); document.getElementById('closeIcon').classList.add('hidden');">O que Fazemos</a> <a href="#" class="mobile-eventos block px-4 py-3 hover:bg-[#004587] transition-colors" onclick="event.preventDefault(); showEventos(); mobileMenu.classList.add('hidden'); document.getElementById('menuIcon').classList.remove('hidden'); document.getElementById('closeIcon').classList.add('hidden');">Eventos &amp; Fotos</a> <a href="#thinkers" class="block px-4 py-3 hover:bg-[#004587] transition-colors">Thinkers</a> <a href="#" class="block px-4 py-3 hover:bg-[#004587] transition-colors" onclick="event.preventDefault(); showComiteArea(); mobileMenu.classList.add('hidden'); document.getElementById('menuIcon').classList.remove('hidden'); document.getElementById('closeIcon').classList.add('hidden');">🔐 Comitê</a> <a href="#enviar" class="block px-4 py-3 bg-[#F7941D] hover:bg-orange-500 transition-colors font-semibold">Envie sua Ideia</a>
+   </nav>
+  </header><!-- Hero Section -->
+  <section class="relative min-h-[80%] flex items-center py-20 px-6 overflow-hidden"><!-- Decorative Blobs -->
+   <div class="absolute top-10 right-10 w-64 h-64 bg-[#F7941D] opacity-10 organic-blob float-animation"></div>
+   <div class="absolute bottom-20 left-10 w-48 h-48 bg-[#004587] opacity-10 organic-blob float-animation float-delay-1"></div>
+   <div class="absolute top-1/2 right-1/4 w-32 h-32 bg-[#F7941D] opacity-5 organic-blob float-animation float-delay-2"></div>
+   <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
+    <div class="space-y-8">
+     <div class="inline-flex items-center gap-2 bg-[#004587]/10 px-4 py-2 rounded-full"><span class="w-2 h-2 bg-[#F7941D] rounded-full animate-pulse"></span> <span class="text-[#004587] text-sm font-medium">Portal Ativo</span>
+     </div>
+     <h2 id="hero-title" class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#004587] leading-tight">Sua <span class="gradient-text">Voz</span> Transforma o <span class="gradient-text">Senac</span></h2>
+     <p id="hero-subtitle" class="text-lg text-gray-600 leading-relaxed max-w-lg">Bem-vindo ao Portal do Comitê de Inovação Senac Araçatuba. Aqui, ouvimos alunos e funcionários para transformar a educação juntos.</p><a href="#enviar" class="inline-flex items-center gap-3 bg-[#F7941D] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-orange-500 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"> <span>Quero enviar uma ideia agora</span>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg></a>
+    </div><!-- Hero Illustration -->
+    <div class="relative hidden md:block">
+     <div class="relative w-full aspect-square max-w-md mx-auto"><!-- Central Hub -->
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-[#004587] rounded-full flex items-center justify-center shadow-2xl">
+       <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+       </svg>
+      </div><!-- Orbiting Elements -->
+      <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center float-animation"><span class="text-3xl">💡</span>
+      </div>
+      <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center float-animation float-delay-1"><span class="text-3xl">🎓</span>
+      </div>
+      <div class="absolute top-1/2 left-0 transform -translate-y-1/2 w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center float-animation float-delay-2"><span class="text-3xl">🚀</span>
+      </div>
+      <div class="absolute top-1/2 right-0 transform -translate-y-1/2 w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center float-animation"><span class="text-3xl">🤝</span>
+      </div><!-- Connection Lines (SVG) -->
+      <svg class="absolute inset-0 w-full h-full" viewbox="0 0 400 400"><line x1="200" y1="50" x2="200" y2="140" stroke="#F7941D" stroke-width="2" stroke-dasharray="5,5" opacity="0.5" /> <line x1="200" y1="260" x2="200" y2="350" stroke="#F7941D" stroke-width="2" stroke-dasharray="5,5" opacity="0.5" /> <line x1="50" y1="200" x2="140" y2="200" stroke="#F7941D" stroke-width="2" stroke-dasharray="5,5" opacity="0.5" /> <line x1="260" y1="200" x2="350" y2="200" stroke="#F7941D" stroke-width="2" stroke-dasharray="5,5" opacity="0.5" />
+      </svg>
+     </div>
+    </div>
+   </div>
+  </section><!-- Cyber Line Divider -->
+  <div class="cyber-line w-full"></div>
+  <section id="quemsomos" class="py-20 px-6 bg-white">
+   <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16"><span class="inline-block bg-[#004587]/10 text-[#004587] px-4 py-1 rounded-full text-sm font-medium mb-4">Conheça-nos</span>
+     <h3 id="about-title" class="text-3xl md:text-4xl font-bold text-[#004587] mb-4">Quem Somos</h3>
+     <div class="w-24 h-1 bg-[#F7941D] mx-auto rounded-full"></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8"><!-- Card 1 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2">
+      <div class="w-16 h-16 bg-[#004587] rounded-xl flex items-center justify-center mb-6">
+       <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+       </svg>
+      </div>
+      <h4 class="text-xl font-bold text-[#004587] mb-3">Quem Somos</h4>
+      <p class="text-gray-600 leading-relaxed">Somos um grupo de colaboradores do Senac Araçatuba dedicados a transformar ideias em ações concretas para melhorar nossa comunidade educacional.</p>
+     </div><!-- Card 2 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2">
+      <div class="w-16 h-16 bg-[#F7941D] rounded-xl flex items-center justify-center mb-6">
+       <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+       </svg>
+      </div>
+      <h4 class="text-xl font-bold text-[#004587] mb-3">Nossa Missão</h4>
+      <p class="text-gray-600 leading-relaxed">Inovar práticas pedagógicas e tecnológicas, criando um ambiente de aprendizagem mais dinâmico e preparado para o futuro dos nossos alunos.</p>
+     </div><!-- Card 3 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2">
+      <div class="w-16 h-16 bg-[#004587] rounded-xl flex items-center justify-center mb-6">
+       <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+       </svg>
+      </div>
+      <h4 class="text-xl font-bold text-[#004587] mb-3">Nosso Compromisso</h4>
+      <p class="text-gray-600 leading-relaxed">Escuta ativa, transparência total e respeito absoluto. Cada ideia é avaliada sem julgamentos, focando apenas no potencial de impacto positivo.</p>
+     </div>
+    </div>
+   </div>
+  </section><!-- Thinkers Section -->
+  <section id="thinkers" class="py-20 px-6 bg-gradient-to-br from-[#004587] to-[#003366] text-white relative overflow-hidden"><!-- Background Pattern -->
+   <div class="absolute inset-0 opacity-10">
+    <svg class="w-full h-full" viewbox="0 0 100 100" preserveaspectratio="none"><defs>
+      <pattern id="circuit" x="0" y="0" width="20" height="20" patternunits="userSpaceOnUse">
+       <circle cx="10" cy="10" r="1" fill="#F7941D" />
+       <path d="M10 0 V10 M0 10 H10" stroke="#F7941D" stroke-width="0.5" fill="none" />
+      </pattern>
+     </defs> <rect width="100" height="100" fill="url(#circuit)" />
+    </svg>
+   </div>
+   <div class="max-w-6xl mx-auto relative z-10">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+     <div><span class="inline-block bg-[#F7941D] text-white px-4 py-1 rounded-full text-sm font-medium mb-4">Ação 01</span>
+      <h3 id="thinkers-title" class="text-3xl md:text-4xl font-bold mb-6">Espaço <span class="text-[#F7941D]">Senac Thinkers</span></h3>
+      <p class="text-lg text-blue-100 leading-relaxed mb-6">O Senac Thinkers é nossa iniciativa de escuta ativa. Todas as ideias enviadas por este portal — ou depositadas na caixa física da Biblioteca — são cuidadosamente analisadas e se tornam <strong class="text-[#F7941D]">insumos valiosos</strong> para nossas reuniões mensais do comitê.</p>
+      <div class="flex flex-wrap gap-4">
+       <div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg">
+        <svg class="w-5 h-5 text-[#F7941D]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg><span class="text-sm">Reuniões Mensais</span>
+       </div>
+       <div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg">
+        <svg class="w-5 h-5 text-[#F7941D]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg><span class="text-sm">Análise Cuidadosa</span>
+       </div>
+      </div>
+     </div><!-- Illustration -->
+     <div class="relative">
+      <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+       <div class="flex items-center gap-4 mb-6">
+        <div class="w-12 h-12 bg-[#F7941D] rounded-full flex items-center justify-center">
+         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+         </svg>
+        </div>
+        <div>
+         <h4 class="font-bold text-lg">Caixa da Biblioteca</h4>
+         <p class="text-blue-200 text-sm">Prefere papel? Sem problemas!</p>
+        </div>
+       </div>
+       <p class="text-blue-100 text-sm leading-relaxed">Você também pode depositar suas ideias na caixa física localizada na Biblioteca do Senac Araçatuba. Todas as sugestões são igualmente valorizadas!</p>
+      </div><!-- Floating Badge -->
+      <div class="absolute -top-4 -right-4 bg-[#F7941D] text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg float-animation">
+       100% Anônimo
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- Cyber Line Divider -->
+  <div class="cyber-line w-full"></div><!-- Eventos e Fotos Section (Hidden by default) -->
+  <section id="eventos" class="py-20 px-6 bg-white hidden" style="display: none;">
+   <div class="max-w-6xl mx-auto">
+    <div class="mb-12"><button onclick="goBackHome()" class="flex items-center gap-2 text-[#004587] hover:text-[#F7941D] font-semibold mb-8 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg> Voltar </button>
+     <div class="text-center mb-12"><span class="inline-block bg-[#004587]/10 text-[#004587] px-4 py-1 rounded-full text-sm font-medium mb-4">Galeria de Inovação</span>
+      <h2 id="eventos-title" class="text-3xl md:text-4xl font-bold text-[#004587] mb-4">Inovação em Ação</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Veja como alunos e professores estão inovando salas de aula, espaços e transformando o Senac através de práticas criativas e metodologias ativas.</p>
+     </div>
+    </div><!-- Tab Navigation -->
+    <div class="flex gap-4 mb-12 border-b-2 border-gray-200"><button onclick="showEventosTab('galeria')" class="tab-btn tab-galeria px-6 py-3 font-semibold text-[#004587] border-b-4 border-[#F7941D] transition-colors"> 📸 Galeria de Fotos </button> <button onclick="showEventosTab('enviar')" class="tab-btn tab-enviar px-6 py-3 font-semibold text-gray-600 hover:text-[#004587] transition-colors"> ➕ Compartilhe sua Inovação </button>
+    </div><!-- Galeria Tab -->
+    <div id="galeria-tab" class="tab-content">
+     <div id="galeriaContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="col-span-full text-center py-12">
+       <p class="text-gray-500 text-lg">Nenhuma foto compartilhada ainda. Seja o primeiro! 🚀</p>
+      </div>
+     </div>
+    </div><!-- Enviar Tab -->
+    <div id="enviar-tab" class="tab-content hidden">
+     <div class="max-w-2xl mx-auto bg-gradient-to-br from-[#F2F2F2] to-gray-100 rounded-3xl shadow-xl p-8 md:p-12">
+      <div class="text-center mb-8">
+       <h3 class="text-2xl font-bold text-[#004587] mb-2">📸 Compartilhe sua Inovação</h3>
+       <p class="text-gray-600">Mostre como você está transformando a educação no Senac Araçatuba!</p>
+      </div>
+      <form id="eventoPhotoForm" class="space-y-6"><!-- Nome -->
+       <div><label for="eventoNome" class="block text-sm font-semibold text-[#004587] mb-2">Seu Nome</label> <input type="text" id="eventoNome" name="eventoNome" placeholder="Digite seu nome ou deixe em branco para enviar anonimamente" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-white">
+       </div><!-- Tipo de Pessoa -->
+       <div><label class="block text-sm font-semibold text-[#004587] mb-3">Você é:</label>
+        <div class="flex gap-4"><label class="flex items-center gap-2 cursor-pointer group"> <input type="radio" name="eventoTipo" value="Aluno" class="w-5 h-5 text-[#F7941D] accent-[#F7941D]" required> <span class="text-gray-700 group-hover:text-[#004587] transition-colors">🎓 Aluno</span> </label> <label class="flex items-center gap-2 cursor-pointer group"> <input type="radio" name="eventoTipo" value="Professor" class="w-5 h-5 text-[#F7941D] accent-[#F7941D]" required> <span class="text-gray-700 group-hover:text-[#004587] transition-colors">👨‍🏫 Professor</span> </label> <label class="flex items-center gap-2 cursor-pointer group"> <input type="radio" name="eventoTipo" value="Funcionário" class="w-5 h-5 text-[#F7941D] accent-[#F7941D]" required> <span class="text-gray-700 group-hover:text-[#004587] transition-colors">👔 Funcionário</span> </label>
+        </div>
+       </div><!-- Curso ou Departamento -->
+       <div><label for="eventoCursoDepto" class="block text-sm font-semibold text-[#004587] mb-2">Seu Curso / Departamento *</label> <input type="text" id="eventoCursoDepto" name="eventoCursoDepto" placeholder="Ex: Administração, Coordenação Pedagógica, etc." class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-white" required>
+       </div><!-- Título da Inovação -->
+       <div><label for="eventoTitulo" class="block text-sm font-semibold text-[#004587] mb-2">Título da Inovação / Projeto *</label> <input type="text" id="eventoTitulo" name="eventoTitulo" placeholder="Ex: Sala de Aula Invertida com IA, Espaço Colaborativo 2.0" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-white" required>
+       </div><!-- Descrição da Inovação -->
+       <div><label for="eventoDescricao" class="block text-sm font-semibold text-[#004587] mb-2">Descreva sua Inovação *</label> <textarea id="eventoDescricao" name="eventoDescricao" rows="4" placeholder="Conte como você está inovando: qual é o projeto, como está transformando a sala de aula ou os espaços? Que resultados você já percebe?" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-white resize-none" required></textarea>
+       </div><!-- Categoria -->
+       <div><label for="eventoCategoria" class="block text-sm font-semibold text-[#004587] mb-2">Categoria *</label> <select id="eventoCategoria" name="eventoCategoria" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-white cursor-pointer" required> <option value="">Selecione uma categoria</option> <option value="Sala de Aula">🎓 Sala de Aula Inovadora</option> <option value="Metodologia">📚 Nova Metodologia de Ensino</option> <option value="Tecnologia">💻 Uso de Tecnologia</option> <option value="Espaço">🏫 Transformação de Espaços</option> <option value="Colaboracao">🤝 Trabalho Colaborativo</option> <option value="Sustentabilidade">♻️ Sustentabilidade</option> <option value="Outro">💭 Outro</option> </select>
+       </div><!-- Link Google Drive -->
+       <div><label for="eventoFotoLink" class="block text-sm font-semibold text-[#004587] mb-2">Link da Foto no Google Drive *</label>
+        <div class="space-y-2"><input type="url" id="eventoFotoLink" name="eventoFotoLink" placeholder="https://drive.google.com/file/d/..." class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-white" required>
+         <p class="text-xs text-gray-500">📋 Como fazer: Compartilhe a foto no Drive → Botão direito → "Obter link" → Cole aqui</p>
+        </div>
+       </div><!-- Submit Button --> <button type="submit" class="w-full bg-[#F7941D] text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"> <span id="eventoSubmitText">Compartilhar Inovação</span>
+        <svg id="eventoSubmitIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+        </svg>
+        <svg id="eventoSubmitSpinner" class="w-6 h-6 animate-spin hidden" fill="none" viewbox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" /> <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+        </svg></button>
+       <p class="text-center text-xs text-gray-500">🔒 Suas informações são tratadas com total sigilo e respeito.</p>
+      </form>
+     </div>
+    </div>
+   </div>
+  </section><!-- O que Fazemos Page (Hidden by default) --> <!-- Comitê Restrito Section (Hidden by default) -->
+  <section id="comite-area" class="py-20 px-6 bg-white hidden" style="display: none;">
+   <div class="max-w-6xl mx-auto">
+    <div class="mb-12"><button onclick="goBackHome()" class="flex items-center gap-2 text-[#004587] hover:text-[#F7941D] font-semibold mb-8 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg> Voltar </button>
+     <div class="text-center mb-12">
+      <span class="inline-block bg-[#F7941D]/20 text-[#F7941D] px-4 py-1 rounded-full text-sm font-bold mb-4">🔐 Área Restrita</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-[#004587] mb-4">Painel do Comitê</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Bem-vindo! Aqui você pode gerenciar fotos da galeria, visualizar ideias e comentários enviados.</p>
+     </div>
+    </div>
+    <!-- Estatísticas e links rápidos para o Comitê -->
+    <div id="comite-stats"></div>
+    <!-- Tab Navigation -->
+    <div class="flex gap-4 mb-12 border-b-2 border-gray-200 flex-wrap">
+     <button onclick="showComiteTab('fotos')" class="comite-tab-btn comite-tab-fotos px-6 py-3 font-semibold text-[#004587] border-b-4 border-[#F7941D] transition-colors"> 📸 Gerenciar Fotos </button> <button onclick="showComiteTab('ideias')" class="comite-tab-btn comite-tab-ideias px-6 py-3 font-semibold text-gray-600 hover:text-[#004587] transition-colors"> 💡 Ideias Recebidas </button> <button onclick="showComiteTab('comentarios')" class="comite-tab-btn comite-tab-comentarios px-6 py-3 font-semibold text-gray-600 hover:text-[#004587] transition-colors"> 💬 Comentários </button>
+    </div><!-- Fotos Tab -->
+    <div id="fotos-tab" class="comite-tab-content">
+     <div class="grid md:grid-cols-2 gap-6 mb-8">
+      <div id="fotosContainer" class="col-span-full">
+       <div class="text-center py-12">
+        <p class="text-gray-500 text-lg">Nenhuma foto na galeria ainda.</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Ideias Tab -->
+    <div id="ideias-tab" class="comite-tab-content hidden">
+     <div id="ideiasContainer" class="space-y-4">
+      <div class="text-center py-12">
+       <p class="text-gray-500 text-lg">Nenhuma ideia recebida ainda.</p>
+      </div>
+     </div>
+    </div><!-- Comentários Tab -->
+    <div id="comentarios-tab" class="comite-tab-content hidden">
+     <div id="comentariosContainer" class="space-y-4">
+      <div class="text-center py-12">
+       <p class="text-gray-500 text-lg">Nenhum comentário recebido ainda.</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- O que Fazemos Page (Hidden by default) -->
+  <section id="oquefazemos" class="py-20 px-6 bg-white hidden" style="display: none;">
+   <div class="max-w-6xl mx-auto">
+    <div class="mb-12"><button onclick="goBackHome()" class="flex items-center gap-2 text-[#004587] hover:text-[#F7941D] font-semibold mb-8 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg> Voltar </button>
+     <div class="text-center mb-12"><span class="inline-block bg-[#004587]/10 text-[#004587] px-4 py-1 rounded-full text-sm font-medium mb-4">14 Ações Estratégicas</span>
+      <h2 id="oquefazemos-title" class="text-3xl md:text-4xl font-bold text-[#004587] mb-4">O que Fazemos</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Conheça as 14 ações estratégicas do Comitê de Inovação, organizadas em 5 pilares de transformação educacional.</p>
+     </div>
+    </div><!-- Actions Grid -->
+    <div class="grid md:grid-cols-2 gap-6"><!-- Ação 01 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao01')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        🗣️
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 01</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Ouvir, Agir e Transformar</h3>
+        <p class="text-sm text-gray-600 mt-2">Canais de escuta ativa para capturar necessidades e ideias da comunidade escolar</p>
+       </div>
+      </div>
+     </div><!-- Ação 02 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao02')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        📊
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 02</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Devolutiva Institucional</h3>
+        <p class="text-sm text-gray-600 mt-2">Retorno à comunidade sobre o que foi coletado e implementado com transparência total</p>
+       </div>
+      </div>
+     </div><!-- Ação 03 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao03')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        🔬
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 03</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Sala Experimental (Sala 04)</h3>
+        <p class="text-sm text-gray-600 mt-2">Espaço para testes de VR, novos layouts e experiências imersivas pedagógicas</p>
+       </div>
+      </div>
+     </div><!-- Ação 04 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao04')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        🎬
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 04</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Hub Criativo de Inovação</h3>
+        <p class="text-sm text-gray-600 mt-2">Centro de produção de conteúdo multimodal, podcasts e portfólios digitais</p>
+       </div>
+      </div>
+     </div><!-- Ação 05 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao05')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        👨‍🏫
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 05</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Docência 4.0</h3>
+        <p class="text-sm text-gray-600 mt-2">Trilhas avançadas em tecnologias emergentes e metodologias ativas</p>
+       </div>
+      </div>
+     </div><!-- Ação 06 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao06')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        👥
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 06</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Clubes de Inovação Docente</h3>
+        <p class="text-sm text-gray-600 mt-2">Comunidades de prática entre professores para troca de experiências</p>
+       </div>
+      </div>
+     </div><!-- Ação 07 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao07')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        🌍
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 07</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Inovação Social e Territorial</h3>
+        <p class="text-sm text-gray-600 mt-2">Projetos que conectam os cursos com demandas reais da comunidade</p>
+       </div>
+      </div>
+     </div><!-- Ação 08 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao08')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        📚
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 08</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Banco de Estratégias Prototipadas</h3>
+        <p class="text-sm text-gray-600 mt-2">Repositório de projetos para replicação na rede Senac</p>
+       </div>
+      </div>
+     </div><!-- Ação 09 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao09')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        📈
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 09</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Painel de Indicadores</h3>
+        <p class="text-sm text-gray-600 mt-2">Monitoramento de impacto e satisfação das equipes</p>
+       </div>
+      </div>
+     </div><!-- Ação 10 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao10')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        ☕
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 10</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Café com o Comitê</h3>
+        <p class="text-sm text-gray-600 mt-2">Encontros presenciais informais para escuta ativa e humanizada</p>
+       </div>
+      </div>
+     </div><!-- Ação 11 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao11')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        🛠️
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 11</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Laboratório de Prototipagem</h3>
+        <p class="text-sm text-gray-600 mt-2">Espaço Maker para desenvolvimento de soluções e empreendedorismo</p>
+       </div>
+      </div>
+     </div><!-- Ação 12 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao12')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        🤝
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 12</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Mentoria para Autonomia Digital</h3>
+        <p class="text-sm text-gray-600 mt-2">Apoio direto aos docentes no uso de RDDs e ferramentas de IA</p>
+       </div>
+      </div>
+     </div><!-- Ação 13 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao13')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        💼
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 13</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Fórum de Egressos e Mercado</h3>
+        <p class="text-sm text-gray-600 mt-2">Painéis com ex-alunos e empresas para alinhar oferta educacional</p>
+       </div>
+      </div>
+     </div><!-- Ação 14 -->
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao14')">
+      <div class="flex items-start gap-4">
+       <div class="text-4xl">
+        ⭐
+       </div>
+       <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 14</span>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Embaixadores da Inovação</h3>
+        <p class="text-sm text-gray-600 mt-2">Programa de reconhecimento para inovadores da comunidade</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- Form Section -->
+  <section id="enviar" class="py-20 px-6 bg-[#F2F2F2] relative"><!-- Decorative Elements -->
+   <div class="absolute top-10 left-10 w-32 h-32 bg-[#F7941D] opacity-5 organic-blob"></div>
+   <div class="absolute bottom-10 right-10 w-40 h-40 bg-[#004587] opacity-5 organic-blob"></div>
+   <div class="max-w-3xl mx-auto relative z-10">
+    <div class="text-center mb-12"><span class="inline-block bg-[#F7941D]/20 text-[#F7941D] px-4 py-1 rounded-full text-sm font-bold mb-4">💡 O Coração do Portal</span>
+     <h3 class="text-3xl md:text-4xl font-bold text-[#004587] mb-4">Envie sua Ideia</h3>
+     <p class="text-gray-600 max-w-lg mx-auto">Sua contribuição é valiosa! Compartilhe sugestões para melhorar nosso ambiente educacional. Pode ser anônimo!</p>
+    </div>
+    <form id="idea-form" class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border-t-4 border-[#F7941D]"><!-- Nome -->
+     <div class="mb-6"><label for="nome" class="block text-sm font-semibold text-[#004587] mb-2"> Seu Nome <span class="text-gray-400 font-normal">(opcional)</span> </label> <input type="text" id="nome" name="nome" placeholder="Digite seu nome ou deixe em branco para enviar anonimamente" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-[#F2F2F2]">
+     </div><!-- Tipo de Pessoa -->
+     <div class="mb-6"><label class="block text-sm font-semibold text-[#004587] mb-2">Você é:</label>
+      <div class="flex flex-wrap gap-4"><label class="flex items-center gap-2 cursor-pointer group"> <input type="radio" name="tipo" value="Aluno" class="w-5 h-5 text-[#F7941D] accent-[#F7941D]"> <span class="text-gray-700 group-hover:text-[#004587] transition-colors">🎓 Aluno</span> </label> <label class="flex items-center gap-2 cursor-pointer group"> <input type="radio" name="tipo" value="Funcionário" class="w-5 h-5 text-[#F7941D] accent-[#F7941D]"> <span class="text-gray-700 group-hover:text-[#004587] transition-colors">👔 Funcionário</span> </label> <label class="flex items-center gap-2 cursor-pointer group"> <input type="radio" name="tipo" value="Outro" class="w-5 h-5 text-[#F7941D] accent-[#F7941D]"> <span class="text-gray-700 group-hover:text-[#004587] transition-colors">🌟 Outro</span> </label>
+      </div>
+     </div><!-- Categoria -->
+     <div class="mb-6"><label for="categoria" class="block text-sm font-semibold text-[#004587] mb-2">Categoria da Ideia</label> <select id="categoria" name="categoria" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-[#F2F2F2] cursor-pointer"> <option value="">Selecione uma categoria</option> <option value="Tecnologia">🖥️ Tecnologia e Infraestrutura</option> <option value="Pedagogia">📚 Métodos Pedagógicos</option> <option value="Ambiente">🏫 Ambiente e Espaços</option> <option value="Eventos">🎉 Eventos e Atividades</option> <option value="Atendimento">🤝 Atendimento e Serviços</option> <option value="Outro">💭 Outro</option> </select>
+     </div><!-- Ideia -->
+     <div class="mb-8"><label for="ideia" class="block text-sm font-semibold text-[#004587] mb-2">Sua Ideia *</label> <textarea id="ideia" name="ideia" rows="5" placeholder="Descreva sua ideia aqui... Seja detalhista! Conte o problema que você identifica e como sua sugestão pode ajudar a resolver." class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-[#F2F2F2] resize-none" required></textarea>
+     </div><!-- Submit Button --> <button type="submit" id="submit-btn" class="submit-btn w-full bg-[#F7941D] text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-500 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"> <span id="btn-text">Enviar Minha Ideia</span>
+      <svg id="btn-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+      </svg>
+      <svg id="btn-spinner" class="w-6 h-6 animate-spin hidden" fill="none" viewbox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" /> <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+      </svg></button> <!-- Privacy Note -->
+     <p class="text-center text-xs text-gray-500 mt-4">🔒 Suas informações são tratadas com total sigilo e respeito.</p>
+    </form>
+   </div>
+  </section><!-- Success Toast -->
+  <div id="toast" class="fixed top-20 right-4 bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 z-50 hidden toast">
+   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+   </svg><span id="toast-message">Comentário enviado com sucesso!</span>
+  </div><!-- PDF Modal -->
+  <div id="pdfModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+   <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+    <!-- Modal Header -->
+    <div class="bg-gradient-to-r from-[#004587] to-[#003366] text-white p-6 flex items-center justify-between">
+     <div>
+      <h3 id="modalTitle" class="text-2xl font-bold">Documento</h3>
+      <p id="modalSubtitle" class="text-blue-100 text-sm mt-1">Visualize os detalhes e envie seus comentários</p>
+     </div><button onclick="closePdfModal()" class="text-white hover:bg-white/20 p-2 rounded-lg transition-colors">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg></button>
+    </div><!-- Modal Content -->
+    <div class="overflow-y-auto flex-1 p-6 md:p-8">
+     <!-- PDF Placeholder with Document Info -->
+     <div class="bg-gradient-to-br from-[#F2F2F2] to-gray-100 rounded-2xl p-8 mb-8 border-2 border-[#F7941D]/30">
+      <div class="flex items-start gap-6">
+       <div class="text-6xl">
+        📄
+       </div>
+       <div class="flex-1">
+        <h4 id="docTitle" class="text-2xl font-bold text-[#004587] mb-2">Documento</h4>
+        <p id="docDescription" class="text-gray-600 mb-4 leading-relaxed">Descrição do documento</p><a id="docLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-[#F7941D] text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors">
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+         </svg><span>Abrir PDF no Drive</span> </a>
+       </div>
+      </div>
+     </div><!-- Comments Section -->
+     <div class="mb-8">
+      <h4 class="text-xl font-bold text-[#004587] mb-6">📝 Envie seu Comentário</h4>
+      <form id="commentForm" class="space-y-4">
+       <div>
+        <label for="commentAuthor" class="block text-sm font-semibold text-[#004587] mb-2">Seu Nome <span class="text-gray-400">(opcional)</span></label> <input type="text" id="commentAuthor" placeholder="Digite seu nome ou deixe em branco para comentar anonimamente" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-[#F2F2F2]">
+       </div>
+       <div>
+        <label for="commentText" class="block text-sm font-semibold text-[#004587] mb-2">Seu Comentário *</label> <textarea id="commentText" rows="4" placeholder="Compartilhe sua opinião, sugestões ou insights sobre este documento..." class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-[#F2F2F2] resize-none" required></textarea>
+       </div><button type="submit" class="w-full bg-[#F7941D] text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"> <span id="commentBtnText">Enviar Comentário</span>
+        <svg id="commentBtnIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+        </svg>
+        <svg id="commentBtnSpinner" class="w-5 h-5 animate-spin hidden" fill="none" viewbox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" /> <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+        </svg></button>
+      </form>
+     </div><!-- Comments List -->
+     <div id="commentsList" class="space-y-4">
+      <h4 class="text-lg font-bold text-[#004587] mb-4">💬 Comentários Recentes</h4>
+      <div id="noComments" class="bg-blue-50 rounded-xl p-6 text-center text-gray-600">
+       Seja o primeiro a comentar sobre este documento!
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Footer -->
+  <footer class="bg-[#004587] text-white py-12 px-6">
+   <div class="max-w-6xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-8 mb-8">
+     <div>
+      <div class="flex items-center gap-3 mb-4">
+       <div class="w-10 h-10 bg-white rounded-lg p-1.5 flex items-center justify-center">
+        <svg viewbox="0 0 40 40" class="w-full h-full"><circle cx="20" cy="20" r="18" fill="#004587" /> <path d="M12 20 L18 26 L28 14" stroke="#F7941D" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+       </div><span class="font-bold">Comitê de Inovação</span>
+      </div>
+      <p class="text-blue-200 text-sm">Senac Araçatuba - Transformando ideias em ações para o futuro da educação.</p>
+     </div>
+     <div>
+      <h4 class="font-bold mb-4 text-[#F7941D]">Nosso Compromisso</h4>
+      <ul class="space-y-2 text-blue-200 text-sm">
+       <li class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-[#F7941D]" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg> Escuta sem julgamentos</li>
+       <li class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-[#F7941D]" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg> Transparência total</li>
+       <li class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-[#F7941D]" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg> Respeito à privacidade</li>
+      </ul>
+     </div>
+     <div>
+      <h4 class="font-bold mb-4 text-[#F7941D]">Contato</h4>
+      <p class="text-blue-200 text-sm mb-2">📍 Senac Araçatuba</p>
+      <p id="footer-text" class="text-blue-200 text-sm">Sua voz importa. Cada ideia é uma semente de transformação.</p>
+     </div>
+    </div>
+    <div class="border-t border-blue-400/30 pt-8 text-center">
+     <p class="text-blue-200 text-sm">© 2025 Comitê de Inovação - Senac Araçatuba. Todos os direitos reservados.</p>
+    </div>
+   </div>
+  </footer>
+  <script>
+    // ================================================================
+    // ⚙️  CONFIGURAÇÃO — Preencha com seus IDs após seguir o guia
+    // ================================================================
+    const CONFIG = {
+      // Cole aqui o link Formspree para receber IDEIAS por e-mail:
+      formspree_ideias: 'https://formspree.io/f/COLE_SEU_ID_AQUI',
+      // Cole aqui o link Formspree para receber FOTOS/INOVAÇÕES por e-mail:
+      formspree_fotos: 'https://formspree.io/f/COLE_SEU_ID_AQUI',
+      // Cole aqui o link Formspree para receber COMENTÁRIOS por e-mail:
+      formspree_comentarios: 'https://formspree.io/f/COLE_SEU_ID_AQUI',
+      // Cole aqui o ID da planilha Google Sheets para a galeria:
+      google_sheet_id: 'COLE_O_ID_DA_PLANILHA_AQUI'
+    };
+
+    // ================================================================
+    // 📸 GALERIA — Carrega fotos aprovadas da planilha Google Sheets
+    // Estrutura da aba "Galeria" na planilha (colunas, nesta ordem):
+    // foto_titulo | foto_descricao | foto_categoria | foto_link |
+    // foto_nome   | foto_tipo      | foto_curso     | foto_data
+    // ================================================================
+    let galeriaData = [];
+
+    async function carregarGaleria() {
+      if (!CONFIG.google_sheet_id || CONFIG.google_sheet_id.includes('COLE')) return [];
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${CONFIG.google_sheet_id}/gviz/tq?tqx=out:json&sheet=Galeria`;
+        const response = await fetch(url);
+        const text = await response.text();
+        const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]+)\);?\s*$/);
+        if (!match) return [];
+        const json = JSON.parse(match[1]);
+        if (!json.table || !json.table.rows) return [];
+        const cols = json.table.cols.map(c => c.label);
+        return json.table.rows
+          .filter(row => row.c && row.c.some(c => c && c.v))
+          .map(row => {
+            const obj = {};
+            row.c.forEach((cell, i) => { obj[cols[i]] = cell ? (cell.v || '') : ''; });
+            return obj;
+          });
+      } catch (e) {
+        console.warn('Galeria não carregada:', e);
+        return [];
+      }
+    }
+
+    // ================================================================
+    // 🍞 TOAST — mensagens de sucesso/erro
+    // ================================================================
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      toast.className = `fixed top-20 right-4 ${isError ? 'bg-red-500' : 'bg-green-500'} text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 z-50 toast`;
+      toastMessage.textContent = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 4000);
+    }
+
+    // ================================================================
+    // 💡 FORMULÁRIO DE IDEIAS → envia para o e-mail via Formspree
+    // ================================================================
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const ideia = document.getElementById('ideia').value.trim();
+      if (!ideia) { showToast('Por favor, descreva sua ideia!', true); return; }
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      document.getElementById('btn-text').textContent = 'Enviando...';
+      document.getElementById('btn-icon').classList.add('hidden');
+      document.getElementById('btn-spinner').classList.remove('hidden');
+
+      try {
+        const res = await fetch(CONFIG.formspree_ideias, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            nome: document.getElementById('nome').value.trim() || 'Anônimo',
+            tipo: document.querySelector('input[name="tipo"]:checked')?.value || 'Não informado',
+            categoria: document.getElementById('categoria').value || 'Não categorizado',
+            ideia
+          })
+        });
+        if (res.ok) {
+          showToast('🎉 Ideia enviada com sucesso! Obrigado pela contribuição!');
+          document.getElementById('idea-form').reset();
+        } else { throw new Error('server'); }
+      } catch {
+        showToast('Erro ao enviar. Verifique sua conexão e tente novamente.', true);
+      } finally {
+        submitBtn.disabled = false;
+        document.getElementById('btn-text').textContent = 'Enviar Minha Ideia';
+        document.getElementById('btn-icon').classList.remove('hidden');
+        document.getElementById('btn-spinner').classList.add('hidden');
+      }
+    }
+
+    // ================================================================
+    // 📷 FORMULÁRIO DE INOVAÇÕES/FOTOS → envia para o e-mail via Formspree
+    // ================================================================
+    async function handleEventoPhotoSubmit(e) {
+      e.preventDefault();
+      const eventoTipoInput = document.querySelector('input[name="eventoTipo"]:checked');
+      const eventoCursoDepto = document.getElementById('eventoCursoDepto').value.trim();
+      const eventoTitulo = document.getElementById('eventoTitulo').value.trim();
+      const eventoDescricao = document.getElementById('eventoDescricao').value.trim();
+      const eventoCategoria = document.getElementById('eventoCategoria').value;
+      const eventoFotoLink = document.getElementById('eventoFotoLink').value.trim();
+
+      if (!eventoTipoInput) { showToast('Por favor, selecione se é aluno, professor ou funcionário!', true); return; }
+      if (!eventoCursoDepto) { showToast('Por favor, preencha seu curso ou departamento!', true); return; }
+      if (!eventoTitulo) { showToast('Por favor, preencha o título da inovação!', true); return; }
+      if (!eventoDescricao) { showToast('Por favor, descreva sua inovação!', true); return; }
+      if (!eventoCategoria) { showToast('Por favor, selecione uma categoria!', true); return; }
+      if (!eventoFotoLink) { showToast('Por favor, compartilhe o link do Google Drive!', true); return; }
+
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      document.getElementById('eventoSubmitText').textContent = 'Enviando...';
+      document.getElementById('eventoSubmitIcon').classList.add('hidden');
+      document.getElementById('eventoSubmitSpinner').classList.remove('hidden');
+
+      try {
+        const res = await fetch(CONFIG.formspree_fotos, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            nome: document.getElementById('eventoNome').value.trim() || 'Anônimo',
+            tipo: eventoTipoInput.value,
+            curso_departamento: eventoCursoDepto,
+            titulo_inovacao: eventoTitulo,
+            descricao: eventoDescricao,
+            categoria: eventoCategoria,
+            link_foto_drive: eventoFotoLink
+          })
+        });
+        if (res.ok) {
+          showToast('🎉 Inovação compartilhada! O Comitê irá analisar e aprovar para a galeria.');
+          document.getElementById('eventoPhotoForm').reset();
+          setTimeout(() => showEventosTab('galeria'), 1500);
+        } else { throw new Error('server'); }
+      } catch {
+        showToast('Erro ao enviar. Verifique sua conexão e tente novamente.', true);
+      } finally {
+        submitBtn.disabled = false;
+        document.getElementById('eventoSubmitText').textContent = 'Compartilhar Inovação';
+        document.getElementById('eventoSubmitIcon').classList.remove('hidden');
+        document.getElementById('eventoSubmitSpinner').classList.add('hidden');
+      }
+    }
+
+    // ================================================================
+    // 💬 COMENTÁRIOS NAS AÇÕES → envia para o e-mail via Formspree
+    // ================================================================
+    async function handleCommentSubmit(e) {
+      e.preventDefault();
+      const commentText = document.getElementById('commentText').value.trim();
+      if (!commentText) { showToast('Por favor, escreva um comentário!', true); return; }
+
+      const documentId = document.getElementById('commentText').dataset.documentId;
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      document.getElementById('commentBtnText').textContent = 'Enviando...';
+      document.getElementById('commentBtnIcon').classList.add('hidden');
+      document.getElementById('commentBtnSpinner').classList.remove('hidden');
+
+      try {
+        const res = await fetch(CONFIG.formspree_comentarios, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            acao: documentId,
+            autor: document.getElementById('commentAuthor').value.trim() || 'Anônimo',
+            comentario: commentText
+          })
+        });
+        if (res.ok) {
+          showToast('💬 Comentário enviado! O Comitê agradece seu feedback!');
+          document.getElementById('commentForm').reset();
+          const ack = document.createElement('div');
+          ack.className = 'bg-green-50 rounded-xl p-4 border-l-4 border-green-500 mt-4';
+          ack.innerHTML = '<p class="text-green-700 font-semibold text-sm">✅ Seu comentário foi enviado e será analisado pelo Comitê. Obrigado!</p>';
+          document.getElementById('commentsList').insertBefore(ack, document.getElementById('noComments'));
+          document.getElementById('noComments').style.display = 'none';
+        } else { throw new Error('server'); }
+      } catch {
+        showToast('Erro ao enviar comentário. Tente novamente.', true);
+      } finally {
+        submitBtn.disabled = false;
+        document.getElementById('commentBtnText').textContent = 'Enviar Comentário';
+        document.getElementById('commentBtnIcon').classList.remove('hidden');
+        document.getElementById('commentBtnSpinner').classList.add('hidden');
+      }
+    }
+
+    // ================================================================
+    // 🖼️  GALERIA PÚBLICA — exibe fotos aprovadas pelo Comitê
+    // ================================================================
+    function getDirectImageUrl(driveLink) {
+      if (!driveLink) return null;
+      let fileId = null;
+      const patterns = [/\/d\/([a-zA-Z0-9-_]+)/, /id=([a-zA-Z0-9-_]+)/, /^([a-zA-Z0-9-_]{25,})$/];
+      for (const p of patterns) {
+        const m = driveLink.match(p);
+        if (m && m[1]) { fileId = m[1]; break; }
+      }
+      return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : driveLink;
+    }
+
+    function renderGaleria() {
+      const container = document.getElementById('galeriaContainer');
+      if (galeriaData.length === 0) {
+        container.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-gray-500 text-lg">Nenhuma foto aprovada ainda. Compartilhe a sua! 🚀</p></div>';
+        return;
+      }
+      const categoryEmojis = { 'Sala de Aula':'🎓','Metodologia':'📚','Tecnologia':'💻','Espaço':'🏫','Colaboracao':'🤝','Sustentabilidade':'♻️','Outro':'💭' };
+      const categoryColors = { 'Sala de Aula':'from-blue-400 to-blue-600','Metodologia':'from-green-400 to-green-600','Tecnologia':'from-purple-400 to-purple-600','Espaço':'from-orange-400 to-orange-600','Colaboracao':'from-pink-400 to-pink-600','Sustentabilidade':'from-emerald-400 to-emerald-600','Outro':'from-gray-400 to-gray-600' };
+      container.innerHTML = galeriaData.map(photo => {
+        const cat = photo.foto_categoria || 'Outro';
+        const emoji = categoryEmojis[cat] || '📸';
+        const gradient = categoryColors[cat] || 'from-gray-400 to-gray-600';
+        const imgUrl = getDirectImageUrl(photo.foto_link);
+        const title = photo.foto_titulo || 'Foto Compartilhada';
+        const desc = photo.foto_descricao || '';
+        const dateStr = photo.foto_data ? new Date(photo.foto_data).toLocaleDateString('pt-BR') : '';
+        return `
+          <div class="card-cyber bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 overflow-hidden group">
+            <div class="relative w-full h-48 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
+              <img src="${imgUrl}" alt="${title}" loading="lazy"
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                   onerror="this.parentElement.innerHTML='<div class=&quot;text-6xl&quot;>${emoji}</div>'" />
+            </div>
+            <div class="p-5">
+              <h3 class="font-bold text-[#004587] text-lg mb-2 group-hover:text-[#F7941D] transition-colors">${title}</h3>
+              <p class="text-gray-600 text-sm mb-3 line-clamp-2">${desc}</p>
+              <div class="flex items-center justify-between text-xs text-gray-500 mb-3">
+                <span class="bg-gray-100 px-2 py-1 rounded">${cat}</span>
+                <span>${dateStr}</span>
+              </div>
+              <div class="pt-3 border-t border-gray-200 space-y-1">
+                <p class="text-xs text-gray-600"><strong>${photo.foto_tipo || 'Comunidade'}</strong> • ${photo.foto_curso || 'Senac Araçatuba'}</p>
+                <p class="text-xs text-gray-500">👤 ${photo.foto_nome || 'Anônimo'}</p>
+                ${photo.foto_link ? `<a href="${photo.foto_link}" target="_blank" rel="noopener noreferrer" class="text-xs text-[#F7941D] font-semibold mt-2 inline-block hover:text-orange-600 transition-colors">🔗 Ver original no Drive →</a>` : ''}
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // Tab management for Eventos
+    function showEventosTab(tabName) {
+      document.querySelectorAll('#eventos .tab-content').forEach(tab => tab.classList.add('hidden'));
+      document.querySelectorAll('#eventos .tab-btn').forEach(btn => {
+        btn.classList.remove('border-b-4', 'border-[#F7941D]', 'text-[#004587]');
+        btn.classList.add('text-gray-600');
+      });
+      const tabEl = document.getElementById(`${tabName}-tab`);
+      if (tabEl) tabEl.classList.remove('hidden');
+      const activeBtn = document.querySelector(`.tab-${tabName}`);
+      if (activeBtn) { activeBtn.classList.add('border-b-4', 'border-[#F7941D]', 'text-[#004587]'); activeBtn.classList.remove('text-gray-600'); }
+      if (tabName === 'galeria') renderGaleria();
+    }
+
+    // ================================================================
+    // 📄 MODAL DAS 14 AÇÕES (abre PDF do Drive)
+    // ================================================================
+    const documents = {
+      acao01: { title: 'Ação 01: Ouvir, Agir e Transformar', description: 'Implementação dos canais de escuta ativa (Caixas Senac Thinkers e formulários digitais) para alunos e funcionários.', link: 'https://drive.google.com/file/d/1kKEMLqGvBOq_uoq6IQCZ73CoOUgeMWGc/view' },
+      acao02: { title: 'Ação 02: Devolutiva Institucional', description: 'Fluxo sistemático de retorno à comunidade escolar sobre o que foi coletado nas escutas e o que está sendo implementado.', link: 'https://drive.google.com/file/d/1V4OdC34dNseKPp8wiJgvdMT-2pp0Q17-/view' },
+      acao03: { title: 'Ação 03: Sala Experimental (Sala 04)', description: 'Reconfiguração de espaço físico para testes de novas metodologias e tecnologias como VR, novos layouts.', link: 'https://drive.google.com/file/d/1ylsjjRNv2SegX-O59wp-P1UhZ4aBx_N_/view' },
+      acao04: { title: 'Ação 04: Hub Criativo de Inovação', description: 'Espaço dedicado à produção de conteúdo multimodal, podcasts, vídeos e portfólios digitais.', link: 'https://drive.google.com/file/d/1dFd9Ss6qUh_HrcwxXQqZPYdGhp1BhMha/view' },
+      acao05: { title: 'Ação 05: Docência 4.0', description: 'Trilhas avançadas de formação em tecnologias emergentes e metodologias ativas para professores.', link: 'https://drive.google.com/file/d/1gRvMxczV0fKgdDWYPJoV8oVNNBS_JCeL/view' },
+      acao06: { title: 'Ação 06: Clubes de Inovação Docente', description: 'Grupos de estudo e comunidades de prática entre professores para troca de experiências e boas práticas.', link: 'https://drive.google.com/file/d/1UK0KMjwvOqW2Ad8F2L9jz3RtAJpWs5fT/view' },
+      acao07: { title: 'Ação 07: Inovação Social e Territorial', description: 'Projetos que conectam os cursos do Senac com demandas reais da comunidade de Araçatuba.', link: 'https://drive.google.com/file/d/1xk0DUC-NmrKzCR7VM5yzBcb-X03bAYCm/view' },
+      acao08: { title: 'Ação 08: Banco de Estratégias Prototipadas', description: 'Repositório de projetos integradores e soluções criadas na unidade para replicação na rede Senac.', link: 'https://drive.google.com/file/d/1J61IcRVbXmXTtoARKYZSSztPt2rFI8B5/view' },
+      acao09: { title: 'Ação 09: Painel de Indicadores de Inovação', description: 'Monitoramento do impacto das ações na permanência dos alunos e na satisfação das equipes.', link: 'https://drive.google.com/file/d/1rYYR-0cFZOkbMmslMaxBVN5WD7TCN8kN/view' },
+      acao10: { title: 'Ação 10: Café com o Comitê', description: 'Encontros presenciais informais para escuta ativa e tangível de necessidades com a comunidade.', link: 'https://drive.google.com/file/d/16z651u-Od3egShz8dgSIvouRckhbLiJw/view' },
+      acao11: { title: 'Ação 11: Laboratório de Prototipagem', description: 'Fomento à cultura "mão na massa" (Maker) para desenvolvimento de soluções para problemas locais.', link: 'https://drive.google.com/file/d/1wBoL1J45wcMNo-MMPWfuUuN2Amps9YsR/view' },
+      acao12: { title: 'Ação 12: Mentoria para Autonomia Digital', description: 'Apoio direto aos docentes no uso estratégico de RDDs e ferramentas de IA em sala de aula.', link: 'https://drive.google.com/file/d/1ONuhJswcvzfxlYgegtVnLZJj71T0YyWd/view' },
+      acao13: { title: 'Ação 13: Fórum de Egressos e Mercado', description: 'Painéis de escuta com ex-alunos e empresas locais para alinhar a oferta educacional.', link: 'https://drive.google.com/file/d/1i6fiSYbBiw2_msU3bfka-PL_fhO3MGxn/view' },
+      acao14: { title: 'Ação 14: Embaixadores da Inovação', description: 'Programa de reconhecimento para alunos e funcionários que se destacam na inovação.', link: 'https://drive.google.com/file/d/1YKRzfO9MBQVLYK9goAPb5AeYjrEOAFtN/view' }
+    };
+
+    function openPdfModal(documentId) {
+      const doc = documents[documentId];
+      if (!doc) return;
+      document.getElementById('modalTitle').textContent = doc.title;
+      document.getElementById('docTitle').textContent = doc.title;
+      document.getElementById('docDescription').textContent = doc.description;
+      document.getElementById('docLink').href = doc.link;
+      document.getElementById('commentForm').reset();
+      document.getElementById('commentText').dataset.documentId = documentId;
+      document.getElementById('noComments').style.display = 'block';
+      document.querySelectorAll('.comment-item').forEach(el => el.remove());
+      document.getElementById('pdfModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePdfModal() {
+      document.getElementById('pdfModal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('click', function(e) {
+      if (e.target === document.getElementById('pdfModal')) closePdfModal();
+    });
+
+    // ================================================================
+    // 🔒 PAINEL DO COMITÊ — área restrita
+    // ================================================================
+    function renderComitePanel() {
+      renderComiteFotos();
+      renderComiteIdeias();
+      renderComiteComentarios();
+      renderComiteStats();
+    }
+
+    function renderComiteStats() {
+      const statsEl = document.getElementById('comite-stats');
+      if (!statsEl) return;
+      statsEl.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-[#004587]/10 rounded-2xl p-5 text-center">
+            <p class="text-3xl font-black text-[#004587]">${galeriaData.length}</p>
+            <p class="text-sm text-gray-600 mt-1">📸 Fotos na Galeria</p>
+          </div>
+          <div class="bg-[#F7941D]/10 rounded-2xl p-5 text-center">
+            <a href="https://formspree.io/login" target="_blank" rel="noopener noreferrer"
+               class="block text-2xl font-black text-[#F7941D] hover:text-orange-600 transition-colors">Abrir →</a>
+            <p class="text-sm text-gray-600 mt-1">💡 Ideias Recebidas (Formspree)</p>
+          </div>
+          <div class="bg-green-50 rounded-2xl p-5 text-center">
+            <a href="https://formspree.io/login" target="_blank" rel="noopener noreferrer"
+               class="block text-2xl font-black text-green-600 hover:text-green-700 transition-colors">Abrir →</a>
+            <p class="text-sm text-gray-600 mt-1">💬 Comentários (Formspree)</p>
+          </div>
+        </div>
+        <div class="bg-blue-50 rounded-2xl p-5 mb-8 border border-blue-200">
+          <h4 class="font-bold text-[#004587] mb-2">📋 Como adicionar uma foto à galeria</h4>
+          <p class="text-sm text-gray-600">Abra a <strong>Planilha Google Sheets</strong> da galeria → aba <strong>"Galeria"</strong> → adicione uma nova linha com os dados da foto aprovada. A foto aparecerá automaticamente no site após recarregar a página.</p>
+        </div>`;
+    }
+
+    function renderComiteFotos() {
+      const container = document.getElementById('fotosContainer');
+      if (galeriaData.length === 0) {
+        container.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-gray-500 text-lg">Nenhuma foto aprovada ainda. Adicione pela planilha Google Sheets.</p></div>';
+        return;
+      }
+      container.innerHTML = galeriaData.map(photo => {
+        const imgUrl = getDirectImageUrl(photo.foto_link);
+        return `
+          <div class="card-cyber bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-gray-200 hover:border-[#F7941D] transition-all">
+            <div class="relative w-full h-40 bg-gray-100 flex items-center justify-center overflow-hidden">
+              <img src="${imgUrl}" alt="${photo.foto_titulo || ''}" loading="lazy"
+                   class="w-full h-full object-cover" onerror="this.parentElement.style.backgroundColor='#e5e7eb'" />
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-[#004587] mb-1">${photo.foto_titulo || 'Sem título'}</h3>
+              <p class="text-xs text-gray-500 mb-2">👤 ${photo.foto_nome || 'Anônimo'} • ${photo.foto_tipo || ''} • ${photo.foto_curso || ''}</p>
+              <p class="text-sm text-gray-600 mb-3 line-clamp-2">${photo.foto_descricao || ''}</p>
+              ${photo.foto_link ? `<a href="${photo.foto_link}" target="_blank" rel="noopener noreferrer"
+                 class="block w-full bg-[#004587] text-white text-sm py-2 px-3 rounded text-center hover:bg-[#003366] transition-colors font-semibold">
+                 🔗 Abrir no Drive</a>` : ''}
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderComiteIdeias() {
+      document.getElementById('ideiasContainer').innerHTML = `
+        <div class="bg-blue-50 rounded-2xl p-6 border border-blue-200">
+          <h4 class="font-bold text-[#004587] mb-3">💡 Ideias Recebidas</h4>
+          <p class="text-gray-600 mb-4">As ideias enviadas chegam diretamente ao e-mail do Comitê via Formspree. Acesse o painel para visualizá-las, baixá-las ou respondê-las.</p>
+          <a href="https://formspree.io/login" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2 bg-[#F7941D] text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors">
+            Acessar Painel Formspree →
+          </a>
+        </div>`;
+    }
+
+    function renderComiteComentarios() {
+      document.getElementById('comentariosContainer').innerHTML = `
+        <div class="bg-blue-50 rounded-2xl p-6 border border-blue-200">
+          <h4 class="font-bold text-[#004587] mb-3">💬 Comentários nas Ações</h4>
+          <p class="text-gray-600 mb-4">Os comentários sobre as 14 ações chegam diretamente ao e-mail do Comitê via Formspree. Acesse o painel para visualizá-los.</p>
+          <a href="https://formspree.io/login" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2 bg-[#004587] text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+            Acessar Painel Formspree →
+          </a>
+        </div>`;
+    }
+
+    function showComiteTab(tabName) {
+      document.querySelectorAll('#comite-area .comite-tab-content').forEach(tab => tab.classList.add('hidden'));
+      document.querySelectorAll('#comite-area .comite-tab-btn').forEach(btn => {
+        btn.classList.remove('border-b-4', 'border-[#F7941D]', 'text-[#004587]');
+        btn.classList.add('text-gray-600');
+      });
+      const tabEl = document.getElementById(`${tabName}-tab`);
+      if (tabEl) tabEl.classList.remove('hidden');
+      const activeBtn = document.querySelector(`.comite-tab-${tabName}`);
+      if (activeBtn) { activeBtn.classList.add('border-b-4', 'border-[#F7941D]', 'text-[#004587]'); activeBtn.classList.remove('text-gray-600'); }
+    }
+
+    // ================================================================
+    // 🚀 INICIALIZAÇÃO
+    // ================================================================
+    async function init() {
+      galeriaData = await carregarGaleria();
+      document.getElementById('idea-form').addEventListener('submit', handleSubmit);
+      document.getElementById('eventoPhotoForm').addEventListener('submit', handleEventoPhotoSubmit);
+      document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);
+    }
+
+    init();
+  </script>
+  <script>
+    // Navigation state
+    let currentPage = 'home';
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = document.getElementById('menuIcon');
+    const closeIcon = document.getElementById('closeIcon');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      menuIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when clicking on a link
+    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (link.classList.contains('mobile-oquefazemos')) {
+          e.preventDefault();
+          showOQueFazemos();
+        }
+        
+        mobileMenu.classList.add('hidden');
+        menuIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+
+    // Navigation functions for O que Fazemos page
+    function showOQueFazemos() {
+      if (currentPage === 'comite') return; // Prevent navigation from restricted area
+      
+      currentPage = 'oquefazemos';
+      const oQueFazemos = document.getElementById('oquefazemos');
+      
+      document.getElementById('quemsomos').style.display = 'none';
+      document.getElementById('thinkers').style.display = 'none';
+      document.getElementById('enviar').style.display = 'none';
+      document.getElementById('eventos').style.display = 'none';
+      document.getElementById('comite-area').style.display = 'none';
+      
+      const allSections = document.querySelectorAll('body > section');
+      if (allSections[0] && !allSections[0].id) {
+        allSections[0].style.display = 'none';
+      }
+      
+      document.querySelector('footer').style.display = 'none';
+      oQueFazemos.style.display = 'block';
+      
+      window.scrollTo(0, 0);
+    }
+
+    function showEventos() {
+      if (currentPage === 'comite') return; // Prevent navigation from restricted area
+      
+      currentPage = 'eventos';
+      const eventos = document.getElementById('eventos');
+      
+      document.getElementById('quemsomos').style.display = 'none';
+      document.getElementById('thinkers').style.display = 'none';
+      document.getElementById('enviar').style.display = 'none';
+      document.getElementById('oquefazemos').style.display = 'none';
+      document.getElementById('comite-area').style.display = 'none';
+      
+      const allSections = document.querySelectorAll('body > section');
+      if (allSections[0] && !allSections[0].id) {
+        allSections[0].style.display = 'none';
+      }
+      
+      document.querySelector('footer').style.display = 'none';
+      eventos.style.display = 'block';
+      
+      window.scrollTo(0, 0);
+    }
+
+    function goBackHome() {
+      currentPage = 'home';
+      const oQueFazemos = document.getElementById('oquefazemos');
+      const eventos = document.getElementById('eventos');
+      const comiteArea = document.getElementById('comite-area');
+      
+      document.getElementById('quemsomos').style.display = '';
+      document.getElementById('thinkers').style.display = '';
+      document.getElementById('enviar').style.display = '';
+      
+      const allSections = document.querySelectorAll('body > section');
+      if (allSections[0] && !allSections[0].id) {
+        allSections[0].style.display = '';
+      }
+      
+      document.querySelector('footer').style.display = '';
+      
+      oQueFazemos.style.display = 'none';
+      eventos.style.display = 'none';
+      comiteArea.style.display = 'none';
+      
+      window.scrollTo(0, 0);
+    }
+
+    // Handle navigation links
+    document.addEventListener('DOMContentLoaded', function() {
+      const oQueFazLinks = document.querySelectorAll('a[href="#oquefazemos"]');
+      oQueFazLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          showOQueFazemos();
+        });
+      });
+
+      const eventosLinks = document.querySelectorAll('a[href="#eventos"]');
+      eventosLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          showEventos();
+        });
+      });
+
+      const homeLinks = document.querySelectorAll('a[href="#quemsomos"], a[href="#thinkers"], a[href="#enviar"]');
+      homeLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          if (currentPage === 'oquefazemos' || currentPage === 'eventos') {
+            e.preventDefault();
+            goBackHome();
+            setTimeout(() => {
+              const targetId = this.getAttribute('href').substring(1);
+              const targetSection = document.getElementById(targetId);
+              if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 100);
+          }
+        });
+      });
+    });
+
+    // Comitê Area - Restrito com senha (interface inline)
+    function showComiteArea() {
+      const passwordModal = document.createElement('div');
+      passwordModal.id = 'passwordModal';
+      passwordModal.className = 'fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4';
+      passwordModal.innerHTML = `
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-8">
+          <div class="text-center mb-6">
+            <h2 class="text-3xl font-bold text-[#004587] mb-2">🔐 Área Restrita</h2>
+            <p class="text-gray-600">Digite a senha para acessar o painel do comitê</p>
+          </div>
+          <div class="mb-6">
+            <input type="password" id="passwordInput" placeholder="Digite a senha..." class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none bg-[#F2F2F2]" />
+          </div>
+          <div class="flex gap-3">
+            <button onclick="closePasswordModal()" class="flex-1 bg-gray-300 text-gray-800 py-3 rounded-xl font-bold hover:bg-gray-400 transition-colors">
+              Cancelar
+            </button>
+            <button onclick="checkComitePassword()" class="flex-1 bg-[#F7941D] text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors">
+              Acessar
+            </button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(passwordModal);
+      document.getElementById('passwordInput').focus();
+      
+      // Allow Enter key
+      document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          checkComitePassword();
+        }
+      });
+    }
+
+    function closePasswordModal() {
+      const modal = document.getElementById('passwordModal');
+      if (modal) modal.remove();
+    }
+
+    function checkComitePassword() {
+      const password = document.getElementById('passwordInput').value;
+      
+      if (password !== 'comite2025') {
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'fixed top-20 right-4 bg-red-500 text-white px-6 py-4 rounded-xl shadow-2xl z-50 animate-pulse';
+        errorMsg.textContent = '❌ Senha incorreta!';
+        document.body.appendChild(errorMsg);
+        setTimeout(() => errorMsg.remove(), 3000);
+        return;
+      }
+
+      // Senha correta
+      closePasswordModal();
+      
+      currentPage = 'comite';
+      const comiteArea = document.getElementById('comite-area');
+      
+      document.getElementById('quemsomos').style.display = 'none';
+      document.getElementById('thinkers').style.display = 'none';
+      document.getElementById('enviar').style.display = 'none';
+      document.getElementById('oquefazemos').style.display = 'none';
+      document.getElementById('eventos').style.display = 'none';
+      
+      const allSections = document.querySelectorAll('body > section');
+      if (allSections[0] && !allSections[0].id) {
+        allSections[0].style.display = 'none';
+      }
+      
+      document.querySelector('footer').style.display = 'none';
+      comiteArea.style.display = 'block';
+      
+      window.scrollTo(0, 0);
+      renderComitePanel();
+      
+      showToast('✅ Bem-vindo à área restrita do Comitê!');
+    }
+
+  </script>
+</body>
+</html>

@@ -349,10 +349,30 @@
      <button onclick="showComiteTab('fotos')" class="comite-tab-btn comite-tab-fotos px-6 py-3 font-semibold text-[#004587] border-b-4 border-[#F7941D] transition-colors"> 📸 Gerenciar Fotos </button> <button onclick="showComiteTab('ideias')" class="comite-tab-btn comite-tab-ideias px-6 py-3 font-semibold text-gray-600 hover:text-[#004587] transition-colors"> 💡 Ideias Recebidas </button> <button onclick="showComiteTab('comentarios')" class="comite-tab-btn comite-tab-comentarios px-6 py-3 font-semibold text-gray-600 hover:text-[#004587] transition-colors"> 💬 Comentários </button>
     </div><!-- Fotos Tab -->
     <div id="fotos-tab" class="comite-tab-content">
-     <div class="grid md:grid-cols-2 gap-6 mb-8">
-      <div id="fotosContainer" class="col-span-full">
-       <div class="text-center py-12">
-        <p class="text-gray-500 text-lg">Nenhuma foto na galeria ainda.</p>
+     <!-- Sub-tabs: Pendentes / Aprovadas -->
+     <div class="flex gap-2 mb-6 border-b border-gray-200">
+      <button id="btn-pendentes" onclick="showFotosSubTab('pendentes')"
+        class="px-5 py-2 font-semibold text-[#004587] border-b-2 border-[#F7941D] transition-colors text-sm">
+        ⏳ Aguardando Aprovação
+        <span id="badge-pendentes" class="ml-1 bg-[#F7941D] text-white text-xs px-2 py-0.5 rounded-full">0</span>
+      </button>
+      <button id="btn-aprovadas" onclick="showFotosSubTab('aprovadas')"
+        class="px-5 py-2 font-semibold text-gray-500 hover:text-[#004587] transition-colors text-sm">
+        ✅ Galeria Aprovada
+        <span id="badge-aprovadas" class="ml-1 bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded-full">0</span>
+      </button>
+     </div>
+     <!-- Pendentes -->
+     <div id="pendentes-subtab">
+      <div id="pendentesContainer" class="space-y-4">
+       <div class="text-center py-12"><p class="text-gray-400">Carregando...</p></div>
+      </div>
+     </div>
+     <!-- Aprovadas -->
+     <div id="aprovadas-subtab" class="hidden">
+      <div id="fotosContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+       <div class="col-span-full text-center py-12">
+        <p class="text-gray-500 text-lg">Nenhuma foto aprovada ainda.</p>
        </div>
       </div>
      </div>
@@ -666,48 +686,71 @@
     const CONFIG = {
       // Cole aqui o link Formspree para receber IDEIAS por e-mail:
       formspree_ideias: 'https://formspree.io/f/xzdjydqd',
-      // Cole aqui o link Formspree para receber FOTOS/INOVAÇÕES por e-mail:
-      formspree_fotos: 'https://formspree.io/f/xgonroby',
       // Cole aqui o link Formspree para receber COMENTÁRIOS por e-mail:
       formspree_comentarios: 'https://formspree.io/f/xpqykqel',
-      // Cole aqui o ID da planilha Google Sheets para a galeria:
-      google_sheet_id: '1Fg0hfsSTfkGUmblBXF1PVCssuagEVimOONIgHJmKeFQ',
+      // Google Apps Script — recebe fotos, armazena e permite aprovação na área restrita:
+      apps_script_url: 'COLE_A_URL_DO_APPS_SCRIPT_AQUI',
       // Cloudinary — serviço gratuito para receber uploads de fotos:
       cloudinary_cloud_name: 'dzldfe4k0',
       cloudinary_upload_preset: 'comite_inovacao'
     };
 
     // ================================================================
-    // 📸 GALERIA — Carrega fotos aprovadas da planilha Google Sheets
-    // Estrutura da aba "Galeria" na planilha (colunas, nesta ordem):
-    // foto_titulo | foto_descricao | foto_categoria | foto_link |
-    // foto_nome   | foto_tipo      | foto_curso     | foto_data
+    // 📸 GALERIA — Carrega fotos aprovadas via Google Apps Script
     // ================================================================
     let galeriaData = [];
+    let pendentesData = [];
 
     async function carregarGaleria() {
-      if (!CONFIG.google_sheet_id || CONFIG.google_sheet_id.includes('COLE')) return [];
+      if (!CONFIG.apps_script_url || CONFIG.apps_script_url.includes('COLE')) return [];
       try {
-        const url = `https://docs.google.com/spreadsheets/d/${CONFIG.google_sheet_id}/gviz/tq?tqx=out:json&sheet=Galeria`;
-        const response = await fetch(url);
-        const text = await response.text();
-        const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]+)\);?\s*$/);
-        if (!match) return [];
-        const json = JSON.parse(match[1]);
-        if (!json.table || !json.table.rows) return [];
-        const cols = json.table.cols.map(c => c.label);
-        return json.table.rows
-          .filter(row => row.c && row.c.some(c => c && c.v))
-          .map(row => {
-            const obj = {};
-            row.c.forEach((cell, i) => { obj[cols[i]] = cell ? (cell.v || '') : ''; });
-            return obj;
-          })
-          .filter(photo => photo.foto_titulo && photo.foto_link);
+        const res = await fetch(`${CONFIG.apps_script_url}?action=galeria`);
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
       } catch (e) {
         console.warn('Galeria não carregada:', e);
         return [];
       }
+    }
+
+    async function carregarPendentes() {
+      if (!CONFIG.apps_script_url || CONFIG.apps_script_url.includes('COLE')) return [];
+      try {
+        const res = await fetch(`${CONFIG.apps_script_url}?action=pendentes`);
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+      } catch (e) {
+        console.warn('Pendentes não carregados:', e);
+        return [];
+      }
+    }
+
+    async function aprovarFoto(id, novoTitulo, novaDescricao) {
+      const url = `${CONFIG.apps_script_url}?action=aprovar&id=${encodeURIComponent(id)}&foto_titulo=${encodeURIComponent(novoTitulo)}&foto_descricao=${encodeURIComponent(novaDescricao)}`;
+      try {
+        await fetch(url, { mode: 'no-cors' });
+        showToast('✅ Foto aprovada! Aparecerá na galeria em instantes.');
+        setTimeout(async () => {
+          galeriaData = await carregarGaleria();
+          pendentesData = await carregarPendentes();
+          renderPendentes();
+          renderComiteFotos();
+          renderComiteStats();
+        }, 1500);
+      } catch { showToast('Erro ao aprovar. Tente novamente.', true); }
+    }
+
+    async function rejeitarFoto(id) {
+      const url = `${CONFIG.apps_script_url}?action=rejeitar&id=${encodeURIComponent(id)}`;
+      try {
+        await fetch(url, { mode: 'no-cors' });
+        showToast('🚫 Foto rejeitada.');
+        setTimeout(async () => {
+          pendentesData = await carregarPendentes();
+          renderPendentes();
+          renderComiteStats();
+        }, 1500);
+      } catch { showToast('Erro ao rejeitar. Tente novamente.', true); }
     }
 
     // ================================================================
@@ -787,24 +830,29 @@
       document.getElementById('eventoSubmitSpinner').classList.remove('hidden');
 
       try {
-        const res = await fetch(CONFIG.formspree_fotos, {
+        if (!CONFIG.apps_script_url || CONFIG.apps_script_url.includes('COLE')) {
+          showToast('Sistema ainda não configurado. Entre em contato com o Comitê.', true);
+          return;
+        }
+        await fetch(CONFIG.apps_script_url, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          mode: 'no-cors',
           body: JSON.stringify({
-            nome: document.getElementById('eventoNome').value.trim() || 'Anônimo',
-            tipo: eventoTipoInput.value,
-            curso_departamento: eventoCursoDepto,
-            titulo_inovacao: eventoTitulo,
-            descricao: eventoDescricao,
-            categoria: eventoCategoria,
-            link_foto_drive: eventoFotoLink
+            foto_titulo: eventoTitulo,
+            foto_descricao: eventoDescricao,
+            foto_categoria: eventoCategoria,
+            foto_link: eventoFotoLink,
+            foto_nome: document.getElementById('eventoNome').value.trim() || 'Anônimo',
+            foto_tipo: eventoTipoInput.value,
+            foto_curso: eventoCursoDepto,
+            foto_data: new Date().toISOString()
           })
         });
-        if (res.ok) {
-          showToast('🎉 Inovação compartilhada! O Comitê irá analisar e aprovar para a galeria.');
-          document.getElementById('eventoPhotoForm').reset();
-          setTimeout(() => showEventosTab('galeria'), 1500);
-        } else { throw new Error('server'); }
+        showToast('🎉 Inovação compartilhada! O Comitê irá analisar e aprovar para a galeria.');
+        document.getElementById('eventoPhotoForm').reset();
+        document.getElementById('uploadPreview').classList.add('hidden');
+        document.getElementById('uploadPlaceholder').classList.remove('hidden');
+        setTimeout(() => showEventosTab('galeria'), 1500);
       } catch {
         showToast('Erro ao enviar. Verifique sua conexão e tente novamente.', true);
       } finally {
@@ -1068,6 +1116,7 @@
     // 🔒 PAINEL DO COMITÊ — área restrita
     // ================================================================
     function renderComitePanel() {
+      renderPendentes();
       renderComiteFotos();
       renderComiteIdeias();
       renderComiteComentarios();
@@ -1077,53 +1126,140 @@
     function renderComiteStats() {
       const statsEl = document.getElementById('comite-stats');
       if (!statsEl) return;
+      const pendingCount = pendentesData.length;
       statsEl.innerHTML = `
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div class="bg-[#004587]/10 rounded-2xl p-5 text-center">
+          <div class="rounded-2xl p-5 text-center border-2 cursor-pointer transition-all hover:shadow-md ${pendingCount > 0 ? 'bg-yellow-50 border-yellow-300' : 'bg-gray-50 border-transparent'}"
+               onclick="showComiteTab('fotos');showFotosSubTab('pendentes')">
+            <p class="text-3xl font-black ${pendingCount > 0 ? 'text-yellow-600' : 'text-gray-400'}">${pendingCount}</p>
+            <p class="text-sm text-gray-600 mt-1">⏳ Aguardando Aprovação</p>
+            ${pendingCount > 0 ? '<p class="text-xs text-yellow-600 font-semibold mt-1">Clique para revisar →</p>' : ''}
+          </div>
+          <div class="bg-[#004587]/10 rounded-2xl p-5 text-center cursor-pointer hover:bg-[#004587]/20 transition-all"
+               onclick="showComiteTab('fotos');showFotosSubTab('aprovadas')">
             <p class="text-3xl font-black text-[#004587]">${galeriaData.length}</p>
             <p class="text-sm text-gray-600 mt-1">📸 Fotos na Galeria</p>
           </div>
           <div class="bg-[#F7941D]/10 rounded-2xl p-5 text-center">
             <a href="https://formspree.io/login" target="_blank" rel="noopener noreferrer"
                class="block text-2xl font-black text-[#F7941D] hover:text-orange-600 transition-colors">Abrir →</a>
-            <p class="text-sm text-gray-600 mt-1">💡 Ideias Recebidas (Formspree)</p>
+            <p class="text-sm text-gray-600 mt-1">💡 Ideias e Comentários</p>
           </div>
-          <div class="bg-green-50 rounded-2xl p-5 text-center">
-            <a href="https://formspree.io/login" target="_blank" rel="noopener noreferrer"
-               class="block text-2xl font-black text-green-600 hover:text-green-700 transition-colors">Abrir →</a>
-            <p class="text-sm text-gray-600 mt-1">💬 Comentários (Formspree)</p>
-          </div>
-        </div>
-        <div class="bg-blue-50 rounded-2xl p-5 mb-8 border border-blue-200">
-          <h4 class="font-bold text-[#004587] mb-2">📋 Como adicionar uma foto à galeria</h4>
-          <p class="text-sm text-gray-600">Abra a <strong>Planilha Google Sheets</strong> da galeria → aba <strong>"Galeria"</strong> → adicione uma nova linha com os dados da foto aprovada. A foto aparecerá automaticamente no site após recarregar a página.</p>
         </div>`;
     }
 
     function renderComiteFotos() {
       const container = document.getElementById('fotosContainer');
+      const badge = document.getElementById('badge-aprovadas');
+      if (badge) badge.textContent = galeriaData.length;
       if (galeriaData.length === 0) {
-        container.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-gray-500 text-lg">Nenhuma foto aprovada ainda. Adicione pela planilha Google Sheets.</p></div>';
+        container.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-gray-500 text-lg">Nenhuma foto aprovada ainda.</p></div>';
         return;
       }
       container.innerHTML = galeriaData.map(photo => {
         const imgUrl = getDirectImageUrl(photo.foto_link);
         return `
-          <div class="card-cyber bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-gray-200 hover:border-[#F7941D] transition-all">
+          <div class="card-cyber bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-gray-200 hover:border-[#004587] transition-all">
             <div class="relative w-full h-40 bg-gray-100 flex items-center justify-center overflow-hidden">
               <img src="${imgUrl}" alt="${photo.foto_titulo || ''}" loading="lazy"
                    class="w-full h-full object-cover" onerror="this.parentElement.style.backgroundColor='#e5e7eb'" />
             </div>
             <div class="p-4">
+              <span class="inline-block bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full font-semibold mb-2">✅ Publicada</span>
               <h3 class="font-bold text-[#004587] mb-1">${photo.foto_titulo || 'Sem título'}</h3>
-              <p class="text-xs text-gray-500 mb-2">👤 ${photo.foto_nome || 'Anônimo'} • ${photo.foto_tipo || ''} • ${photo.foto_curso || ''}</p>
+              <p class="text-xs text-gray-500 mb-2">👤 ${photo.foto_nome || 'Anônimo'} • ${photo.foto_tipo || ''}</p>
               <p class="text-sm text-gray-600 mb-3 line-clamp-2">${photo.foto_descricao || ''}</p>
               ${photo.foto_link ? `<a href="${photo.foto_link}" target="_blank" rel="noopener noreferrer"
                  class="block w-full bg-[#004587] text-white text-sm py-2 px-3 rounded text-center hover:bg-[#003366] transition-colors font-semibold">
-                 🔗 Abrir no Drive</a>` : ''}
+                 🔗 Ver Foto</a>` : ''}
             </div>
           </div>`;
       }).join('');
+    }
+
+    function renderPendentes() {
+      const container = document.getElementById('pendentesContainer');
+      if (!container) return;
+      const badge = document.getElementById('badge-pendentes');
+      if (badge) badge.textContent = pendentesData.length;
+
+      if (!CONFIG.apps_script_url || CONFIG.apps_script_url.includes('COLE')) {
+        container.innerHTML = `
+          <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-6">
+            <h4 class="font-bold text-yellow-800 mb-2">⚙️ Configuração pendente</h4>
+            <p class="text-yellow-700 text-sm">O Google Apps Script ainda não foi configurado. Siga o guia de configuração para ativar o painel de aprovações.</p>
+          </div>`;
+        return;
+      }
+      if (pendentesData.length === 0) {
+        container.innerHTML = '<div class="text-center py-12"><p class="text-gray-500 text-lg">✅ Nenhuma foto aguardando aprovação.</p></div>';
+        return;
+      }
+      container.innerHTML = pendentesData.map(photo => {
+        const imgUrl = getDirectImageUrl(photo.foto_link);
+        const id = photo.id;
+        const tituloEsc = (photo.foto_titulo || '').replace(/"/g, '&quot;');
+        return `
+          <div class="bg-white rounded-2xl shadow-md border-2 border-yellow-200 p-6 mb-4">
+            <div class="flex flex-col md:flex-row gap-6">
+              <div class="w-full md:w-48 flex-shrink-0">
+                ${imgUrl
+                  ? `<img src="${imgUrl}" alt="preview" class="w-full h-40 object-cover rounded-xl shadow" onerror="this.parentNode.innerHTML='<div class=\\'w-full h-40 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 text-sm\\'>Imagem indisponível</div>'" />`
+                  : '<div class="w-full h-40 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 text-sm">Sem imagem</div>'}
+              </div>
+              <div class="flex-1">
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span class="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full font-semibold">⏳ Aguardando aprovação</span>
+                  <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">${photo.foto_categoria || ''}</span>
+                </div>
+                <div class="mb-4 space-y-3">
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-500 mb-1">TÍTULO — edite se necessário antes de aprovar</label>
+                    <input type="text" id="titulo-${id}" value="${tituloEsc}"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:border-[#004587] focus:outline-none" />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-500 mb-1">DESCRIÇÃO — edite se necessário antes de aprovar</label>
+                    <textarea id="descricao-${id}" rows="3"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:border-[#004587] focus:outline-none resize-none">${photo.foto_descricao || ''}</textarea>
+                  </div>
+                </div>
+                <div class="text-sm text-gray-600 mb-4 space-y-1">
+                  <p><strong>Autor:</strong> ${photo.foto_nome || 'Anônimo'} • ${photo.foto_tipo || ''} • ${photo.foto_curso || ''}</p>
+                  <p><strong>Enviado em:</strong> ${photo.data_envio || ''}</p>
+                  ${photo.foto_link ? `<a href="${photo.foto_link}" target="_blank" rel="noopener noreferrer" class="text-[#004587] underline text-xs">🔗 Ver foto original</a>` : ''}
+                </div>
+                <div class="flex flex-wrap gap-3">
+                  <button onclick="aprovarFoto('${id}', document.getElementById('titulo-${id}').value, document.getElementById('descricao-${id}').value)"
+                    class="bg-green-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-green-700 transition-colors text-sm">
+                    ✅ Aprovar e Publicar
+                  </button>
+                  <button onclick="rejeitarFoto('${id}')"
+                    class="bg-red-100 text-red-700 px-6 py-2 rounded-xl font-semibold hover:bg-red-200 transition-colors text-sm">
+                    🚫 Rejeitar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function showFotosSubTab(tab) {
+      ['pendentes', 'aprovadas'].forEach(t => {
+        const el = document.getElementById(`${t}-subtab`);
+        const btn = document.getElementById(`btn-${t}`);
+        if (!el || !btn) return;
+        if (t === tab) {
+          el.classList.remove('hidden');
+          btn.classList.add('border-b-2', 'border-[#F7941D]', 'text-[#004587]', 'font-semibold');
+          btn.classList.remove('text-gray-500');
+        } else {
+          el.classList.add('hidden');
+          btn.classList.remove('border-b-2', 'border-[#F7941D]', 'text-[#004587]', 'font-semibold');
+          btn.classList.add('text-gray-500');
+        }
+      });
     }
 
     function renderComiteIdeias() {
@@ -1167,6 +1303,7 @@
     // ================================================================
     async function init() {
       galeriaData = await carregarGaleria();
+      pendentesData = await carregarPendentes();
       document.getElementById('idea-form').addEventListener('submit', handleSubmit);
       document.getElementById('eventoPhotoForm').addEventListener('submit', handleEventoPhotoSubmit);
       document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);

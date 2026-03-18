@@ -728,7 +728,7 @@
     async function aprovarFoto(id, novoTitulo, novaDescricao) {
       const url = `${CONFIG.apps_script_url}?action=aprovar&id=${encodeURIComponent(id)}&foto_titulo=${encodeURIComponent(novoTitulo)}&foto_descricao=${encodeURIComponent(novaDescricao)}`;
       try {
-        await fetch(url, { mode: 'no-cors' });
+        await fetch(url);
         showToast('✅ Foto aprovada! Aparecerá na galeria em instantes.');
         setTimeout(async () => {
           galeriaData = await carregarGaleria();
@@ -736,7 +736,8 @@
           renderPendentes();
           renderComiteFotos();
           renderComiteStats();
-        }, 1500);
+          renderGaleria();
+        }, 2000);
       } catch { showToast('Erro ao aprovar. Tente novamente.', true); }
     }
 

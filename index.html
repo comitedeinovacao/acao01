@@ -1279,6 +1279,18 @@
       } catch { return []; }
     }
 
+    function _fmtData(val, opts) {
+      if (!val) return '';
+      const m = String(val).match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (!m) return val;
+      return new Date(Number(m[1]), Number(m[2])-1, Number(m[3])).toLocaleDateString('pt-BR', opts);
+    }
+    function _fmtHora(val) {
+      if (!val) return '';
+      const m = String(val).match(/T(\d{2}:\d{2})/);
+      return m ? m[1] : String(val).substring(0, 5);
+    }
+
     function renderOficinas() {
       const container = document.getElementById('oficinasContainer');
       if (!container) return;
@@ -1292,7 +1304,9 @@
         return;
       }
       container.innerHTML = oficinasData.map(of => {
-        const dataFmt = of.data ? new Date(of.data + 'T00:00:00').toLocaleDateString('pt-BR', {weekday:'long', day:'2-digit', month:'long', year:'numeric'}) : '';
+        const dataFmt = _fmtData(of.data, {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
+        const hi = _fmtHora(of.hora_inicio);
+        const hf = _fmtHora(of.hora_fim);
         return `
           <div class="bg-white rounded-2xl shadow-lg border-2 border-gray-100 hover:border-[#F7941D] transition-all overflow-hidden">
             <div class="bg-gradient-to-r from-[#004587] to-[#003366] p-5 text-white">
@@ -1301,7 +1315,7 @@
             </div>
             <div class="p-5 space-y-2">
               <p class="text-sm text-gray-600">📅 <strong>${dataFmt}</strong></p>
-              <p class="text-sm text-gray-600">🕐 ${of.hora_inicio || ''} às ${of.hora_fim || ''}</p>
+              <p class="text-sm text-gray-600">🕐 ${hi} às ${hf}</p>
               <p class="text-sm text-gray-600">📍 ${of.local || ''}</p>
             </div>
             <div class="px-5 pb-5">
@@ -1319,8 +1333,8 @@
       currentOficinaNome = nome;
       document.getElementById('inscricaoOficinaId').value = id;
       document.getElementById('modalOficinaNome').textContent = nome;
-      const dataFmt = data ? new Date(data + 'T00:00:00').toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'}) : '';
-      document.getElementById('modalOficinaInfo').textContent = `📅 ${dataFmt}  🕐 ${horaInicio} às ${horaFim}  📍 ${local}`;
+      const dataFmt = _fmtData(data, {day:'2-digit', month:'long', year:'numeric'});
+      document.getElementById('modalOficinaInfo').textContent = `📅 ${dataFmt}  🕐 ${_fmtHora(horaInicio)} às ${_fmtHora(horaFim)}  📍 ${local}`;
       const modal = document.getElementById('inscricaoModal');
       modal.classList.remove('hidden');
       modal.style.display = 'flex';
@@ -1523,13 +1537,13 @@
         return;
       }
       container.innerHTML = oficinasData.map(of => {
-        const dataFmt = of.data ? new Date(of.data + 'T00:00:00').toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'}) : '';
+        const dataFmt = _fmtData(of.data, {day:'2-digit', month:'long', year:'numeric'});
         return `
           <div class="bg-white rounded-2xl shadow border border-gray-200 p-5">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h4 class="font-bold text-[#004587] text-lg">${of.nome_oficina || ''}</h4>
-                <p class="text-sm text-gray-600 mt-1">👤 ${of.multiplicador || ''}  •  📅 ${dataFmt}  •  🕐 ${of.hora_inicio||''} às ${of.hora_fim||''}</p>
+                <p class="text-sm text-gray-600 mt-1">👤 ${of.multiplicador || ''}  •  📅 ${dataFmt}  •  🕐 ${_fmtHora(of.hora_inicio)} às ${_fmtHora(of.hora_fim)}</p>
                 <p class="text-sm text-gray-600">📍 ${of.local || ''}</p>
               </div>
               <div class="flex gap-2 flex-shrink-0">

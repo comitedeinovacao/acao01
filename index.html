@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal de Ideias - Comitê de Inovação Senac Araçatuba</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <style>
     * { font-family: 'Montserrat', sans-serif; }
@@ -302,9 +303,22 @@
        </div><!-- Categoria -->
        <div><label for="eventoCategoria" class="block text-sm font-semibold text-[#004587] mb-2">Categoria *</label> <select id="eventoCategoria" name="eventoCategoria" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-white cursor-pointer" required> <option value="">Selecione uma categoria</option> <option value="Sala de Aula">🎓 Sala de Aula Inovadora</option> <option value="Metodologia">📚 Nova Metodologia de Ensino</option> <option value="Tecnologia">💻 Uso de Tecnologia</option> <option value="Espaço">🏫 Transformação de Espaços</option> <option value="Colaboracao">🤝 Trabalho Colaborativo</option> <option value="Sustentabilidade">♻️ Sustentabilidade</option> <option value="Outro">💭 Outro</option> </select>
        </div><!-- Link Google Drive -->
-       <div><label for="eventoFotoLink" class="block text-sm font-semibold text-[#004587] mb-2">Link da Foto no Google Drive *</label>
-        <div class="space-y-2"><input type="url" id="eventoFotoLink" name="eventoFotoLink" placeholder="https://drive.google.com/file/d/..." class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors bg-white" required>
-         <p class="text-xs text-gray-500">📋 Como fazer: Compartilhe a foto no Drive → Botão direito → "Obter link" → Cole aqui</p>
+       <div>
+        <label class="block text-sm font-semibold text-[#004587] mb-2">Foto da sua Inovação *</label>
+        <input type="hidden" id="eventoFotoLink" name="link_foto_enviada" />
+        <div id="uploadArea" onclick="abrirUploadFoto()"
+             class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-[#F7941D] transition-all bg-white">
+         <div id="uploadPlaceholder">
+          <div class="text-5xl mb-3">📸</div>
+          <p class="font-semibold text-[#004587] text-base">Clique aqui para enviar a foto</p>
+          <p class="text-sm text-gray-500 mt-2">Formatos aceitos: JPG, PNG, GIF • Máximo 10MB</p>
+          <p class="text-xs text-gray-400 mt-1">Funciona do computador, celular ou tablet</p>
+         </div>
+         <div id="uploadPreview" class="hidden">
+          <img id="uploadPreviewImg" class="max-h-48 mx-auto rounded-xl mb-3 shadow" src="" alt="preview" />
+          <p class="text-sm text-green-600 font-bold">✅ Foto enviada com sucesso!</p>
+          <p class="text-xs text-gray-500 mt-1">Clique aqui para trocar a foto</p>
+         </div>
         </div>
        </div><!-- Submit Button --> <button type="submit" class="w-full bg-[#F7941D] text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"> <span id="eventoSubmitText">Compartilhar Inovação</span>
         <svg id="eventoSubmitIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -657,7 +671,10 @@
       // Cole aqui o link Formspree para receber COMENTÁRIOS por e-mail:
       formspree_comentarios: 'https://formspree.io/f/xpqykqel',
       // Cole aqui o ID da planilha Google Sheets para a galeria:
-      google_sheet_id: '1Fg0hfsSTfkGUmblBXF1PVCssuagEVimOONIgHJmKeFQ'
+      google_sheet_id: '1Fg0hfsSTfkGUmblBXF1PVCssuagEVimOONIgHJmKeFQ',
+      // Cloudinary — serviço gratuito para receber uploads de fotos:
+      cloudinary_cloud_name: 'dzldfe4k0',
+      cloudinary_upload_preset: 'comite_inovacao'
     };
 
     // ================================================================
@@ -760,7 +777,7 @@
       if (!eventoTitulo) { showToast('Por favor, preencha o título da inovação!', true); return; }
       if (!eventoDescricao) { showToast('Por favor, descreva sua inovação!', true); return; }
       if (!eventoCategoria) { showToast('Por favor, selecione uma categoria!', true); return; }
-      if (!eventoFotoLink) { showToast('Por favor, compartilhe o link do Google Drive!', true); return; }
+      if (!eventoFotoLink) { showToast('Por favor, envie uma foto clicando na área de upload!', true); return; }
 
       const submitBtn = e.target.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
@@ -844,16 +861,109 @@
     // ================================================================
     // 🖼️  GALERIA PÚBLICA — exibe fotos aprovadas pelo Comitê
     // ================================================================
+    // ================================================================
+    // 📤 CLOUDINARY — upload direto de arquivos pelo formulário
+    // ================================================================
+    function abrirUploadFoto() {
+      if (!CONFIG.cloudinary_cloud_name || CONFIG.cloudinary_cloud_name.includes('COLE')) {
+        showToast('⚙️ Upload não configurado ainda. Contacte o administrador do site.', true);
+        return;
+      }
+      if (typeof cloudinary === 'undefined') {
+        showToast('Erro ao carregar o serviço de upload. Verifique sua conexão.', true);
+        return;
+      }
+      cloudinary.openUploadWidget({
+        cloudName: CONFIG.cloudinary_cloud_name,
+        uploadPreset: CONFIG.cloudinary_upload_preset,
+        sources: ['local', 'camera', 'url'],
+        multiple: false,
+        maxFileSize: 10000000,
+        clientAllowedFormats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+        cropping: false,
+        showSkipCropButton: false,
+        language: 'pt',
+        text: {
+          pt: {
+            or: 'ou', back: 'Voltar', close: 'Fechar',
+            upload_more: 'Enviar outro', add_more: 'Adicionar',
+            menu: { files: 'Meus Arquivos', camera: 'Câmera', url: 'Link da internet' },
+            local: { browse: 'Selecionar arquivo', dd_title_single: 'Arraste a foto aqui', dd_title_multi: 'Arraste as fotos aqui' }
+          }
+        }
+      }, function(error, result) {
+        if (error) {
+          if (error.message !== 'User closed widget') showToast('Erro no upload. Tente novamente.', true);
+          return;
+        }
+        if (result && result.event === 'success') {
+          const url = result.info.secure_url;
+          document.getElementById('eventoFotoLink').value = url;
+          document.getElementById('uploadPlaceholder').classList.add('hidden');
+          document.getElementById('uploadPreview').classList.remove('hidden');
+          document.getElementById('uploadPreviewImg').src = url;
+        }
+      });
+    }
+
     function getDirectImageUrl(driveLink) {
       if (!driveLink) return null;
+      // Cloudinary — URL direta, funciona perfeitamente
+      if (driveLink.includes('cloudinary.com') || driveLink.includes('res.cloudinary.com')) {
+        return driveLink;
+      }
+      // SharePoint/OneDrive corporativo — não pode ser exibido publicamente
+      if (driveLink.includes('sharepoint.com') || driveLink.includes('1drv.ms') || driveLink.includes('onedrive.live.com')) {
+        return null;
+      }
+      // Google Drive — extrai o ID e usa lh3 (funciona melhor que uc?export=view)
       let fileId = null;
-      const patterns = [/\/d\/([a-zA-Z0-9-_]+)/, /id=([a-zA-Z0-9-_]+)/, /^([a-zA-Z0-9-_]{25,})$/];
+      const patterns = [/\/d\/([a-zA-Z0-9-_]+)/, /id=([a-zA-Z0-9-_]+)/, /open\?id=([a-zA-Z0-9-_]+)/];
       for (const p of patterns) {
         const m = driveLink.match(p);
         if (m && m[1]) { fileId = m[1]; break; }
       }
-      return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : driveLink;
+      return fileId ? `https://lh3.googleusercontent.com/d/${fileId}` : driveLink;
     }
+
+    function openPhotoModal(index) {
+      const photo = galeriaData[index];
+      if (!photo) return;
+      document.getElementById('photoModalTitle').textContent = photo.foto_titulo || 'Inovação em Destaque';
+      document.getElementById('photoModalTitleText').textContent = photo.foto_titulo || 'Foto Compartilhada';
+      document.getElementById('photoModalCategory').textContent = photo.foto_categoria || 'Outro';
+      document.getElementById('photoModalDesc').textContent = photo.foto_descricao || 'Sem descrição disponível.';
+      document.getElementById('photoModalAuthor').textContent = photo.foto_nome || 'Anônimo';
+      document.getElementById('photoModalTipo').textContent = photo.foto_tipo || 'Comunidade';
+      document.getElementById('photoModalCurso').textContent = photo.foto_curso || 'Senac Araçatuba';
+      document.getElementById('photoModalDate').textContent = photo.foto_data ? new Date(photo.foto_data).toLocaleDateString('pt-BR') : 'Não informada';
+      const imgUrl = getDirectImageUrl(photo.foto_link);
+      const img = document.getElementById('photoModalImg');
+      const fallback = document.getElementById('photoModalImgFallback');
+      if (imgUrl) {
+        img.src = imgUrl;
+        img.style.display = 'block';
+        fallback.classList.add('hidden');
+        img.onerror = function() { this.style.display = 'none'; fallback.classList.remove('hidden'); };
+      } else {
+        img.style.display = 'none';
+        fallback.classList.remove('hidden');
+      }
+      const link = document.getElementById('photoModalLink');
+      link.href = photo.foto_link || '#';
+      link.style.display = photo.foto_link ? 'flex' : 'none';
+      document.getElementById('photoModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePhotoModal() {
+      document.getElementById('photoModal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('click', function(e) {
+      if (e.target === document.getElementById('photoModal')) closePhotoModal();
+    });
 
     function renderGaleria() {
       const container = document.getElementById('galeriaContainer');
@@ -863,7 +973,7 @@
       }
       const categoryEmojis = { 'Sala de Aula':'🎓','Metodologia':'📚','Tecnologia':'💻','Espaço':'🏫','Colaboracao':'🤝','Sustentabilidade':'♻️','Outro':'💭' };
       const categoryColors = { 'Sala de Aula':'from-blue-400 to-blue-600','Metodologia':'from-green-400 to-green-600','Tecnologia':'from-purple-400 to-purple-600','Espaço':'from-orange-400 to-orange-600','Colaboracao':'from-pink-400 to-pink-600','Sustentabilidade':'from-emerald-400 to-emerald-600','Outro':'from-gray-400 to-gray-600' };
-      container.innerHTML = galeriaData.map(photo => {
+      container.innerHTML = galeriaData.map((photo, index) => {
         const cat = photo.foto_categoria || 'Outro';
         const emoji = categoryEmojis[cat] || '📸';
         const gradient = categoryColors[cat] || 'from-gray-400 to-gray-600';
@@ -871,25 +981,25 @@
         const title = photo.foto_titulo || 'Foto Compartilhada';
         const desc = photo.foto_descricao || '';
         const dateStr = photo.foto_data ? new Date(photo.foto_data).toLocaleDateString('pt-BR') : '';
+        const imgHtml = imgUrl
+          ? `<img src="${imgUrl}" alt="${title}" loading="lazy"
+               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+               onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden')" />
+             <div class="hidden absolute inset-0 flex items-center justify-center"><span class="text-6xl">${emoji}</span></div>`
+          : `<div class="flex items-center justify-center w-full h-full"><span class="text-6xl">${emoji}</span></div>`;
         return `
-          <div class="card-cyber bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 overflow-hidden group">
+          <div class="card-cyber bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 overflow-hidden cursor-pointer group" onclick="openPhotoModal(${index})">
             <div class="relative w-full h-48 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
-              <img src="${imgUrl}" alt="${title}" loading="lazy"
-                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                   onerror="this.parentElement.innerHTML='<div class=&quot;text-6xl&quot;>${emoji}</div>'" />
+              ${imgHtml}
             </div>
             <div class="p-5">
               <h3 class="font-bold text-[#004587] text-lg mb-2 group-hover:text-[#F7941D] transition-colors">${title}</h3>
               <p class="text-gray-600 text-sm mb-3 line-clamp-2">${desc}</p>
-              <div class="flex items-center justify-between text-xs text-gray-500 mb-3">
+              <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
                 <span class="bg-gray-100 px-2 py-1 rounded">${cat}</span>
                 <span>${dateStr}</span>
               </div>
-              <div class="pt-3 border-t border-gray-200 space-y-1">
-                <p class="text-xs text-gray-600"><strong>${photo.foto_tipo || 'Comunidade'}</strong> • ${photo.foto_curso || 'Senac Araçatuba'}</p>
-                <p class="text-xs text-gray-500">👤 ${photo.foto_nome || 'Anônimo'}</p>
-                ${photo.foto_link ? `<a href="${photo.foto_link}" target="_blank" rel="noopener noreferrer" class="text-xs text-[#F7941D] font-semibold mt-2 inline-block hover:text-orange-600 transition-colors">🔗 Ver original no Drive →</a>` : ''}
-              </div>
+              <p class="text-xs text-[#004587] font-semibold mt-2">👆 Clique para ver detalhes</p>
             </div>
           </div>`;
       }).join('');
@@ -1281,5 +1391,42 @@
     }
 
   </script>
+  <!-- Modal de Detalhes da Foto -->
+  <div id="photoModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+   <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+    <div class="bg-gradient-to-r from-[#004587] to-[#003366] text-white p-5 flex items-center justify-between flex-shrink-0">
+     <h3 id="photoModalTitle" class="text-xl font-bold pr-4">Inovação em Destaque</h3>
+     <button onclick="closePhotoModal()" class="text-white hover:bg-white/20 p-2 rounded-lg transition-colors flex-shrink-0">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+     </button>
+    </div>
+    <div class="overflow-y-auto flex-1">
+     <div id="photoModalImageContainer" class="w-full h-56 bg-gray-100 flex items-center justify-center overflow-hidden relative">
+      <img id="photoModalImg" src="" alt="" class="w-full h-full object-cover" />
+      <div id="photoModalImgFallback" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-gray-100 gap-3">
+       <span class="text-5xl">🖼️</span>
+       <p class="text-sm text-gray-500 text-center px-4">Imagem não disponível para exibição direta.<br>Use o botão abaixo para ver o arquivo original.</p>
+      </div>
+     </div>
+     <div class="p-6 space-y-4">
+      <div>
+       <span id="photoModalCategory" class="inline-block bg-[#F7941D]/10 text-[#F7941D] text-xs font-bold px-3 py-1 rounded-full mb-2"></span>
+       <h4 id="photoModalTitleText" class="text-2xl font-bold text-[#004587]"></h4>
+      </div>
+      <p id="photoModalDesc" class="text-gray-600 leading-relaxed"></p>
+      <div class="grid grid-cols-2 gap-3 bg-gray-50 rounded-xl p-4">
+       <div><p class="text-xs text-gray-400 uppercase font-semibold mb-1">Enviado por</p><p id="photoModalAuthor" class="text-sm font-bold text-[#004587]"></p></div>
+       <div><p class="text-xs text-gray-400 uppercase font-semibold mb-1">Perfil</p><p id="photoModalTipo" class="text-sm font-bold text-[#004587]"></p></div>
+       <div><p class="text-xs text-gray-400 uppercase font-semibold mb-1">Curso / Área</p><p id="photoModalCurso" class="text-sm font-bold text-[#004587]"></p></div>
+       <div><p class="text-xs text-gray-400 uppercase font-semibold mb-1">Data</p><p id="photoModalDate" class="text-sm font-bold text-[#004587]"></p></div>
+      </div>
+      <a id="photoModalLink" href="#" target="_blank" rel="noopener noreferrer"
+         class="flex items-center justify-center gap-2 w-full bg-[#F7941D] text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors">
+       🔗 Ver imagem original no Drive
+      </a>
+     </div>
+    </div>
+   </div>
+  </div>
 </body>
 </html>

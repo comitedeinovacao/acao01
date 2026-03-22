@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raízes Senac · Trilha 04 · Saber Senac</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --azul: #004587;
+      --laranja: #F7941D;
+      --branco-gelo: #F2F2F2;
+      --branco: #FFFFFF;
+      --cinza-claro: #E0E6EF;
+      --azul-200: #a8c4e0;
+      --verde: #22c55e;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--branco-gelo); color: #1a1a1a; }
+
+    /* ── FADE-IN ANIMATION ── */
+    .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+
+    /* ── STICKY HEADER ── */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--azul);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .header-left a { display: flex; align-items: center; gap: 8px; color: var(--branco); text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; opacity: 0.9; transition: opacity 0.2s; }
+    .header-left a:hover { opacity: 1; }
+    .header-left .arrow { font-size: 18px; }
+    .header-center { text-align: center; flex: 1; padding: 0 16px; }
+    .header-center .sup-label { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; color: var(--azul-200); text-transform: uppercase; }
+    .header-center .trail-title { font-size: 16px; font-weight: 800; color: var(--branco); letter-spacing: 0.04em; }
+    .header-center .trail-title span { color: var(--laranja); }
+    .header-right img { height: 36px; object-fit: contain; filter: brightness(0) invert(1); }
+
+    /* ── STICKY PROGRESS BAR ── */
+    .sticky-progress { position: sticky; top: 64px; z-index: 99; background: var(--branco); border-bottom: 2px solid var(--cinza-claro); padding: 10px 24px 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .progress-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .progress-label-row .label { font-size: 12px; font-weight: 700; color: var(--azul); text-transform: uppercase; letter-spacing: 0.06em; }
+    .progress-label-row .count { font-size: 12px; font-weight: 600; color: #555; }
+    .progress-track { position: relative; height: 12px; background: var(--cinza-claro); border-radius: 6px; overflow: visible; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--laranja), #ffb347); border-radius: 6px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); width: 0%; position: relative; overflow: hidden; }
+    .progress-fill::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); animation: shimmer 2s infinite; }
+    @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
+    .progress-dots { position: absolute; top: 50%; left: 0; width: 100%; transform: translateY(-50%); display: flex; justify-content: space-between; pointer-events: none; }
+    .progress-dot { width: 20px; height: 20px; border-radius: 50%; background: var(--cinza-claro); border: 3px solid var(--branco); box-shadow: 0 0 0 2px var(--cinza-claro); transition: background 0.3s, box-shadow 0.3s; flex-shrink: 0; }
+    .progress-dot.done { background: var(--laranja); box-shadow: 0 0 0 2px var(--laranja); }
+    .progress-milestones { display: flex; justify-content: space-between; margin-top: 6px; }
+    .progress-milestones span { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* ── HERO ── */
+    .hero { position: relative; background: var(--azul); overflow: hidden; padding: 72px 40px 60px; }
+    .hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+    .hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: var(--azul-200); text-transform: uppercase; margin-bottom: 16px; }
+    .hero-title { font-size: clamp(42px, 7vw, 72px); font-weight: 900; line-height: 1.0; color: var(--branco); margin-bottom: 4px; }
+    .hero-title .orange { color: var(--laranja); }
+    .hero-subtitle { font-size: 16px; font-weight: 500; color: var(--azul-200); margin-top: 16px; margin-bottom: 28px; max-width: 600px; }
+    .hero-tagline { border-left: 4px solid var(--laranja); padding-left: 16px; margin-bottom: 40px; max-width: 520px; }
+    .hero-tagline p { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.85); font-style: italic; line-height: 1.6; }
+    .hero-stats { display: flex; gap: 16px; flex-wrap: wrap; }
+    .stat-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 12px; padding: 16px 24px; text-align: center; min-width: 120px; }
+    .stat-card .stat-num { font-size: 28px; font-weight: 900; color: var(--laranja); display: block; }
+    .stat-card .stat-label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 0.06em; }
+    .hero-deco { position: absolute; z-index: 1; opacity: 0.12; }
+    .hero-deco-tr { top: -30px; right: -30px; }
+    .hero-deco-bl { bottom: -40px; left: -40px; }
+    .circuit-line { stroke-dasharray: 400; stroke-dashoffset: 400; animation: draw-circuit 3s ease forwards 0.5s; }
+    @keyframes draw-circuit { to { stroke-dashoffset: 0; } }
+
+    /* ── SECTIONS SHARED ── */
+    section { width: 100%; }
+    .section-inner { max-width: 960px; margin: 0 auto; padding: 60px 32px; }
+    .section-title { font-size: 26px; font-weight: 800; color: var(--azul); margin-bottom: 32px; letter-spacing: -0.01em; }
+    .section-title span { color: var(--laranja); }
+
+    /* ── TRAIL OVERVIEW ── */
+    .trail-overview { background: var(--branco); }
+    .overview-levels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .overview-level-card { border-radius: 14px; padding: 24px 20px; }
+    .ov-lv-1 { background: var(--branco-gelo); border: 2px solid var(--azul); }
+    .ov-lv-2 { background: var(--azul); color: var(--branco); }
+    .ov-lv-3 { background: var(--laranja); color: var(--branco); }
+    .ov-level-badge { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; display: inline-block; width: fit-content; margin-bottom: 10px; }
+    .ov-lv-1 .ov-level-badge { background: var(--azul); color: var(--branco); }
+    .ov-lv-2 .ov-level-badge { background: rgba(255,255,255,0.2); color: var(--branco); }
+    .ov-lv-3 .ov-level-badge { background: rgba(255,255,255,0.25); color: var(--branco); }
+    .ov-level-title { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+    .ov-lv-1 .ov-level-title { color: var(--azul); }
+    .ov-course-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .ov-course-list li { font-size: 12px; font-weight: 600; opacity: 0.9; padding-left: 14px; position: relative; line-height: 1.4; }
+    .ov-course-list li::before { content: '›'; position: absolute; left: 0; font-weight: 900; }
+    .overview-total { text-align: center; font-size: 15px; font-weight: 700; color: var(--azul); padding: 14px 24px; background: var(--branco-gelo); border-radius: 12px; border: 2px solid var(--cinza-claro); }
+
+    /* ── COMPETÊNCIAS ── */
+    .competencias { background: var(--branco-gelo); }
+    .comp-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .comp-card { border-radius: 14px; padding: 28px 24px; color: var(--branco); }
+    .comp-card-blue { background: var(--azul); }
+    .comp-card-orange { background: var(--laranja); }
+    .comp-card .comp-icon { font-size: 28px; margin-bottom: 10px; }
+    .comp-card .comp-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+    .comp-card .comp-desc { font-size: 13px; font-weight: 500; opacity: 0.9; line-height: 1.5; }
+    .comp-badge { background: var(--azul); color: var(--branco); border-radius: 12px; padding: 16px 24px; text-align: center; font-size: 14px; font-weight: 700; margin-bottom: 24px; }
+    .comp-impact { border-left: 4px solid var(--laranja); padding: 16px 20px; background: var(--branco); border-radius: 0 12px 12px 0; font-size: 14px; font-weight: 600; font-style: italic; color: var(--azul); line-height: 1.6; }
+
+    /* ── LEVEL HEADER CARD ── */
+    .level-header-card { background: var(--azul); border-radius: 16px; padding: 32px 36px; display: flex; align-items: center; gap: 24px; margin-bottom: 28px; }
+    .level-number { font-size: 72px; font-weight: 900; color: var(--laranja); line-height: 1; flex-shrink: 0; }
+    .level-header-text .level-name { font-size: 11px; font-weight: 800; letter-spacing: 0.18em; color: var(--azul-200); text-transform: uppercase; margin-bottom: 4px; }
+    .level-header-text .level-title { font-size: 26px; font-weight: 900; color: var(--branco); margin-bottom: 6px; }
+    .level-header-text .level-sub { font-size: 14px; font-weight: 600; color: var(--laranja); margin-bottom: 4px; }
+    .level-header-text .level-tag { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.75); }
+
+    /* ── COURSE CARD ── */
+    .course-card { background: var(--branco); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.08); margin-bottom: 28px; }
+    .course-card-header { padding: 24px 28px 16px; border-bottom: 1px solid var(--cinza-claro); display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .course-tag { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; display: inline-block; }
+    .course-tag-blue { background: var(--azul); color: var(--branco); }
+    .course-tag-orange { background: var(--laranja); color: var(--branco); }
+    .course-tag-blue-border { background: transparent; color: var(--azul); border: 2px solid var(--laranja); }
+    .course-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; }
+    .badge-orange { background: var(--laranja); color: var(--branco); }
+    .badge-blue { background: var(--azul); color: var(--branco); }
+    .course-name { padding: 12px 28px 0; font-size: 18px; font-weight: 800; color: var(--azul); line-height: 1.3; }
+    .course-body { padding: 20px 28px; }
+    .info-cards { display: flex; flex-direction: column; gap: 14px; }
+    .info-card { background: var(--branco-gelo); border-left: 4px solid var(--laranja); border-radius: 0 10px 10px 0; padding: 14px 18px; }
+    .info-card .info-label { font-size: 12px; font-weight: 800; color: var(--azul); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .info-card .info-text { font-size: 13px; font-weight: 500; color: #333; line-height: 1.6; }
+    .info-card .info-list { font-size: 13px; font-weight: 500; color: #333; line-height: 1.8; padding-left: 16px; list-style: disc; }
+    .course-footer { padding: 16px 28px; background: var(--branco-gelo); border-top: 1px solid var(--cinza-claro); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-pill { font-size: 11px; font-weight: 700; color: var(--azul); background: var(--cinza-claro); padding: 5px 14px; border-radius: 20px; }
+    .btn-saber { display: inline-flex; align-items: center; gap: 8px; background: var(--laranja); color: var(--branco); font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; padding: 10px 22px; border-radius: 8px; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; letter-spacing: 0.03em; }
+    .btn-saber:hover { background: #e07d0f; transform: translateY(-1px); }
+    .special-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--azul); color: var(--branco); font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 20px; margin-top: 4px; }
+
+    /* ── HIGHLIGHT CARD (PSG) ── */
+    .highlight-card {
+      background: var(--branco);
+      border-radius: 16px;
+      padding: 36px 32px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .highlight-card .hc-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+    }
+    .highlight-card .hc-subtitle {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--laranja);
+      margin-bottom: 20px;
+    }
+    .hc-center-box {
+      background: var(--azul);
+      border-radius: 12px;
+      padding: 20px 24px;
+      color: var(--branco);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .hc-benefits {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .hc-benefit {
+      background: var(--branco-gelo);
+      border-top: 3px solid var(--laranja);
+      border-radius: 0 0 10px 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--azul);
+      line-height: 1.5;
+    }
+
+    /* ── COMO ACESSAR ── */
+    .como-acessar { background: var(--branco); }
+    .steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .step-card { border-radius: 14px; padding: 24px 20px; display: flex; gap: 16px; align-items: flex-start; }
+    .step-card-blue { background: var(--azul); color: var(--branco); }
+    .step-card-orange { background: var(--laranja); color: var(--branco); }
+    .step-num { font-size: 36px; font-weight: 900; opacity: 0.5; line-height: 1; flex-shrink: 0; }
+    .step-text { font-size: 14px; font-weight: 600; line-height: 1.6; padding-top: 4px; }
+    .cta-card { background: var(--azul); border: 3px solid var(--laranja); border-radius: 16px; padding: 32px; text-align: center; }
+    .cta-card .cta-label { font-size: 12px; font-weight: 700; color: var(--azul-200); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; }
+    .cta-card .cta-url { font-size: 32px; font-weight: 900; color: var(--laranja); }
+
+    /* ── CHECKLIST ── */
+    .checklist-section { background: var(--azul); }
+    .checklist-section .section-title { color: var(--branco); }
+    .checklist-subtitle { font-size: 14px; font-weight: 600; color: var(--laranja); margin-bottom: 28px; }
+    .checklist-items { display: flex; flex-direction: column; gap: 14px; }
+    .checklist-item { background: var(--branco); border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: box-shadow 0.2s, border-color 0.2s; border: 2px solid transparent; user-select: none; }
+    .checklist-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+    .checklist-item.done { border-color: var(--verde); }
+    .checklist-item input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--verde); cursor: pointer; flex-shrink: 0; }
+    .checklist-item-info { flex: 1; }
+    .checklist-item-name { font-size: 15px; font-weight: 700; color: var(--azul); margin-bottom: 4px; }
+    .checklist-item-meta { font-size: 12px; font-weight: 500; color: #666; }
+    .checklist-item-right { display: flex; align-items: center; gap: 10px; }
+    .time-badge { background: var(--branco-gelo); color: var(--azul); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
+    .done-badge { background: #dcfce7; color: #16a34a; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; display: none; white-space: nowrap; }
+    .done-badge.visible { display: inline-block; }
+    .summary-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 18px 24px; text-align: center; margin-top: 20px; color: var(--branco); font-size: 15px; font-weight: 700; }
+    .summary-card span { color: var(--laranja); }
+    .completion-msg { background: var(--laranja); border-radius: 14px; padding: 24px 28px; margin-top: 20px; text-align: center; color: var(--branco); display: none; }
+    .completion-msg.visible { display: block; }
+    .completion-msg .cm-title { font-size: 22px; font-weight: 900; margin-bottom: 8px; }
+    .completion-msg .cm-text { font-size: 14px; font-weight: 500; line-height: 1.6; }
+    .print-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--branco); color: var(--azul); font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; padding: 14px 32px; border-radius: 10px; border: none; cursor: pointer; margin: 24px auto 0; transition: background 0.2s, transform 0.15s; letter-spacing: 0.03em; }
+    .print-btn:hover { background: var(--branco-gelo); transform: translateY(-1px); }
+
+    /* ── PAGE FOOTER ── */
+    .page-footer { background: #002f5e; color: rgba(255,255,255,0.5); text-align: center; padding: 20px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; }
+
+    /* ── SECTION WRAPPERS ── */
+    .bloco-1 { background: var(--branco-gelo); }
+    .bloco-2 { background: var(--branco); }
+    .bloco-3 { background: var(--branco-gelo); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .overview-levels { grid-template-columns: 1fr; }
+      .comp-cards, .steps-grid { grid-template-columns: 1fr; }
+      .hc-benefits { grid-template-columns: 1fr; }
+      .hero { padding: 48px 20px 40px; }
+      .section-inner { padding: 40px 20px; }
+      .level-header-card { padding: 20px; gap: 14px; }
+      .level-number { font-size: 52px; }
+      .header-center .trail-title { font-size: 13px; }
+    }
+
+    /* ══════════════ PRINT STYLES ══════════════ */
+    @media print {
+      * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      @page { margin: 12mm 14mm; size: A4 portrait; }
+      body { background: #fff !important; margin: 0; padding: 0; }
+
+      .site-header,
+      .sticky-progress,
+      header,
+      footer,
+      .hero,
+      .trail-overview,
+      .competencias,
+      .bloco-1,
+      .bloco-2,
+      .bloco-3,
+      .como-acessar,
+      .checklist-section,
+      .page-footer,
+      .no-print { display: none !important; }
+
+      .print-report {
+        display: block !important; visibility: visible !important;
+        position: static !important; width: 100% !important;
+        height: auto !important; overflow: visible !important;
+      }
+
+      .pr-page { font-family: 'Montserrat', sans-serif; background: #fff; color: #1a1a1a; }
+      .pr-header { display: flex !important; align-items: flex-start; justify-content: space-between; padding-bottom: 18px; border-bottom: 3px solid #F7941D; margin-bottom: 28px; gap: 16px; }
+      .pr-header-left { display: flex !important; align-items: center; gap: 14px; }
+      .pr-logo { height: 42px; }
+      .pr-logo-divider { width: 2px; height: 42px; background: #E0E6EF; }
+      .pr-committee { font-size: 9px; font-weight: 700; color: #F7941D !important; letter-spacing: .12em; text-transform: uppercase; }
+      .pr-unit { font-size: 13px; font-weight: 800; color: #004587 !important; margin-top: 2px; }
+      .pr-header-right { text-align: right; }
+      .pr-date-label { font-size: 8px; font-weight: 600; color: #aaa !important; letter-spacing: .1em; text-transform: uppercase; }
+      .pr-date-value { font-size: 11px; font-weight: 700; color: #004587 !important; margin-top: 2px; }
+      .pr-trail-banner { background: #004587 !important; border-radius: 12px; padding: 22px 28px; margin-bottom: 24px; }
+      .pr-trail-badge { display: inline-block !important; background: #F7941D !important; color: #fff !important; font-size: 8px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; margin-bottom: 10px; }
+      .pr-trail-title { font-size: 24px; font-weight: 900; color: #fff !important; line-height: 1.15; margin-bottom: 4px; }
+      .pr-trail-title span { color: #F7941D !important; }
+      .pr-trail-subtitle { font-size: 11px; color: rgba(255,255,255,.7) !important; margin-bottom: 16px; }
+      .pr-trail-stats { display: flex !important; gap: 12px; }
+      .pr-stat { background: rgba(255,255,255,.1) !important; border-radius: 8px; padding: 8px 14px; text-align: center; }
+      .pr-stat-num { font-size: 18px; font-weight: 900; color: #F7941D !important; }
+      .pr-stat-label { font-size: 8px; font-weight: 600; color: rgba(255,255,255,.65) !important; margin-top: 2px; }
+      .pr-message { border-left: 4px solid #F7941D; background: #FFF8F0 !important; border-radius: 0 10px 10px 0; padding: 16px 20px; margin-bottom: 22px; }
+      .pr-message-from { font-size: 8px; font-weight: 800; color: #F7941D !important; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px; }
+      .pr-message-text { font-size: 11px; font-weight: 500; color: #004587 !important; line-height: 1.6; }
+      .pr-message-text strong { color: #F7941D !important; font-weight: 700; }
+      .pr-message-sign { margin-top: 8px; font-size: 10px; font-weight: 700; color: #004587 !important; }
+      .pr-progress-wrap { margin-bottom: 18px; }
+      .pr-progress-label { display: flex !important; justify-content: space-between; font-size: 10px; font-weight: 700; color: #004587 !important; margin-bottom: 6px; }
+      .pr-progress-label span { color: #F7941D !important; }
+      .pr-progress-track { height: 10px; background: #E0E6EF !important; border-radius: 99px; overflow: hidden; }
+      .pr-progress-fill { height: 100%; background: #F7941D !important; border-radius: 99px; }
+      .pr-checklist-title { font-size: 13px; font-weight: 800; color: #004587 !important; margin-bottom: 4px; }
+      .pr-checklist-sub { font-size: 10px; color: #888 !important; margin-bottom: 12px; }
+      .pr-checklist-items { display: flex !important; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+      .pr-item { display: flex !important; align-items: center; gap: 12px; border: 1.5px solid #E0E6EF; border-radius: 8px; padding: 11px 14px; background: #fafafa !important; }
+      .pr-item.pr-done { border-color: #22c55e !important; background: #f0fff4 !important; }
+      .pr-item.pr-done .pr-item-name { color: #15803d !important; }
+      .pr-checkbox-wrap { width: 18px; height: 18px; border: 2px solid #004587; border-radius: 4px; display: flex !important; align-items: center; justify-content: center; flex-shrink: 0; }
+      .pr-item.pr-done .pr-checkbox-wrap { background: #22c55e !important; border-color: #22c55e !important; }
+      .pr-checkmark { display: none; color: #fff !important; font-size: 11px; font-weight: 900; }
+      .pr-item.pr-done .pr-checkmark { display: block !important; }
+      .pr-item-info { flex: 1; }
+      .pr-item-name { font-size: 10.5px; font-weight: 700; color: #004587 !important; }
+      .pr-item-meta { font-size: 8.5px; color: #aaa !important; margin-top: 1px; }
+      .pr-item-tags { display: flex !important; gap: 5px; align-items: center; flex-shrink: 0; }
+      .pr-tag { font-size: 8px; font-weight: 700; padding: 2px 7px; border-radius: 20px; background: #E0E6EF !important; color: #004587 !important; white-space: nowrap; }
+      .pr-tag-done { background: #dcfce7 !important; color: #15803d !important; }
+      .pr-footer { margin-top: 24px; padding-top: 14px; border-top: 2px solid #E0E6EF; display: flex !important; justify-content: space-between; align-items: center; }
+      .pr-footer-left { font-size: 9px; font-weight: 600; color: #bbb !important; line-height: 1.5; }
+      .pr-footer-left strong { color: #004587 !important; font-weight: 800; }
+      .pr-footer-dots { display: flex !important; gap: 5px; }
+      .pr-footer-dot { width: 8px; height: 8px; border-radius: 50%; background: #F7941D !important; opacity: .3; }
+      .pr-footer-dot:first-child { opacity: 1; }
+      .pr-footer-dot:nth-child(2) { opacity: .6; }
+    }
+
+    .print-report { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════
+       RELATÓRIO DE IMPRESSÃO
+       ═══════════════════════════════════ -->
+  <div class="print-report" id="print-report">
+    <div class="pr-page">
+
+      <div class="pr-header">
+        <div class="pr-header-left">
+          <img class="pr-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Senac_logo.svg/960px-Senac_logo.svg.png" alt="Senac" />
+          <div class="pr-logo-divider"></div>
+          <div>
+            <div class="pr-committee">Comitê de Inovação</div>
+            <div class="pr-unit">Senac Araçatuba</div>
+          </div>
+        </div>
+        <div class="pr-header-right">
+          <div class="pr-date-label">Emitido em</div>
+          <div class="pr-date-value" id="pr-date-value">—</div>
+        </div>
+      </div>
+
+      <div class="pr-trail-banner">
+        <div class="pr-trail-badge">Saber Senac · Trilha 04</div>
+        <div class="pr-trail-title">Raízes <span>Senac</span></div>
+        <div class="pr-trail-subtitle">Trilha de Identidade Institucional e Missão do Senac · Saber Senac</div>
+        <div class="pr-trail-stats">
+          <div class="pr-stat"><div class="pr-stat-num">5</div><div class="pr-stat-label">cursos</div></div>
+          <div class="pr-stat"><div class="pr-stat-num">~14h</div><div class="pr-stat-label">formação</div></div>
+          <div class="pr-stat"><div class="pr-stat-num">5</div><div class="pr-stat-label">certificados</div></div>
+        </div>
+      </div>
+
+      <div class="pr-message">
+        <div class="pr-message-from">✦ Mensagem do Comitê de Inovação</div>
+        <div class="pr-message-text">
+          Esta deve ser a PRIMEIRA trilha de qualquer funcionário novo no Senac Araçatuba. Antes de qualquer outra formação, <strong>conheça a instituição que você representa</strong>. Entender o Senac é o primeiro passo para transformá-lo.
+        </div>
+        <div class="pr-message-sign">— Comitê de Inovação · Senac Araçatuba 2026</div>
+      </div>
+
+      <div class="pr-progress-wrap">
+        <div class="pr-progress-label">
+          <span>Progresso da trilha</span>
+          <span id="pr-progress-pct">0%</span>
+        </div>
+        <div class="pr-progress-track">
+          <div class="pr-progress-fill" id="pr-progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="pr-checklist-title">📋 Meus Cursos</div>
+      <div class="pr-checklist-sub">Marque os cursos concluídos antes de imprimir</div>
+
+      <div class="pr-checklist-items">
+        <div class="pr-item" id="pr-item-0">
+          <div class="pr-checkbox-wrap"><span class="pr-checkmark">✓</span></div>
+          <div class="pr-item-info"><div class="pr-item-name">ConhecendoSenac2026</div><div class="pr-item-meta">Curso Online · Nível Fundamental · Com certificado</div></div>
+          <div class="pr-item-tags"><span class="pr-tag">⏱ 3h</span><span class="pr-tag" id="pr-tag-0">Pendente</span></div>
+        </div>
+        <div class="pr-item" id="pr-item-1">
+          <div class="pr-checkbox-wrap"><span class="pr-checkmark">✓</span></div>
+          <div class="pr-item-info"><div class="pr-item-name">Conhecendo a Educação Profissional do Senac</div><div class="pr-item-meta">Curso Online · Nível Fundamental · Com certificado</div></div>
+          <div class="pr-item-tags"><span class="pr-tag">⏱ 3h</span><span class="pr-tag" id="pr-tag-1">Pendente</span></div>
+        </div>
+        <div class="pr-item" id="pr-item-2">
+          <div class="pr-checkbox-wrap"><span class="pr-checkmark">✓</span></div>
+          <div class="pr-item-info"><div class="pr-item-name">A Força da Marca Senac</div><div class="pr-item-meta">Curso Online · Nível Intermediário · Com certificado</div></div>
+          <div class="pr-item-tags"><span class="pr-tag">⏱ 2h</span><span class="pr-tag" id="pr-tag-2">Pendente</span></div>
+        </div>
+        <div class="pr-item" id="pr-item-3">
+          <div class="pr-checkbox-wrap"><span class="pr-checkmark">✓</span></div>
+          <div class="pr-item-info"><div class="pr-item-name">PSG 1: Criação e Operacionalização do Programa</div><div class="pr-item-meta">Curso Online · Nível Intermediário · Com certificado</div></div>
+          <div class="pr-item-tags"><span class="pr-tag">⏱ 3h</span><span class="pr-tag" id="pr-tag-3">Pendente</span></div>
+        </div>
+        <div class="pr-item" id="pr-item-4">
+          <div class="pr-checkbox-wrap"><span class="pr-checkmark">✓</span></div>
+          <div class="pr-item-info"><div class="pr-item-name">PSG 2: Cumprimento do Programa</div><div class="pr-item-meta">Curso Online · Nível Avançado · Com certificado</div></div>
+          <div class="pr-item-tags"><span class="pr-tag">⏱ 3h</span><span class="pr-tag" id="pr-tag-4">Pendente</span></div>
+        </div>
+      </div>
+
+      <div class="pr-footer">
+        <div class="pr-footer-left">
+          <strong>Comitê de Inovação · Senac Araçatuba 2026</strong><br/>
+          Raízes Senac · Trilha 04 · saber.senac.br
+        </div>
+        <div class="pr-footer-dots">
+          <div class="pr-footer-dot"></div>
+          <div class="pr-footer-dot"></div>
+          <div class="pr-footer-dot"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- ═══ FIM DO RELATÓRIO ═══ -->
+
+
+  <!-- STICKY HEADER -->
+  <header class="site-header no-print">
+    <div class="header-left">
+      <a href="index.html">
+        <span class="arrow">←</span>
+        <span>Voltar ao Portal</span>
+      </a>
+    </div>
+    <div class="header-center">
+      <div class="sup-label">Saber Senac · Trilha 04</div>
+      <div class="trail-title">Raízes <span>Senac</span></div>
+    </div>
+    <div class="header-right">
+      <img src="https://jantardocomercio.com.br/wp-content/uploads/2022/05/site_senac.png" alt="Senac" />
+    </div>
+  </header>
+
+  <!-- STICKY PROGRESS BAR -->
+  <div class="sticky-progress no-print">
+    <div class="progress-label-row">
+      <span class="label">Seu progresso na trilha</span>
+      <span class="count" id="progress-count-top">0 de 5 cursos concluídos</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill-top"></div>
+      <div class="progress-dots">
+        <div class="progress-dot" id="dot-0"></div>
+        <div class="progress-dot" id="dot-1"></div>
+        <div class="progress-dot" id="dot-2"></div>
+        <div class="progress-dot" id="dot-3"></div>
+        <div class="progress-dot" id="dot-4"></div>
+      </div>
+    </div>
+    <div class="progress-milestones">
+      <span>Fundamental</span>
+      <span>Intermediário</span>
+      <span>Avançado</span>
+    </div>
+  </div>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <svg class="hero-deco hero-deco-tr" width="340" height="340" viewBox="0 0 340 340" fill="none">
+      <circle cx="210" cy="130" r="150" stroke="#F7941D" stroke-width="2.5" class="circuit-line"/>
+      <circle cx="270" cy="70" r="90" stroke="#FFFFFF" stroke-width="1.5" class="circuit-line"/>
+      <line x1="80" y1="20" x2="310" y2="310" stroke="#F7941D" stroke-width="1.5" class="circuit-line"/>
+      <line x1="170" y1="0" x2="340" y2="200" stroke="#FFFFFF" stroke-width="1" class="circuit-line"/>
+    </svg>
+    <svg class="hero-deco hero-deco-bl" width="280" height="280" viewBox="0 0 280 280" fill="none">
+      <circle cx="70" cy="210" r="110" stroke="#FFFFFF" stroke-width="2" class="circuit-line"/>
+      <circle cx="20" cy="260" r="60" stroke="#F7941D" stroke-width="2" class="circuit-line"/>
+      <line x1="0" y1="110" x2="220" y2="280" stroke="#F7941D" stroke-width="1.5" class="circuit-line"/>
+    </svg>
+
+    <div class="hero-inner fade-in">
+      <div class="hero-eyebrow">Saber Senac · Trilha 04 · Identidade Institucional</div>
+      <div class="hero-title">RAÍZES</div>
+      <div class="hero-title"><span class="orange">SENAC</span></div>
+      <div class="hero-subtitle">Trilha de Identidade Institucional e Missão do Senac</div>
+      <div class="hero-tagline">
+        <p>"Entender o Senac é o primeiro passo para transformá-lo."</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num" data-count="5">0</span>
+          <span class="stat-label">cursos</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">~14h</span>
+          <span class="stat-label">de formação</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" data-count="5">0</span>
+          <span class="stat-label">certificados</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">3</span>
+          <span class="stat-label">níveis</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TRAIL OVERVIEW ══ -->
+  <section class="trail-overview">
+    <div class="section-inner">
+      <div class="section-title fade-in">Visão Geral da <span>Trilha</span></div>
+      <div class="overview-levels">
+        <div class="overview-level-card ov-lv-1 fade-in fade-in-delay-1">
+          <span class="ov-level-badge">🏛️ Fundamental</span>
+          <div class="ov-level-title">Quem Somos</div>
+          <ul class="ov-course-list">
+            <li>ConhecendoSenac2026 · 3h ✓cert</li>
+            <li>Conhecendo a Ed. Profissional · 3h ✓cert</li>
+          </ul>
+        </div>
+        <div class="overview-level-card ov-lv-2 fade-in fade-in-delay-2">
+          <span class="ov-level-badge">🔶 Intermediário</span>
+          <div class="ov-level-title" style="color:var(--branco)">Como Atuamos</div>
+          <ul class="ov-course-list">
+            <li>A Força da Marca Senac · 2h ✓cert</li>
+            <li>PSG 1: Criação e Operacionalização · 3h ✓cert</li>
+          </ul>
+        </div>
+        <div class="overview-level-card ov-lv-3 fade-in fade-in-delay-3">
+          <span class="ov-level-badge">🎯 Avançado</span>
+          <div class="ov-level-title">Como Sustentamos a Missão</div>
+          <ul class="ov-course-list">
+            <li>PSG 2: Cumprimento do Programa · 3h ✓cert</li>
+          </ul>
+        </div>
+      </div>
+      <div class="overview-total fade-in">
+        Total: <strong>5 cursos</strong> &nbsp;|&nbsp; <strong>~14 horas</strong> &nbsp;|&nbsp; <strong>5 certificados</strong> &nbsp;|&nbsp; <strong>Para TODOS os funcionários</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ COMPETÊNCIAS ══ -->
+  <section class="competencias">
+    <div class="section-inner">
+      <div class="section-title fade-in">O que você vai <span>desenvolver</span></div>
+      <div class="comp-cards">
+        <div class="comp-card comp-card-blue fade-in fade-in-delay-1">
+          <div class="comp-icon">🏛️</div>
+          <div class="comp-title">Prestação de Serviços em Educação</div>
+          <div class="comp-desc">Compreender o contexto educacional em que o Senac atua</div>
+        </div>
+        <div class="comp-card comp-card-orange fade-in fade-in-delay-2">
+          <div class="comp-icon">♻️</div>
+          <div class="comp-title">Sustentabilidade</div>
+          <div class="comp-desc">Entender o compromisso social e econômico do Senac</div>
+        </div>
+      </div>
+      <div class="comp-badge fade-in">
+        🎯 <strong>+ Autoliderança:</strong> conectar seu trabalho ao propósito institucional
+      </div>
+      <div class="comp-impact fade-in">
+        "Você não pode transformar o que não conhece. Esta trilha muda isso."
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ BLOCO 1 — FUNDAMENTAL ══ -->
+  <section class="bloco-1">
+    <div class="section-inner">
+      <div class="level-header-card fade-in">
+        <div class="level-number">01</div>
+        <div class="level-header-text">
+          <div class="level-name">Nível Fundamental</div>
+          <div class="level-title">Quem Somos</div>
+          <div class="level-sub">Antes de atuar, conhecer.</div>
+          <div class="level-tag">Dois cursos que formam a base de qualquer jornada formativa no Senac.</div>
+        </div>
+      </div>
+
+      <!-- Curso 0: ConhecendoSenac2026 -->
+      <div class="course-card fade-in">
+        <div class="course-card-header">
+          <span class="course-tag course-tag-blue">🏛️ FUNDAMENTAL</span>
+          <div class="course-badges">
+            <span class="badge badge-orange">⏱ 3 horas</span>
+            <span class="badge badge-orange">📱 Curso Online</span>
+            <span class="badge badge-orange">✅ Com certificado</span>
+          </div>
+        </div>
+        <div class="course-name">ConhecendoSenac2026</div>
+        <div class="course-body">
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="info-label">📌 O que é</div>
+              <div class="info-text">Curso que apresenta o Senac — sua trajetória, propósito, missão, visão e valores, além das principais iniciativas que contribuem para a formação de profissionais e para o desenvolvimento social e econômico do país.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">🎯 Para quem é</div>
+              <div class="info-text">TODOS os funcionários — especialmente novos colaboradores. É o ponto de partida obrigatório de qualquer jornada formativa no Senac.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">💡 O que você vai aprender</div>
+              <ul class="info-list">
+                <li>A trajetória e o propósito do Senac</li>
+                <li>Missão, visão e valores institucionais</li>
+                <li>Estrutura de funcionamento</li>
+                <li>Impacto das ações do Senac na sociedade</li>
+              </ul>
+            </div>
+            <div class="info-card">
+              <div class="info-label">✅ Comportamento esperado</div>
+              <div class="info-text">Explicar com clareza o que é o Senac, sua missão e seu papel na sociedade, conectando seu trabalho diário ao propósito institucional maior.</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;">
+            <span class="special-badge">⭐ PRIMEIRO CURSO RECOMENDADO PARA NOVOS FUNCIONÁRIOS</span>
+          </div>
+        </div>
+        <div class="course-footer">
+          <span class="footer-pill">Prestação de Serviços em Educação + Sustentabilidade + Autoliderança</span>
+          <a class="btn-saber" href="https://saber.senac.br" target="_blank">Acessar no Saber Senac →</a>
+        </div>
+      </div>
+
+      <!-- Curso 1: Conhecendo a Educação Profissional do Senac -->
+      <div class="course-card fade-in">
+        <div class="course-card-header">
+          <span class="course-tag course-tag-blue">🏛️ FUNDAMENTAL</span>
+          <div class="course-badges">
+            <span class="badge badge-orange">⏱ 3 horas</span>
+            <span class="badge badge-orange">📱 Curso Online</span>
+            <span class="badge badge-orange">✅ Com certificado</span>
+          </div>
+        </div>
+        <div class="course-name">Conhecendo a Educação Profissional do Senac</div>
+        <div class="course-body">
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="info-label">📌 O que é</div>
+              <div class="info-text">Curso que apresenta a concepção de Educação Profissional do Senac, a legislação que rege suas atividades, os eixos tecnológicos, os tipos de cursos e o compromisso social da instituição.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">🎯 Para quem é</div>
+              <div class="info-text">Todos os funcionários — docentes e não docentes precisam entender como o Senac organiza sua oferta educacional.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">💡 O que você vai aprender</div>
+              <ul class="info-list">
+                <li>A Educação Profissional no Brasil</li>
+                <li>Os eixos tecnológicos e tipos de cursos</li>
+                <li>Como funciona a EaD no Senac</li>
+                <li>O compromisso social da instituição</li>
+              </ul>
+            </div>
+            <div class="info-card">
+              <div class="info-label">✅ Comportamento esperado</div>
+              <div class="info-text">Conhecer os eixos tecnológicos, os tipos de cursos e entender como seu trabalho contribui para a oferta educacional da unidade.</div>
+            </div>
+          </div>
+        </div>
+        <div class="course-footer">
+          <span class="footer-pill">Prestação de Serviços em Educação + Inovação</span>
+          <a class="btn-saber" href="https://saber.senac.br" target="_blank">Acessar no Saber Senac →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ BLOCO 2 — INTERMEDIÁRIO ══ -->
+  <section class="bloco-2">
+    <div class="section-inner">
+      <div class="level-header-card fade-in">
+        <div class="level-number">02</div>
+        <div class="level-header-text">
+          <div class="level-name">Nível Intermediário</div>
+          <div class="level-title">Como Atuamos</div>
+          <div class="level-sub">Da identidade à atuação.</div>
+          <div class="level-tag">Conheça a marca Senac e o maior programa de inclusão produtiva da instituição.</div>
+        </div>
+      </div>
+
+      <!-- Curso 2: A Força da Marca Senac -->
+      <div class="course-card fade-in">
+        <div class="course-card-header">
+          <span class="course-tag course-tag-orange">🔶 INTERMEDIÁRIO</span>
+          <div class="course-badges">
+            <span class="badge badge-blue">⏱ 2 horas</span>
+            <span class="badge badge-blue">📱 Curso Online</span>
+            <span class="badge badge-blue">✅ Com certificado</span>
+          </div>
+        </div>
+        <div class="course-name">A Força da Marca Senac</div>
+        <div class="course-body">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+            <div style="background:var(--azul);border-radius:8px;padding:10px 16px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">1. Branding e a sua relação com a marca Senac</div>
+            <div style="background:var(--azul);border-radius:8px;padding:10px 16px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">2. A Marca Senac</div>
+            <div style="background:var(--azul);border-radius:8px;padding:10px 16px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">3. Aplicação da marca</div>
+            <div style="background:var(--azul);border-radius:8px;padding:10px 16px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">4. Fortalecimento da marca no território nacional</div>
+          </div>
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="info-label">📌 O que é</div>
+              <div class="info-text">Curso que explica a diferença entre marca e logotipo, apresenta os conceitos de branding, o histórico e os valores da marca Senac, as regras do Manual da Marca e aborda direitos autorais e comunicação integrada.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">🎯 Para quem é</div>
+              <div class="info-text">Todos os funcionários — especialmente quem produz materiais, se comunica em nome do Senac ou representa a instituição externamente.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">💡 O que você vai aprender</div>
+              <ul class="info-list">
+                <li>O que é branding e por que importa</li>
+                <li>A história e os valores da marca Senac</li>
+                <li>Como aplicar corretamente a identidade visual</li>
+                <li>Direitos autorais e comunicação integrada</li>
+              </ul>
+            </div>
+            <div class="info-card">
+              <div class="info-label">✅ Comportamento esperado</div>
+              <div class="info-text">Aplicar corretamente a identidade visual do Senac em materiais produzidos, evitar usos inadequados da marca e orientar colegas quando necessário.</div>
+            </div>
+          </div>
+        </div>
+        <div class="course-footer">
+          <span class="footer-pill">Comunicação + Prestação de Serviços em Educação</span>
+          <a class="btn-saber" href="https://saber.senac.br" target="_blank">Acessar no Saber Senac →</a>
+        </div>
+      </div>
+
+      <!-- Curso 3: PSG 1 -->
+      <div class="course-card fade-in">
+        <div class="course-card-header">
+          <span class="course-tag course-tag-orange">🔶 INTERMEDIÁRIO</span>
+          <div class="course-badges">
+            <span class="badge badge-blue">⏱ 3 horas</span>
+            <span class="badge badge-blue">📱 Curso Online</span>
+            <span class="badge badge-blue">✅ Com certificado</span>
+          </div>
+        </div>
+        <div class="course-name">PSG 1: Criação e Operacionalização do Programa</div>
+        <div class="course-body">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+            <div style="background:var(--azul);border-radius:8px;padding:10px 16px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">Histórico e Conceitos do PSG</div>
+            <div style="background:var(--azul);border-radius:8px;padding:10px 16px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">Dimensão Educacional</div>
+            <div style="background:var(--azul);border-radius:8px;padding:10px 16px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">Registro de Gratuidade</div>
+          </div>
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="info-label">📌 O que é</div>
+              <div class="info-text">Curso atualizado conforme as Diretrizes do PSG versão 10 que apresenta o contexto histórico, os conceitos, a dimensão educacional e o registro de gratuidade do maior programa de inclusão produtiva do Senac.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">🎯 Para quem é</div>
+              <div class="info-text">Todos os funcionários — o PSG impacta diretamente o atendimento, a matrícula e a missão social de qualquer unidade.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">💡 O que você vai aprender</div>
+              <ul class="info-list">
+                <li>A história e os conceitos do PSG</li>
+                <li>Como funciona a dimensão educacional do programa</li>
+                <li>Como realizar o registro de gratuidade corretamente</li>
+                <li>Critérios de elegibilidade dos beneficiários</li>
+              </ul>
+            </div>
+            <div class="info-card">
+              <div class="info-label">✅ Comportamento esperado</div>
+              <div class="info-text">Conhecer os critérios do PSG, compreender sua importância social e orientar corretamente alunos e famílias sobre o programa quando necessário.</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;">
+            <span class="special-badge">🎓 O maior programa de inclusão produtiva do Senac — mais de 500 mil matrículas/ano</span>
+          </div>
+        </div>
+        <div class="course-footer">
+          <span class="footer-pill">Prestação de Serviços em Educação + Sustentabilidade + Foco em Resultado</span>
+          <a class="btn-saber" href="https://saber.senac.br" target="_blank">Acessar no Saber Senac →</a>
+        </div>
+      </div>
+
+      <!-- Highlight Card: O que é o PSG -->
+      <div class="highlight-card fade-in">
+        <div class="hc-title">Por que este programa é essencial?</div>
+        <div class="hc-subtitle">Programa Senac de Gratuidade — PSG</div>
+        <div class="hc-center-box">
+          O PSG é o maior programa de inclusão produtiva do Senac. Ele garante acesso gratuito à educação profissional para trabalhadores de baixa renda — cumprindo a missão social da instituição e viabilizando a transformação de vidas por meio do trabalho e da educação.
+        </div>
+        <div class="hc-benefits">
+          <div class="hc-benefit">
+            🎓 Mais de <strong>500 mil</strong> matrículas gratuitas por ano em todo o Brasil
+          </div>
+          <div class="hc-benefit">
+            🤝 Acesso à educação profissional para trabalhadores de <strong>baixa renda</strong>
+          </div>
+          <div class="hc-benefit">
+            ♻️ Compromisso social que sustenta a <strong>missão do Senac</strong> na sociedade
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ BLOCO 3 — AVANÇADO ══ -->
+  <section class="bloco-3">
+    <div class="section-inner">
+      <div class="level-header-card fade-in">
+        <div class="level-number">03</div>
+        <div class="level-header-text">
+          <div class="level-name">Nível Avançado</div>
+          <div class="level-title">Como Sustentamos a Missão</div>
+          <div class="level-sub">Da missão ao cumprimento.</div>
+          <div class="level-tag">Entenda a lógica financeira que sustenta o PSG e garante o cumprimento do programa na unidade.</div>
+        </div>
+      </div>
+
+      <!-- Curso 4: PSG 2 -->
+      <div class="course-card fade-in">
+        <div class="course-card-header">
+          <span class="course-tag course-tag-blue-border">🎯 AVANÇADO</span>
+          <div class="course-badges">
+            <span class="badge badge-orange">⏱ 3 horas</span>
+            <span class="badge badge-orange">📱 Curso Online</span>
+            <span class="badge badge-orange">✅ Com certificado</span>
+          </div>
+        </div>
+        <div class="course-name">PSG 2: Cumprimento do Programa</div>
+        <div class="course-body">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+            <div style="background:var(--azul);border-radius:8px;padding:10px 14px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">1. Receita de Contribuição Compulsória Líquida (RCCL)</div>
+            <div style="background:var(--azul);border-radius:8px;padding:10px 14px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">2. CHE: Nossa Moeda</div>
+            <div style="background:var(--azul);border-radius:8px;padding:10px 14px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">3. Metodologia do Gasto Médio Aluno/Hora-aula (GMAHA)</div>
+            <div style="background:var(--azul);border-radius:8px;padding:10px 14px;color:var(--branco);font-size:12px;font-weight:700;flex:1;min-width:140px;text-align:center;">4. Registro Contábil do PSG</div>
+          </div>
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="info-label">📌 O que é</div>
+              <div class="info-text">Curso que apresenta a metodologia de cálculo da RCCL, a carga horária efetiva (CHE), o gasto médio por aluno/hora-aula (GMAHA) e o registro contábil do PSG — com exemplos didáticos para facilitar a compreensão.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">🎯 Para quem é</div>
+              <div class="info-text">Especialmente equipes de gestão, financeiro e administrativo — mas útil para qualquer funcionário que deseja entender como o PSG é sustentado financeiramente.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-label">💡 O que você vai aprender</div>
+              <ul class="info-list">
+                <li>Como calcular a RCCL</li>
+                <li>O que é a CHE e como funciona</li>
+                <li>Como calcular o GMAHA</li>
+                <li>Como é feito o registro contábil do PSG</li>
+              </ul>
+            </div>
+            <div class="info-card">
+              <div class="info-label">✅ Comportamento esperado</div>
+              <div class="info-text">Compreender a lógica financeira do PSG e contribuir para o cumprimento correto e eficiente do programa na unidade de Araçatuba.</div>
+            </div>
+          </div>
+        </div>
+        <div class="course-footer">
+          <span class="footer-pill">Foco em Resultado + Sustentabilidade</span>
+          <a class="btn-saber" href="https://saber.senac.br" target="_blank">Acessar no Saber Senac →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ COMO ACESSAR ══ -->
+  <section class="como-acessar">
+    <div class="section-inner">
+      <div class="section-title fade-in">Como <span>começar agora</span></div>
+      <div class="steps-grid">
+        <div class="step-card step-card-blue fade-in fade-in-delay-1">
+          <div class="step-num">1</div>
+          <div class="step-text">Acesse <strong>saber.senac.br</strong> com seu login institucional</div>
+        </div>
+        <div class="step-card step-card-orange fade-in fade-in-delay-2">
+          <div class="step-num">2</div>
+          <div class="step-text">Comece pelo <strong>ConhecendoSenac2026</strong> — o primeiro curso recomendado</div>
+        </div>
+        <div class="step-card step-card-blue fade-in fade-in-delay-1">
+          <div class="step-num">3</div>
+          <div class="step-text">Avance para o Intermediário no <strong>seu ritmo</strong> — meta: 1 curso por mês</div>
+        </div>
+        <div class="step-card step-card-orange fade-in fade-in-delay-2">
+          <div class="step-num">4</div>
+          <div class="step-text">Conclua o Avançado e baixe seus <strong>5 certificados</strong></div>
+        </div>
+      </div>
+      <div class="cta-card fade-in">
+        <div class="cta-label">🎓 Acesse agora</div>
+        <div class="cta-url">saber.senac.br</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CHECKLIST ══ -->
+  <section class="checklist-section">
+    <div class="section-inner">
+      <div class="section-title">📋 Meu Progresso na Trilha</div>
+      <div class="checklist-subtitle">Marque os cursos que você já concluiu na plataforma</div>
+
+      <div class="checklist-items">
+        <label class="checklist-item" id="item-0" for="check-0">
+          <input type="checkbox" id="check-0" onchange="updateProgress()" />
+          <div class="checklist-item-info">
+            <div class="checklist-item-name">ConhecendoSenac2026</div>
+            <div class="checklist-item-meta">Curso Online · Nível Fundamental · Com certificado</div>
+          </div>
+          <div class="checklist-item-right">
+            <span class="time-badge">⏱ 3h</span>
+            <span class="done-badge" id="done-0">✓ Concluído</span>
+          </div>
+        </label>
+
+        <label class="checklist-item" id="item-1" for="check-1">
+          <input type="checkbox" id="check-1" onchange="updateProgress()" />
+          <div class="checklist-item-info">
+            <div class="checklist-item-name">Conhecendo a Educação Profissional do Senac</div>
+            <div class="checklist-item-meta">Curso Online · Nível Fundamental · Com certificado</div>
+          </div>
+          <div class="checklist-item-right">
+            <span class="time-badge">⏱ 3h</span>
+            <span class="done-badge" id="done-1">✓ Concluído</span>
+          </div>
+        </label>
+
+        <label class="checklist-item" id="item-2" for="check-2">
+          <input type="checkbox" id="check-2" onchange="updateProgress()" />
+          <div class="checklist-item-info">
+            <div class="checklist-item-name">A Força da Marca Senac</div>
+            <div class="checklist-item-meta">Curso Online · Nível Intermediário · Com certificado</div>
+          </div>
+          <div class="checklist-item-right">
+            <span class="time-badge">⏱ 2h</span>
+            <span class="done-badge" id="done-2">✓ Concluído</span>
+          </div>
+        </label>
+
+        <label class="checklist-item" id="item-3" for="check-3">
+          <input type="checkbox" id="check-3" onchange="updateProgress()" />
+          <div class="checklist-item-info">
+            <div class="checklist-item-name">PSG 1: Criação e Operacionalização do Programa</div>
+            <div class="checklist-item-meta">Curso Online · Nível Intermediário · Com certificado</div>
+          </div>
+          <div class="checklist-item-right">
+            <span class="time-badge">⏱ 3h</span>
+            <span class="done-badge" id="done-3">✓ Concluído</span>
+          </div>
+        </label>
+
+        <label class="checklist-item" id="item-4" for="check-4">
+          <input type="checkbox" id="check-4" onchange="updateProgress()" />
+          <div class="checklist-item-info">
+            <div class="checklist-item-name">PSG 2: Cumprimento do Programa</div>
+            <div class="checklist-item-meta">Curso Online · Nível Avançado · Com certificado</div>
+          </div>
+          <div class="checklist-item-right">
+            <span class="time-badge">⏱ 3h</span>
+            <span class="done-badge" id="done-4">✓ Concluído</span>
+          </div>
+        </label>
+      </div>
+
+      <div class="summary-card">
+        <span id="summary-text"><span id="summary-done">0</span> de 5 cursos concluídos · <span id="summary-hours">0</span> horas de formação</span>
+      </div>
+
+      <div class="completion-msg" id="completion-msg">
+        <div class="cm-title">🎉 Trilha Concluída!</div>
+        <div class="cm-text">Parabéns! Você completou todos os 5 cursos da trilha <strong>Raízes Senac</strong>.<br/>Não esqueça de baixar seus certificados em <strong>saber.senac.br</strong></div>
+      </div>
+
+      <button class="print-btn no-print" onclick="window.print()">
+        🖨️ Imprimir / Salvar como PDF
+      </button>
+
+      <div style="text-align:center;margin-top:28px;font-size:12px;color:rgba(255,255,255,0.45);font-weight:600;letter-spacing:0.08em;">
+        Comitê de Inovação · Senac Araçatuba 2026
+      </div>
+    </div>
+  </section>
+
+  <footer class="page-footer no-print">
+    Comitê de Inovação · Senac Araçatuba 2026 · Raízes Senac
+  </footer>
+
+  <script>
+    const STORAGE_KEY = 'trilha-raizes-senac-progress';
+    const TOTAL_COURSES = 5;
+    const HOURS_MAP = [3, 3, 2, 3, 3];
+
+    function formatHours(h) {
+      if (h === 0) return '0';
+      if (h % 1 === 0) return h + 'h';
+      const whole = Math.floor(h);
+      const mins = Math.round((h - whole) * 60);
+      if (whole === 0) return mins + 'min';
+      return whole + 'h' + (mins > 0 ? mins + 'min' : '');
+    }
+
+    function getCheckboxes() {
+      var cbs = [];
+      for (var i = 0; i < TOTAL_COURSES; i++) { cbs.push(document.getElementById('check-' + i)); }
+      return cbs;
+    }
+
+    function updateProgress() {
+      var checkboxes = getCheckboxes();
+      var doneCount = 0;
+      var totalHours = 0;
+      var state = [];
+
+      checkboxes.forEach(function(cb, i) {
+        var checked = cb.checked;
+        state.push(checked);
+        if (checked) { doneCount++; totalHours += HOURS_MAP[i]; }
+
+        var doneBadge = document.getElementById('done-' + i);
+        if (doneBadge) { if (checked) doneBadge.classList.add('visible'); else doneBadge.classList.remove('visible'); }
+
+        var card = document.getElementById('item-' + i);
+        if (card) { if (checked) card.classList.add('done'); else card.classList.remove('done'); }
+      });
+
+      var pct = (doneCount / TOTAL_COURSES) * 100;
+      var fillTop = document.getElementById('progress-fill-top');
+      if (fillTop) fillTop.style.width = pct + '%';
+
+      for (var d = 0; d < TOTAL_COURSES; d++) {
+        var dot = document.getElementById('dot-' + d);
+        if (dot) { if (checkboxes[d].checked) dot.classList.add('done'); else dot.classList.remove('done'); }
+      }
+
+      var countTop = document.getElementById('progress-count-top');
+      if (countTop) countTop.textContent = doneCount + ' de 5 cursos concluídos';
+
+      var summaryDone = document.getElementById('summary-done');
+      var summaryHours = document.getElementById('summary-hours');
+      if (summaryDone) summaryDone.textContent = doneCount;
+      if (summaryHours) summaryHours.textContent = formatHours(totalHours);
+
+      var completionMsg = document.getElementById('completion-msg');
+      if (completionMsg) { if (doneCount === TOTAL_COURSES) completionMsg.classList.add('visible'); else completionMsg.classList.remove('visible'); }
+
+      syncPrintReport(checkboxes, doneCount, pct);
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+    }
+
+    function syncPrintReport(checkboxes, doneCount, pct) {
+      var dateEl = document.getElementById('pr-date-value');
+      if (dateEl) {
+        var now = new Date();
+        dateEl.textContent = now.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+      }
+      var prFill = document.getElementById('pr-progress-fill');
+      var prPct  = document.getElementById('pr-progress-pct');
+      if (prFill) prFill.style.width = pct + '%';
+      if (prPct)  prPct.textContent  = Math.round(pct) + '%  (' + doneCount + ' de 5 cursos)';
+
+      checkboxes.forEach(function(cb, i) {
+        var prItem = document.getElementById('pr-item-' + i);
+        var prTag  = document.getElementById('pr-tag-' + i);
+        if (!prItem || !prTag) return;
+        if (cb.checked) {
+          prItem.classList.add('pr-done');
+          prTag.textContent = 'Concluído ✓';
+          prTag.classList.add('pr-tag-done');
+        } else {
+          prItem.classList.remove('pr-done');
+          prTag.textContent = 'Pendente';
+          prTag.classList.remove('pr-tag-done');
+        }
+      });
+    }
+
+    function restoreProgress() {
+      try {
+        var saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return;
+        var state = JSON.parse(saved);
+        if (!Array.isArray(state)) return;
+        state.forEach(function(checked, i) {
+          var cb = document.getElementById('check-' + i);
+          if (cb) cb.checked = !!checked;
+        });
+        updateProgress();
+      } catch(e) {}
+    }
+
+    function animateCounter(el, target) {
+      var start = 0; var duration = 1200; var startTime = null;
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        el.textContent = Math.round(progress * target);
+        if (progress < 1) requestAnimationFrame(step); else el.textContent = target;
+      }
+      requestAnimationFrame(step);
+    }
+
+    function initScrollAnimations() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+    }
+
+    function initCounters() {
+      var counterEls = document.querySelectorAll('[data-count]');
+      var counterObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target, parseInt(entry.target.getAttribute('data-count')));
+            counterObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      counterEls.forEach(function(el) { counterObserver.observe(el); });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      restoreProgress();
+      initScrollAnimations();
+      initCounters();
+      var dateEl = document.getElementById('pr-date-value');
+      if (dateEl) {
+        var now = new Date();
+        dateEl.textContent = now.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guia de Trilhas · Trilhas de Futuro · Senac Araçatuba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul: #004587;
+      --laranja: #F7941D;
+      --branco-gelo: #F2F2F2;
+      --branco: #FFFFFF;
+      --cinza-claro: #E0E6EF;
+      --azul-200: #a8c4e0;
+      --azul-escuro: #002f5e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--branco-gelo);
+      color: #1a1a1a;
+    }
+
+    /* ══════════════════════════════
+       STICKY HEADER
+    ══════════════════════════════ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--azul);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .header-left a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--branco);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      opacity: 0.9;
+      transition: opacity 0.2s;
+    }
+    .header-left a:hover { opacity: 1; }
+    .header-center {
+      text-align: center;
+      flex: 1;
+      padding: 0 16px;
+    }
+    .header-center .sup-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--azul-200);
+      text-transform: uppercase;
+    }
+    .header-center .trail-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--branco);
+      letter-spacing: 0.04em;
+    }
+    .header-center .trail-title span { color: var(--laranja); }
+    .header-right img {
+      height: 36px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+
+    /* ══════════════════════════════
+       HERO SECTION
+    ══════════════════════════════ */
+    .hero {
+      background: var(--azul);
+      position: relative;
+      overflow: hidden;
+      padding: 72px 24px 80px;
+      text-align: center;
+    }
+    .hero-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.18;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--azul-200);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--branco);
+      text-transform: uppercase;
+    }
+    .hero-title .line2 { color: var(--laranja); display: block; }
+    .hero-subtitle {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--azul-200);
+    }
+    .hero-tagline {
+      display: inline-block;
+      margin-top: 28px;
+      border-left: 4px solid var(--laranja);
+      padding: 10px 20px;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--branco);
+      background: rgba(255,255,255,0.07);
+      border-radius: 0 10px 10px 0;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 48px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      padding: 18px 28px;
+      min-width: 130px;
+      text-align: center;
+    }
+    .stat-card .stat-num {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--laranja);
+      display: block;
+    }
+    .stat-card .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--azul-200);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ══════════════════════════════
+       SECTIONS COMMON
+    ══════════════════════════════ */
+    section { padding: 72px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 900;
+      color: var(--azul);
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+    .section-title span { color: var(--laranja); }
+    .section-sub {
+      font-size: 15px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    /* ══════════════════════════════
+       O QUE SÃO AS TRILHAS
+    ══════════════════════════════ */
+    .sec-oqueesao { background: var(--branco); }
+    .highlight-card {
+      background: var(--azul);
+      color: var(--branco);
+      border-radius: 16px;
+      padding: 28px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.65;
+      margin-bottom: 32px;
+      border-left: 6px solid var(--laranja);
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .info-card {
+      background: var(--branco-gelo);
+      border-left: 4px solid var(--laranja);
+      border-radius: 12px;
+      padding: 22px 20px;
+    }
+    .info-card .info-icon { font-size: 26px; margin-bottom: 8px; display: block; }
+    .info-card .info-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: var(--laranja);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .info-card p { font-size: 13.5px; font-weight: 500; color: #333; line-height: 1.6; }
+
+    /* ══════════════════════════════
+       PORTFÓLIO
+    ══════════════════════════════ */
+    .sec-portfolio { background: var(--branco-gelo); }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 900px) { .portfolio-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .portfolio-grid { grid-template-columns: 1fr; } }
+
+    .trail-card {
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+      text-decoration: none;
+      display: block;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      cursor: pointer;
+    }
+    .trail-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 32px rgba(0,0,0,0.18);
+    }
+    .trail-card.card-azul { background: var(--azul); color: var(--branco-gelo); }
+    .trail-card.card-laranja { background: var(--laranja); color: var(--branco); }
+    .trail-card.card-azul-outline { background: var(--branco); border: 2px solid var(--azul); color: var(--azul); cursor: default; }
+    .trail-card.card-cinza { background: var(--cinza-claro); color: var(--azul); cursor: default; }
+    .trail-card.card-total { background: var(--branco); border: 2px solid var(--azul); color: var(--azul); cursor: default; }
+    .card-azul-outline:hover, .card-cinza:hover, .card-total:hover {
+      transform: none;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+    }
+
+    .trail-card .card-emoji { font-size: 28px; display: block; margin-bottom: 10px; }
+    .trail-card .card-num {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      opacity: 0.7;
+      text-transform: uppercase;
+    }
+    .trail-card .card-name {
+      font-size: 17px;
+      font-weight: 900;
+      margin: 4px 0 2px;
+      line-height: 1.2;
+    }
+    .trail-card .card-theme {
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0.75;
+      margin-bottom: 12px;
+    }
+    .trail-card .card-meta {
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0.85;
+      margin-bottom: 14px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .badge-laranja { background: var(--laranja); color: var(--branco); }
+    .badge-azul { background: var(--azul); color: var(--branco); }
+    .badge-cinza { background: #aaa; color: var(--branco); }
+    .badge-construcao { background: #888; color: var(--branco); }
+    .card-azul .badge-laranja { background: var(--laranja); color: var(--branco); }
+    .card-laranja .badge-azul { background: var(--azul); color: var(--branco); }
+
+    /* total card */
+    .card-total .total-icon { font-size: 32px; display: block; margin-bottom: 10px; }
+    .card-total .total-line {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--azul);
+      margin-bottom: 4px;
+    }
+    .card-total .total-sub {
+      font-size: 12px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    /* ══════════════════════════════
+       QUAL É O SEU PERFIL
+    ══════════════════════════════ */
+    .sec-perfil { background: var(--branco); }
+    .perfil-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 36px;
+    }
+    .perfil-btn {
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+    }
+    .perfil-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(0,0,0,0.2); }
+    .perfil-btn.pb-azul { background: var(--azul); color: var(--branco); }
+    .perfil-btn.pb-laranja { background: var(--laranja); color: var(--branco); }
+    .perfil-btn .pb-emoji { font-size: 36px; display: block; margin-bottom: 10px; }
+    .perfil-btn .pb-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      opacity: 0.75;
+      text-transform: uppercase;
+    }
+    .perfil-btn .pb-name {
+      font-size: 19px;
+      font-weight: 900;
+      margin: 6px 0 4px;
+    }
+    .perfil-btn .pb-desc {
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+
+    /* ══════════════════════════════
+       JOURNEY STEPS
+    ══════════════════════════════ */
+    .sec-journey-novo { background: var(--branco-gelo); }
+    .sec-journey-docente { background: var(--branco); }
+    .sec-journey-gestor { background: var(--branco-gelo); }
+
+    .perfil-badge {
+      display: inline-block;
+      background: var(--laranja);
+      color: var(--branco);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+
+    .journey-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .journey-step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 24px 28px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .journey-step::after {
+      content: '';
+      position: absolute;
+      left: 48px;
+      bottom: -16px;
+      width: 3px;
+      height: 16px;
+      background: var(--laranja);
+    }
+    .journey-step:last-of-type::after { display: none; }
+
+    .journey-step.js-azul { background: var(--azul); color: var(--branco); border: 2px solid var(--laranja); }
+    .journey-step.js-laranja { background: var(--laranja); color: var(--branco); }
+    .journey-step.js-azul2 { background: var(--azul); color: var(--branco); }
+    .journey-step.js-laranja2 { background: var(--laranja); color: var(--branco); }
+    .journey-step.js-cinza { background: var(--cinza-claro); color: var(--azul); border: 2px solid var(--laranja); }
+
+    .js-num {
+      font-size: 32px;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 40px;
+      text-align: center;
+    }
+    .js-body { flex: 1; }
+    .js-etapa-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 2px;
+    }
+    .js-trail-name {
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 2px;
+    }
+    .js-trail-theme {
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+    .js-meta {
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0.85;
+      margin-bottom: 12px;
+    }
+    .js-obs {
+      font-size: 12px;
+      font-weight: 500;
+      opacity: 0.7;
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+
+    .btn-trail {
+      display: inline-block;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 10px 22px;
+      border-radius: 8px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-trail:hover { opacity: 0.88; transform: translateX(2px); }
+    .btn-laranja { background: var(--laranja); color: var(--branco); }
+    .btn-azul { background: var(--azul); color: var(--branco); }
+    .btn-disabled { background: #aaa; color: var(--branco); cursor: not-allowed; pointer-events: none; }
+
+    .journey-total {
+      display: inline-block;
+      margin-top: 24px;
+      background: var(--laranja);
+      color: var(--branco);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 10px 22px;
+      border-radius: 20px;
+    }
+
+    /* ══════════════════════════════
+       BASE DE TODA JORNADA
+    ══════════════════════════════ */
+    .sec-base { background: var(--azul); padding: 72px 24px; }
+    .sec-base .section-title { color: var(--branco); text-align: center; margin-bottom: 12px; }
+    .sec-base .base-sub {
+      text-align: center;
+      color: var(--azul-200);
+      font-size: 15px;
+      font-weight: 500;
+      max-width: 640px;
+      margin: 0 auto 40px;
+    }
+    .base-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto 36px;
+    }
+    .base-card {
+      background: var(--branco-gelo);
+      color: var(--azul);
+      border-top: 4px solid var(--laranja);
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+    .base-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.22); }
+    .base-card .bc-emoji { font-size: 28px; display: block; margin-bottom: 8px; }
+    .base-card .bc-name { font-size: 15px; font-weight: 900; margin-bottom: 4px; }
+    .base-card .bc-meta { font-size: 12px; font-weight: 600; color: #555; }
+    .base-badge-wrap { text-align: center; }
+    .base-badge {
+      display: inline-block;
+      background: var(--laranja);
+      color: var(--branco);
+      font-size: 13px;
+      font-weight: 800;
+      padding: 10px 24px;
+      border-radius: 20px;
+    }
+
+    /* ══════════════════════════════
+       COMO COMEÇAR AGORA
+    ══════════════════════════════ */
+    .sec-comecar { background: var(--branco); }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 560px) { .steps-grid { grid-template-columns: 1fr; } }
+    .step-card {
+      border-radius: 14px;
+      padding: 28px 24px;
+    }
+    .step-card.sc-azul { background: var(--azul); color: var(--branco); }
+    .step-card.sc-laranja { background: var(--laranja); color: var(--branco); }
+    .step-card .sc-num {
+      font-size: 40px;
+      font-weight: 900;
+      opacity: 0.2;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .step-card .sc-title { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .step-card .sc-desc { font-size: 13px; font-weight: 500; opacity: 0.85; }
+
+    .cta-card {
+      background: var(--azul);
+      border: 3px solid var(--laranja);
+      border-radius: 16px;
+      padding: 36px 32px;
+      text-align: center;
+      color: var(--branco);
+    }
+    .cta-card .cta-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      color: var(--azul-200);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .cta-card .cta-url {
+      font-size: clamp(22px, 5vw, 36px);
+      font-weight: 900;
+      color: var(--laranja);
+    }
+    .cta-card .cta-sub {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--azul-200);
+      margin-top: 8px;
+    }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--azul-escuro);
+      color: var(--azul-200);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    /* ══════════════════════════════
+       FADE IN ANIMATION
+    ══════════════════════════════ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══════════════════════════════
+       RESPONSIVE TWEAKS
+    ══════════════════════════════ */
+    @media (max-width: 700px) {
+      .site-header { padding: 0 14px; }
+      .header-left a span { display: none; }
+      section { padding: 52px 16px; }
+      .sec-base { padding: 52px 16px; }
+      .journey-step { padding: 18px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════
+       STICKY HEADER
+  ══════════════════════════════ -->
+  <header class="site-header">
+    <div class="header-left">
+      <a href="index.html">
+        <span>←</span>
+        <span>Voltar ao Portal</span>
+      </a>
+    </div>
+    <div class="header-center">
+      <div class="sup-label">Guia de Jornadas</div>
+      <div class="trail-title">TRILHAS DE <span>FUTURO</span></div>
+    </div>
+    <div class="header-right">
+      <img src="https://jantardocomercio.com.br/wp-content/uploads/2022/05/site_senac.png" alt="Senac" />
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════
+       HERO
+  ══════════════════════════════ -->
+  <section class="hero">
+    <!-- Circuit lines SVG decoration -->
+    <svg class="hero-svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#F7941D" stroke-width="1.5" fill="none">
+        <polyline points="0,80 120,80 160,120 400,120"/>
+        <polyline points="400,120 440,80 700,80 740,120 900,120"/>
+        <polyline points="900,120 940,80 1200,80"/>
+        <circle cx="120" cy="80" r="4" fill="#F7941D"/>
+        <circle cx="400" cy="120" r="4" fill="#F7941D"/>
+        <circle cx="740" cy="120" r="4" fill="#F7941D"/>
+        <circle cx="900" cy="120" r="4" fill="#F7941D"/>
+        <polyline points="0,200 80,200 120,240 280,240 320,200 600,200"/>
+        <polyline points="600,200 640,240 900,240 940,200 1200,200"/>
+        <circle cx="80" cy="200" r="4" fill="#F7941D"/>
+        <circle cx="280" cy="240" r="4" fill="#F7941D"/>
+        <circle cx="640" cy="240" r="4" fill="#F7941D"/>
+        <circle cx="940" cy="200" r="4" fill="#F7941D"/>
+        <polyline points="160,120 160,320"/>
+        <polyline points="440,80 440,320"/>
+        <polyline points="740,120 740,320"/>
+        <polyline points="940,200 940,320"/>
+        <circle cx="160" cy="320" r="4" fill="#F7941D"/>
+        <circle cx="440" cy="320" r="4" fill="#F7941D"/>
+        <circle cx="740" cy="320" r="4" fill="#F7941D"/>
+        <polyline points="0,380 200,380 240,420 500,420 540,380 1200,380"/>
+        <circle cx="200" cy="380" r="4" fill="#F7941D"/>
+        <circle cx="500" cy="420" r="4" fill="#F7941D"/>
+        <circle cx="540" cy="380" r="4" fill="#F7941D"/>
+      </g>
+    </svg>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">COMITÊ DE INOVAÇÃO · SENAC ARAÇATUBA · 2026</p>
+      <h1 class="hero-title">
+        TRILHAS DE<br>
+        <span class="line2">FUTURO</span>
+      </h1>
+      <p class="hero-subtitle">Como montar sua jornada de formação no Senac Araçatuba</p>
+      <p class="hero-tagline">Cada funcionário tem um caminho. Encontre o seu aqui.</p>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num" data-target="200">0</span>
+          <span class="stat-label">+200h formação</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" data-target="50">0</span>
+          <span class="stat-label">+50 certificados</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" data-target="9">0</span>
+          <span class="stat-label">trilhas</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" data-target="100">0</span>
+          <span class="stat-label">% gratuito</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       O QUE SÃO AS TRILHAS
+  ══════════════════════════════ -->
+  <section class="sec-oqueesao">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">O que são as <span>Trilhas de Futuro?</span></h2>
+
+      <div class="highlight-card fade-in">
+        As Trilhas de Futuro são percursos de formação continuada organizados pelo Comitê Local de Inovação do Senac Araçatuba — usando 100% dos cursos gratuitos disponíveis na plataforma Saber Senac.
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card fade-in">
+          <span class="info-icon">🎯</span>
+          <div class="info-label">O que são</div>
+          <p>Sequências de cursos organizadas por tema e nível de complexidade — do Fundamental ao Avançado.</p>
+        </div>
+        <div class="info-card fade-in">
+          <span class="info-icon">💰</span>
+          <div class="info-label">Quanto custam</div>
+          <p>ZERO. Todos os cursos são gratuitos para funcionários do Senac na plataforma Saber Senac.</p>
+        </div>
+        <div class="info-card fade-in">
+          <span class="info-icon">🏆</span>
+          <div class="info-label">O que você ganha</div>
+          <p>Certificados em cada curso concluído, registrados na sua Carteira de Competências em Inovação.</p>
+        </div>
+        <div class="info-card fade-in">
+          <span class="info-icon">📍</span>
+          <div class="info-label">Onde acessar</div>
+          <p>saber.senac.br com seu login institucional — a qualquer hora, no seu ritmo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       PORTFÓLIO COMPLETO
+  ══════════════════════════════ -->
+  <section class="sec-portfolio">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">As Trilhas do <span>Portfólio</span></h2>
+      <p class="section-sub fade-in">Clique em qualquer trilha disponível para acessar o guia completo.</p>
+
+      <div class="portfolio-grid">
+
+        <!-- Card 1 — Raízes Senac -->
+        <a href="trilha-raizes-senac.html" class="trail-card card-azul fade-in">
+          <span class="card-emoji">🌱</span>
+          <div class="card-num">TRILHA 04</div>
+          <div class="card-name">Raízes Senac</div>
+          <div class="card-theme">Identidade e Missão</div>
+          <div class="card-meta">⏱ ~14h &nbsp;·&nbsp; 5 certificados</div>
+          <span class="badge badge-laranja">Disponível</span>
+        </a>
+
+        <!-- Card 2 — Eu em Movimento -->
+        <a href="trilha-eu-em-movimento.html" class="trail-card card-laranja fade-in">
+          <span class="card-emoji">🧠</span>
+          <div class="card-num">TRILHA 03</div>
+          <div class="card-name">Eu em Movimento</div>
+          <div class="card-theme">Competências Emocionais</div>
+          <div class="card-meta">⏱ ~17h &nbsp;·&nbsp; 5 certificados</div>
+          <span class="badge badge-azul">Disponível</span>
+        </a>
+
+        <!-- Card 3 — Senac Responsável -->
+        <a href="trilha-senac-responsavel.html" class="trail-card card-azul fade-in">
+          <span class="card-emoji">🌿</span>
+          <div class="card-num">TRILHA 06</div>
+          <div class="card-name">Senac Responsável</div>
+          <div class="card-theme">Ética e Sustentabilidade</div>
+          <div class="card-meta">⏱ ~12h &nbsp;·&nbsp; 4 certificados</div>
+          <span class="badge badge-laranja">Disponível</span>
+        </a>
+
+        <!-- Card 4 — Liderança -->
+        <a href="trilha-lideranca.html" class="trail-card card-laranja fade-in">
+          <span class="card-emoji">🧭</span>
+          <div class="card-num">TRILHA 02</div>
+          <div class="card-name">Quem Lidera, Transforma</div>
+          <div class="card-theme">Liderança e Gestão</div>
+          <div class="card-meta">⏱ ~15h &nbsp;·&nbsp; 7 certificados</div>
+          <span class="badge badge-azul">Disponível</span>
+        </a>
+
+        <!-- Card 5 — Dados -->
+        <a href="trilha-dados.html" class="trail-card card-azul fade-in">
+          <span class="card-emoji">📊</span>
+          <div class="card-num">TRILHA 01</div>
+          <div class="card-name">Dados que Decidem</div>
+          <div class="card-theme">Análise de Dados</div>
+          <div class="card-meta">⏱ ~7h &nbsp;·&nbsp; 3 certificados</div>
+          <span class="badge badge-laranja">Disponível</span>
+        </a>
+
+        <!-- Card 6 — Docência -->
+        <a href="trilha-docencia-em-movimento.html" class="trail-card card-laranja fade-in">
+          <span class="card-emoji">📚</span>
+          <div class="card-num">TRILHA 05</div>
+          <div class="card-name">Docência em Movimento</div>
+          <div class="card-theme">Modelo Pedagógico Senac</div>
+          <div class="card-meta">⏱ ~24h &nbsp;·&nbsp; 11 certificados</div>
+          <span class="badge badge-azul">Disponível</span>
+        </a>
+
+        <!-- Card 7 — IA Em breve -->
+        <div class="trail-card card-azul-outline fade-in">
+          <span class="card-emoji">🤖</span>
+          <div class="card-num">TRILHA 07+</div>
+          <div class="card-name">Inovação e IA</div>
+          <div class="card-theme">Trilhas de IA — Lote 1</div>
+          <div class="card-meta">Em breve</div>
+          <span class="badge badge-cinza">Em breve</span>
+        </div>
+
+        <!-- Card 8 — Novas Trilhas -->
+        <div class="trail-card card-cinza fade-in">
+          <span class="card-emoji" style="font-size:28px;display:block;margin-bottom:10px;">✨</span>
+          <div class="card-name" style="color:var(--azul);">+ Novas Trilhas 2026</div>
+          <div class="card-theme" style="color:#555;">Novas trilhas adicionadas ao longo de 2026</div>
+          <div style="margin-top:14px;"><span class="badge badge-construcao">Em construção</span></div>
+        </div>
+
+        <!-- Card 9 — Total -->
+        <div class="trail-card card-total fade-in">
+          <span class="total-icon">⭐</span>
+          <div class="total-line">+200h de formação</div>
+          <div class="total-line">+50 certificados</div>
+          <div class="total-sub" style="margin-top:8px;">100% gratuito no Saber Senac</div>
+          <div style="margin-top:16px;"><span class="badge badge-laranja">Total do portfólio</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       QUAL É O SEU PERFIL
+  ══════════════════════════════ -->
+  <section class="sec-perfil">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">Qual é o seu <span>perfil?</span></h2>
+      <p class="section-sub fade-in">Cada funcionário tem uma jornada personalizada. Encontre a sua.</p>
+
+      <div class="perfil-cards">
+        <a href="#perfil-novo" class="perfil-btn pb-azul fade-in">
+          <span class="pb-emoji">🌱</span>
+          <div class="pb-label">Perfil 1</div>
+          <div class="pb-name">Funcionário Novo</div>
+          <div class="pb-desc">Primeiro ano no Senac</div>
+        </a>
+        <a href="#perfil-docente" class="perfil-btn pb-laranja fade-in">
+          <span class="pb-emoji">📚</span>
+          <div class="pb-label">Perfil 2</div>
+          <div class="pb-name">Docente</div>
+          <div class="pb-desc">Atua em sala de aula</div>
+        </a>
+        <a href="#perfil-gestor" class="perfil-btn pb-azul fade-in">
+          <span class="pb-emoji">👩‍💼</span>
+          <div class="pb-label">Perfil 3</div>
+          <div class="pb-name">Gestor / Coordenador</div>
+          <div class="pb-desc">Lidera pessoas ou áreas</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       PERFIL 1: FUNCIONÁRIO NOVO
+  ══════════════════════════════ -->
+  <section class="sec-journey-novo" id="perfil-novo">
+    <div class="section-inner">
+      <span class="perfil-badge fade-in">PERFIL 1 — FUNCIONÁRIO NOVO</span>
+      <h2 class="section-title fade-in">Sua Jornada de <span>Formação</span></h2>
+      <p class="section-sub fade-in">Sequência recomendada pelo Comitê Local de Inovação</p>
+
+      <div class="journey-wrap">
+
+        <div class="journey-step js-azul fade-in">
+          <div class="js-num">🌱</div>
+          <div class="js-body">
+            <div class="js-etapa-label">1ª ETAPA — OBRIGATÓRIA</div>
+            <div class="js-trail-name">RAÍZES SENAC</div>
+            <div class="js-trail-theme">Quem somos, o que fazemos, por que fazemos</div>
+            <div class="js-meta">⏱ ~14h &nbsp;·&nbsp; 5 certificados</div>
+            <div class="js-obs">Faça antes de qualquer outra formação no Senac</div>
+            <a href="trilha-raizes-senac.html" class="btn-trail btn-laranja">Acessar Trilha →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-laranja fade-in">
+          <div class="js-num">🧠</div>
+          <div class="js-body">
+            <div class="js-etapa-label">2ª ETAPA</div>
+            <div class="js-trail-name">EU EM MOVIMENTO</div>
+            <div class="js-trail-theme">Competências pessoais, emocionais e relacionais</div>
+            <div class="js-meta">⏱ ~17h &nbsp;·&nbsp; 5 certificados</div>
+            <a href="trilha-eu-em-movimento.html" class="btn-trail btn-azul">Acessar Trilha →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-azul2 fade-in">
+          <div class="js-num">🌿</div>
+          <div class="js-body">
+            <div class="js-etapa-label">3ª ETAPA</div>
+            <div class="js-trail-name">SENAC RESPONSÁVEL</div>
+            <div class="js-trail-theme">Ética, LGPD, sustentabilidade e diversidade</div>
+            <div class="js-meta">⏱ ~12h &nbsp;·&nbsp; 4 certificados</div>
+            <a href="trilha-senac-responsavel.html" class="btn-trail btn-laranja">Acessar Trilha →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-cinza fade-in">
+          <div class="js-num">🎯</div>
+          <div class="js-body">
+            <div class="js-etapa-label">4ª ETAPA — TRILHA DO SEU CARGO</div>
+            <div class="js-trail-name" style="color:var(--azul);">TRILHA DA SUA ÁREA</div>
+            <div class="js-trail-theme" style="color:#555;">Escolha conforme sua área: Docência / Liderança / Dados / IA</div>
+            <div class="js-meta" style="color:#555;">⏱ Variável</div>
+            <div class="js-obs" style="color:#666;">O Comitê indica a trilha certa para você</div>
+          </div>
+        </div>
+
+        <div class="journey-total fade-in">Total mínimo recomendado: ~43h &nbsp;|&nbsp; 14 certificados</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       PERFIL 2: DOCENTE
+  ══════════════════════════════ -->
+  <section class="sec-journey-docente" id="perfil-docente">
+    <div class="section-inner">
+      <span class="perfil-badge fade-in">PERFIL 2 — DOCENTE</span>
+      <h2 class="section-title fade-in">Sua Jornada de <span>Formação</span></h2>
+
+      <div class="journey-wrap">
+
+        <div class="journey-step js-azul fade-in">
+          <div class="js-num">🌱</div>
+          <div class="js-body">
+            <div class="js-etapa-label">1ª ETAPA — OBRIGATÓRIA</div>
+            <div class="js-trail-name">RAÍZES SENAC</div>
+            <div class="js-meta">⏱ ~14h &nbsp;·&nbsp; 5 certificados</div>
+            <a href="trilha-raizes-senac.html" class="btn-trail btn-laranja">Acessar →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-laranja fade-in">
+          <div class="js-num">📚</div>
+          <div class="js-body">
+            <div class="js-etapa-label">2ª ETAPA — PRIORITÁRIA</div>
+            <div class="js-trail-name">DOCÊNCIA EM MOVIMENTO</div>
+            <div class="js-trail-theme">O Modelo Pedagógico Senac aplicado à sua prática docente</div>
+            <div class="js-meta">⏱ ~24h &nbsp;·&nbsp; 11 certificados</div>
+            <a href="trilha-docencia-em-movimento.html" class="btn-trail btn-azul">Acessar →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-azul2 fade-in">
+          <div class="js-num">🧠</div>
+          <div class="js-body">
+            <div class="js-etapa-label">3ª ETAPA</div>
+            <div class="js-trail-name">EU EM MOVIMENTO</div>
+            <div class="js-trail-theme">Inteligência emocional, CNV e gestão de conflitos na sala de aula</div>
+            <div class="js-meta">⏱ ~17h &nbsp;·&nbsp; 5 certificados</div>
+            <a href="trilha-eu-em-movimento.html" class="btn-trail btn-laranja">Acessar →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-laranja2 fade-in">
+          <div class="js-num">🌿</div>
+          <div class="js-body">
+            <div class="js-etapa-label">4ª ETAPA</div>
+            <div class="js-trail-name">SENAC RESPONSÁVEL</div>
+            <div class="js-trail-theme">DEI, ética e sustentabilidade aplicados à prática educacional</div>
+            <div class="js-meta">⏱ ~12h &nbsp;·&nbsp; 4 certificados</div>
+            <a href="trilha-senac-responsavel.html" class="btn-trail btn-azul">Acessar →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-cinza fade-in">
+          <div class="js-num">🤖</div>
+          <div class="js-body">
+            <div class="js-etapa-label">5ª ETAPA</div>
+            <div class="js-trail-name" style="color:var(--azul);">TRILHAS DE IA — LOTE 1</div>
+            <div class="js-trail-theme" style="color:#555;">IA na educação, Copilot, Canva IA e mais</div>
+            <div class="js-meta" style="color:#555;">Em breve</div>
+            <span class="btn-trail btn-disabled">Em breve</span>
+          </div>
+        </div>
+
+        <div class="journey-total fade-in">Total recomendado: ~68h &nbsp;|&nbsp; 25 certificados</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       PERFIL 3: GESTOR
+  ══════════════════════════════ -->
+  <section class="sec-journey-gestor" id="perfil-gestor">
+    <div class="section-inner">
+      <span class="perfil-badge fade-in">PERFIL 3 — GESTOR / COORDENADOR</span>
+      <h2 class="section-title fade-in">Sua Jornada de <span>Formação</span></h2>
+
+      <div class="journey-wrap">
+
+        <div class="journey-step js-azul fade-in">
+          <div class="js-num">🌱</div>
+          <div class="js-body">
+            <div class="js-etapa-label">1ª ETAPA — OBRIGATÓRIA</div>
+            <div class="js-trail-name">RAÍZES SENAC</div>
+            <div class="js-meta">⏱ ~14h &nbsp;·&nbsp; 5 certificados</div>
+            <a href="trilha-raizes-senac.html" class="btn-trail btn-laranja">Acessar →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-laranja fade-in">
+          <div class="js-num">🧭</div>
+          <div class="js-body">
+            <div class="js-etapa-label">2ª ETAPA — PRIORITÁRIA</div>
+            <div class="js-trail-name">QUEM LIDERA, TRANSFORMA</div>
+            <div class="js-trail-theme">Liderança, feedback, pipeline e storytelling</div>
+            <div class="js-meta">⏱ ~15h &nbsp;·&nbsp; 7 certificados</div>
+            <a href="trilha-lideranca.html" class="btn-trail btn-azul">Acessar →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-azul2 fade-in">
+          <div class="js-num">🧠</div>
+          <div class="js-body">
+            <div class="js-etapa-label">3ª ETAPA</div>
+            <div class="js-trail-name">EU EM MOVIMENTO</div>
+            <div class="js-meta">⏱ ~17h &nbsp;·&nbsp; 5 certificados</div>
+            <a href="trilha-eu-em-movimento.html" class="btn-trail btn-laranja">Acessar →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-laranja2 fade-in">
+          <div class="js-num">📊</div>
+          <div class="js-body">
+            <div class="js-etapa-label">4ª ETAPA</div>
+            <div class="js-trail-name">DADOS QUE DECIDEM</div>
+            <div class="js-trail-theme">Análise de dados e Power BI para decisões estratégicas</div>
+            <div class="js-meta">⏱ ~7h &nbsp;·&nbsp; 3 certificados</div>
+            <a href="trilha-dados.html" class="btn-trail btn-azul">Acessar →</a>
+          </div>
+        </div>
+
+        <div class="journey-step js-azul fade-in">
+          <div class="js-num">🌿</div>
+          <div class="js-body">
+            <div class="js-etapa-label">5ª ETAPA</div>
+            <div class="js-trail-name">SENAC RESPONSÁVEL</div>
+            <div class="js-meta">⏱ ~12h &nbsp;·&nbsp; 4 certificados</div>
+            <a href="trilha-senac-responsavel.html" class="btn-trail btn-laranja">Acessar →</a>
+          </div>
+        </div>
+
+        <div class="journey-total fade-in">Total recomendado: ~65h &nbsp;|&nbsp; 24 certificados</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       A BASE DE TODA JORNADA
+  ══════════════════════════════ -->
+  <section class="sec-base">
+    <div class="section-inner">
+      <h2 class="section-title fade-in" style="text-align:center;">
+        A base de toda <span style="color:var(--laranja)">jornada</span>
+      </h2>
+      <p class="base-sub fade-in">
+        Estas 3 trilhas formam a espinha dorsal de qualquer funcionário do Senac Araçatuba — independente do cargo, da área ou do tempo de casa.
+      </p>
+
+      <div class="base-cards">
+        <a href="trilha-raizes-senac.html" class="base-card fade-in">
+          <span class="bc-emoji">🌱</span>
+          <div class="bc-name">Raízes Senac</div>
+          <div class="bc-meta">~14h · 5 certificados</div>
+        </a>
+        <a href="trilha-eu-em-movimento.html" class="base-card fade-in">
+          <span class="bc-emoji">🧠</span>
+          <div class="bc-name">Eu em Movimento</div>
+          <div class="bc-meta">~17h · 5 certificados</div>
+        </a>
+        <a href="trilha-senac-responsavel.html" class="base-card fade-in">
+          <span class="bc-emoji">🌿</span>
+          <div class="bc-name">Senac Responsável</div>
+          <div class="bc-meta">~12h · 4 certificados</div>
+        </a>
+      </div>
+
+      <div class="base-badge-wrap fade-in">
+        <span class="base-badge">~43h &nbsp;|&nbsp; 14 certificados &nbsp;|&nbsp; 100% gratuito</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       COMO COMEÇAR AGORA
+  ══════════════════════════════ -->
+  <section class="sec-comecar">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">Como <span>começar agora</span></h2>
+
+      <div class="steps-grid">
+        <div class="step-card sc-azul fade-in">
+          <div class="sc-num">01</div>
+          <div class="sc-title">Identifique seu perfil</div>
+          <div class="sc-desc">Funcionário Novo, Docente ou Gestor — cada um tem sua sequência ideal.</div>
+        </div>
+        <div class="step-card sc-laranja fade-in">
+          <div class="sc-num">02</div>
+          <div class="sc-title">Acesse saber.senac.br</div>
+          <div class="sc-desc">Use seu login institucional para entrar na plataforma Saber Senac.</div>
+        </div>
+        <div class="step-card sc-azul fade-in">
+          <div class="sc-num">03</div>
+          <div class="sc-title">Inscreva-se no primeiro curso</div>
+          <div class="sc-desc">Comece pelo ConhecendoSenac2026 — a porta de entrada de toda jornada.</div>
+        </div>
+        <div class="step-card sc-laranja fade-in">
+          <div class="sc-num">04</div>
+          <div class="sc-title">Reserve 30 min por dia</div>
+          <div class="sc-desc">Você tem 3 meses por curso — vá no seu ritmo, sem pressão.</div>
+        </div>
+      </div>
+
+      <div class="cta-card fade-in">
+        <div class="cta-label">Comece agora em</div>
+        <div class="cta-url">🎓 saber.senac.br</div>
+        <div class="cta-sub">Login institucional · Gratuito · A qualquer hora</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       FOOTER
+  ══════════════════════════════ -->
+  <footer>
+    Comitê de Inovação &nbsp;·&nbsp; Senac Araçatuba 2026 &nbsp;·&nbsp; Trilhas de Futuro
+  </footer>
+
+  <!-- ══════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════ -->
+  <script>
+    // ── INTERSECTION OBSERVER — fade-in ──
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // ── COUNTER ANIMATION — hero stats ──
+    const counters = document.querySelectorAll('.stat-num[data-target]');
+    let countersStarted = false;
+
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !countersStarted) {
+          countersStarted = true;
+          counters.forEach(counter => {
+            const target = parseInt(counter.dataset.target);
+            const duration = 1400;
+            const step = Math.ceil(target / (duration / 16));
+            let current = 0;
+            const timer = setInterval(() => {
+              current += step;
+              if (current >= target) {
+                current = target;
+                clearInterval(timer);
+              }
+              counter.textContent = current;
+            }, 16);
+          });
+        }
+      });
+    }, { threshold: 0.4 });
+
+    const heroSection = document.querySelector('.hero');
+    if (heroSection) heroObserver.observe(heroSection);
+
+    // ── SMOOTH SCROLL for profile links ──
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const headerHeight = document.querySelector('.site-header').offsetHeight;
+          const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 24;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -551,15 +551,25 @@
        </div>
       </div>
      </div><!-- Ação 02 -->
-     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao02')">
+     <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
       <div class="flex items-start gap-4">
        <div class="text-4xl">
-        📊
+        🗺️
        </div>
        <div class="flex-1"><span class="text-xs font-bold text-[#F7941D] bg-[#F7941D]/10 px-2 py-1 rounded">AÇÃO 02</span>
-        <h3 class="text-lg font-bold text-[#004587] mt-2">Trilhas do Futuro</h3>
-        <p class="text-sm text-gray-600 mt-2">Retorno à comunidade sobre o que foi coletado e implementado com transparência total</p>
+        <h3 class="text-lg font-bold text-[#004587] mt-2">Trilhas de Futuro</h3>
+        <p class="text-sm text-gray-600 mt-2">Jornadas de formação estruturadas para desenvolvimento contínuo dos funcionários do Senac Araçatuba</p>
        </div>
+      </div>
+      <div class="flex gap-3 mt-5 pt-4 border-t border-gray-200">
+       <button onclick="openPdfModal('acao02')" class="flex-1 flex items-center justify-center gap-2 bg-white border-2 border-[#004587] text-[#004587] px-4 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#004587] hover:text-white transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+        Ver PDF
+       </button>
+       <button onclick="showTrilhas()" class="flex-1 flex items-center justify-center gap-2 bg-[#F7941D] text-white px-4 py-2.5 rounded-xl font-semibold text-sm hover:bg-orange-600 transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+        Trilhas de Futuro →
+       </button>
       </div>
      </div><!-- Ação 03 -->
      <div class="card-cyber bg-[#F2F2F2] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 cursor-pointer" onclick="openPdfModal('acao03')">
@@ -777,7 +787,255 @@
      </div>
     </div>
    </div>
-  </div><!-- Footer -->
+  </div><!-- Trilhas de Futuro Page (Hidden by default) -->
+  <section id="trilhas" class="py-20 px-6 bg-white" style="display: none;">
+   <div class="max-w-6xl mx-auto">
+    <div class="mb-10">
+     <button onclick="showOQueFazemos()" class="flex items-center gap-2 text-[#004587] hover:text-[#F7941D] font-semibold mb-8 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg> Voltar para O que Fazemos
+     </button>
+     <div class="text-center mb-10">
+      <span class="inline-block bg-[#004587]/10 text-[#004587] px-4 py-1 rounded-full text-sm font-medium mb-4">Ação 02 · Formação Contínua</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-[#004587] mb-4">Trilhas de Futuro</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Jornadas de aprendizagem estruturadas para o desenvolvimento profissional dos funcionários do Senac Araçatuba. Escolha a trilha ideal para o seu perfil e avance no seu ritmo.</p>
+     </div>
+    </div>
+    <!-- Category Tabs -->
+    <div class="flex flex-wrap gap-3 justify-center mb-10">
+     <button onclick="showTrilhaTab('saber')" id="tab-btn-saber" class="trilha-tab-btn flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all bg-[#004587] text-white shadow-md">
+      <span>🎓</span> Saber Senac
+     </button>
+     <button onclick="showTrilhaTab('corp')" id="tab-btn-corp" class="trilha-tab-btn flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all bg-[#F2F2F2] text-[#004587] hover:bg-[#E0E6EF]">
+      <span>🏢</span> Educação Corporativa
+     </button>
+     <button onclick="showTrilhaTab('ext')" id="tab-btn-ext" class="trilha-tab-btn flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all bg-[#F2F2F2] text-[#004587] hover:bg-[#E0E6EF]">
+      <span>🌐</span> Formações Externas
+     </button>
+    </div>
+
+    <!-- TAB: Saber Senac -->
+    <div id="trilha-tab-saber">
+     <div class="bg-gradient-to-r from-[#004587] to-[#003366] rounded-2xl p-6 mb-8 text-white flex items-center gap-4">
+      <div class="text-5xl">🎓</div>
+      <div>
+       <h3 class="text-xl font-bold">Saber Senac</h3>
+       <p class="text-blue-200 text-sm mt-1">Plataforma de cursos online do Diretório Nacional Senac. Acesse em <span class="text-[#F7941D] font-semibold">saber.senac.br</span> com seu login institucional.</p>
+      </div>
+      <div class="ml-auto hidden md:flex flex-col items-center bg-white/10 rounded-xl p-4 text-center min-w-[100px]">
+       <span class="text-2xl font-bold text-[#F7941D]">6</span>
+       <span class="text-xs text-blue-200">trilhas</span>
+      </div>
+     </div>
+     <!-- Grid de Trilhas -->
+     <div class="grid md:grid-cols-2 gap-6">
+
+      <!-- Trilha 1: Dados que Decidem -->
+      <div class="bg-[#F2F2F2] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+       <div class="bg-[#004587] px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+         <span class="text-3xl">📊</span>
+         <div>
+          <span class="text-xs font-bold text-[#F7941D]">TRILHA 01</span>
+          <h4 class="text-white font-bold text-lg leading-tight">Dados que Decidem</h4>
+         </div>
+        </div>
+        <span class="bg-[#F7941D] text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">Disponível</span>
+       </div>
+       <div class="p-6">
+        <p class="text-sm text-gray-600 mb-4">Trilha de Análise de Dados para Gestão e Tomada de Decisão. Do básico ao Power BI, em 3 cursos sequenciais.</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+         <span class="bg-[#004587]/10 text-[#004587] text-xs font-semibold px-3 py-1 rounded-full">📚 3 cursos</span>
+         <span class="bg-[#F7941D]/10 text-[#F7941D] text-xs font-semibold px-3 py-1 rounded-full">⏱ ~7 horas</span>
+         <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">🏆 3 certificados</span>
+        </div>
+        <div class="space-y-2 mb-5">
+         <div class="flex items-center gap-2 text-sm text-gray-700">
+          <span class="w-5 h-5 bg-[#F2F2F2] border border-gray-300 rounded-full flex items-center justify-center text-xs font-bold text-[#004587]">1</span>
+          <span>Capacidade Analítica (CA) · 2h</span>
+         </div>
+         <div class="flex items-center gap-2 text-sm text-gray-700">
+          <span class="w-5 h-5 bg-[#004587] rounded-full flex items-center justify-center text-xs font-bold text-white">2</span>
+          <span>Decisões Inteligentes: Fundamentos · 3h</span>
+         </div>
+         <div class="flex items-center gap-2 text-sm text-gray-700">
+          <span class="w-5 h-5 bg-[#F7941D] rounded-full flex items-center justify-center text-xs font-bold text-white">3</span>
+          <span>Power BI (PWBI) · 1h30</span>
+         </div>
+        </div>
+        <a href="https://www.genspark.ai/agents?id=6d77de02-060e-4f90-b235-94de8a7b8e6a" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 w-full bg-[#F7941D] text-white py-3 rounded-xl font-bold text-sm hover:bg-orange-600 transition-all">
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+         Ver Apresentação da Trilha
+        </a>
+       </div>
+      </div>
+
+      <!-- Trilha 2: Quem Lidera, Transforma -->
+      <div class="bg-[#F2F2F2] rounded-2xl overflow-hidden shadow-lg opacity-80">
+       <div class="bg-[#004587] px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+         <span class="text-3xl">🧭</span>
+         <div>
+          <span class="text-xs font-bold text-[#F7941D]">TRILHA 02</span>
+          <h4 class="text-white font-bold text-lg leading-tight">Quem Lidera, Transforma</h4>
+         </div>
+        </div>
+        <span class="bg-gray-500 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">Em breve</span>
+       </div>
+       <div class="p-6">
+        <p class="text-sm text-gray-600 mb-4">Trilha de Liderança e Gestão de Pessoas no Senac. Líderes não nascem prontos — eles se desenvolvem aqui.</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+         <span class="bg-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full">📚 Cursos em definição</span>
+         <span class="bg-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full">🏆 Certificados</span>
+        </div>
+        <div class="flex items-center justify-center gap-2 w-full bg-gray-300 text-gray-500 py-3 rounded-xl font-bold text-sm cursor-not-allowed">
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+         Em breve
+        </div>
+       </div>
+      </div>
+
+      <!-- Trilha 3: Eu em Movimento -->
+      <div class="bg-[#F2F2F2] rounded-2xl overflow-hidden shadow-lg opacity-80">
+       <div class="bg-[#004587] px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+         <span class="text-3xl">🌱</span>
+         <div>
+          <span class="text-xs font-bold text-[#F7941D]">TRILHA 03</span>
+          <h4 class="text-white font-bold text-lg leading-tight">Eu em Movimento</h4>
+         </div>
+        </div>
+        <span class="bg-gray-500 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">Em breve</span>
+       </div>
+       <div class="p-6">
+        <p class="text-sm text-gray-600 mb-4">Trilha de Competências Pessoais, Emocionais e Relacionais. Quem se conhece melhor, trabalha e vive melhor.</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+         <span class="bg-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full">📚 Cursos em definição</span>
+         <span class="bg-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full">🏆 Certificados</span>
+        </div>
+        <div class="flex items-center justify-center gap-2 w-full bg-gray-300 text-gray-500 py-3 rounded-xl font-bold text-sm cursor-not-allowed">
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+         Em breve
+        </div>
+       </div>
+      </div>
+
+      <!-- Trilha 4: Raízes Senac -->
+      <div class="bg-[#F2F2F2] rounded-2xl overflow-hidden shadow-lg opacity-80">
+       <div class="bg-[#004587] px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+         <span class="text-3xl">🏛️</span>
+         <div>
+          <span class="text-xs font-bold text-[#F7941D]">TRILHA 04</span>
+          <h4 class="text-white font-bold text-lg leading-tight">Raízes Senac</h4>
+         </div>
+        </div>
+        <span class="bg-gray-500 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">Em breve</span>
+       </div>
+       <div class="p-6">
+        <p class="text-sm text-gray-600 mb-4">Trilha de Identidade Institucional e Missão do Senac. Entender o Senac é o primeiro passo para transformá-lo.</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+         <span class="bg-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full">📚 Cursos em definição</span>
+         <span class="bg-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full">🏆 Certificados</span>
+        </div>
+        <div class="flex items-center justify-center gap-2 w-full bg-gray-300 text-gray-500 py-3 rounded-xl font-bold text-sm cursor-not-allowed">
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+         Em breve
+        </div>
+       </div>
+      </div>
+
+      <!-- Trilha 5: Docência em Movimento -->
+      <div class="bg-[#F2F2F2] rounded-2xl overflow-hidden shadow-lg opacity-80">
+       <div class="bg-[#004587] px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+         <span class="text-3xl">👨‍🏫</span>
+         <div>
+          <span class="text-xs font-bold text-[#F7941D]">TRILHA 05</span>
+          <h4 class="text-white font-bold text-lg leading-tight">Docência em Movimento</h4>
+         </div>
+        </div>
+        <span class="bg-gray-500 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">Em breve</span>
+       </div>
+       <div class="p-6">
+        <p class="text-sm text-gray-600 mb-4">Trilha do Modelo Pedagógico Senac para Docentes. A excelência na sala de aula começa no seu desenvolvimento.</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+         <span class="bg-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full">📚 Cursos em definição</span>
+         <span class="bg-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full">🏆 Certificados</span>
+        </div>
+        <div class="flex items-center justify-center gap-2 w-full bg-gray-300 text-gray-500 py-3 rounded-xl font-bold text-sm cursor-not-allowed">
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+         Em breve
+        </div>
+       </div>
+      </div>
+
+      <!-- Trilha 6: Senac Responsável -->
+      <div class="bg-[#F2F2F2] rounded-2xl overflow-hidden shadow-lg opacity-80">
+       <div class="bg-[#004587] px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+         <span class="text-3xl">🌍</span>
+         <div>
+          <span class="text-xs font-bold text-[#F7941D]">TRILHA 06</span>
+          <h4 class="text-white font-bold text-lg leading-tight">Senac Responsável</h4>
+         </div>
+        </div>
+        <span class="bg-gray-500 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">Em breve</span>
+       </div>
+       <div class="p-6">
+        <p class="text-sm text-gray-600 mb-4">Trilha de Ética, Sustentabilidade e Diversidade. Responsabilidade não é opção — é parte de quem somos.</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+         <span class="bg-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full">📚 Cursos em definição</span>
+         <span class="bg-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full">🏆 Certificados</span>
+        </div>
+        <div class="flex items-center justify-center gap-2 w-full bg-gray-300 text-gray-500 py-3 rounded-xl font-bold text-sm cursor-not-allowed">
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+         Em breve
+        </div>
+       </div>
+      </div>
+
+     </div><!-- /grid trilhas saber -->
+     <div class="mt-8 bg-[#F7941D]/10 border border-[#F7941D]/30 rounded-xl p-4 flex items-center gap-3">
+      <span class="text-2xl">💡</span>
+      <p class="text-sm text-gray-700">As trilhas são gratuitas para todos os funcionários. Acesse <strong class="text-[#004587]">saber.senac.br</strong> com seu login institucional e inscreva-se diretamente na plataforma.</p>
+     </div>
+    </div><!-- /tab saber -->
+
+    <!-- TAB: Educação Corporativa -->
+    <div id="trilha-tab-corp" style="display:none;">
+     <div class="bg-gradient-to-r from-[#004587] to-[#003366] rounded-2xl p-6 mb-8 text-white flex items-center gap-4">
+      <div class="text-5xl">🏢</div>
+      <div>
+       <h3 class="text-xl font-bold">Educação Corporativa Senac SP</h3>
+       <p class="text-blue-200 text-sm mt-1">Trilhas e programas de formação oferecidos pela Educação Corporativa do Senac São Paulo.</p>
+      </div>
+     </div>
+     <div class="text-center py-16">
+      <div class="text-6xl mb-4">🚧</div>
+      <h3 class="text-xl font-bold text-[#004587] mb-2">Em Construção</h3>
+      <p class="text-gray-500 text-sm max-w-md mx-auto">As trilhas de Educação Corporativa estão sendo organizadas pelo Comitê de Inovação. Em breve você terá acesso a este conteúdo.</p>
+     </div>
+    </div><!-- /tab corp -->
+
+    <!-- TAB: Formações Externas -->
+    <div id="trilha-tab-ext" style="display:none;">
+     <div class="bg-gradient-to-r from-[#004587] to-[#003366] rounded-2xl p-6 mb-8 text-white flex items-center gap-4">
+      <div class="text-5xl">🌐</div>
+      <div>
+       <h3 class="text-xl font-bold">Formações Externas</h3>
+       <p class="text-blue-200 text-sm mt-1">Cursos e certificações de parceiros e plataformas externas recomendados pelo Comitê de Inovação.</p>
+      </div>
+     </div>
+     <div class="text-center py-16">
+      <div class="text-6xl mb-4">🚧</div>
+      <h3 class="text-xl font-bold text-[#004587] mb-2">Em Construção</h3>
+      <p class="text-gray-500 text-sm max-w-md mx-auto">As recomendações de formações externas estão sendo curadas pelo Comitê de Inovação. Em breve você encontrará as melhores opções aqui.</p>
+     </div>
+    </div><!-- /tab ext -->
+
+   </div><!-- /max-w -->
+  </section><!-- /trilhas -->
+  <!-- Footer -->
   <footer class="bg-[#004587] text-white py-12 px-6">
    <div class="max-w-6xl mx-auto">
     <div class="grid md:grid-cols-3 gap-8 mb-8">
@@ -831,6 +1089,9 @@
       cloudinary_upload_preset: 'comite_inovacao'
     };
 
+    // Chave de segurança — deve ser igual à SECRET_KEY no Apps Script
+    const APPS_SECRET_KEY = 'xT7&Mn2@kP9qL!c5';
+
     // ================================================================
     // 📸 GALERIA — Carrega fotos aprovadas via Google Apps Script
     // ================================================================
@@ -840,7 +1101,7 @@
     async function carregarGaleria() {
       if (!CONFIG.apps_script_url || CONFIG.apps_script_url.includes('COLE')) return [];
       try {
-        const res = await fetch(`${CONFIG.apps_script_url}?action=galeria`);
+        const res = await fetch(`${CONFIG.apps_script_url}?action=galeria&key=${APPS_SECRET_KEY}`);
         const data = await res.json();
         return Array.isArray(data) ? data : [];
       } catch (e) {
@@ -852,7 +1113,7 @@
     async function carregarPendentes() {
       if (!CONFIG.apps_script_url || CONFIG.apps_script_url.includes('COLE')) return [];
       try {
-        const res = await fetch(`${CONFIG.apps_script_url}?action=pendentes`);
+        const res = await fetch(`${CONFIG.apps_script_url}?action=pendentes&key=${APPS_SECRET_KEY}`);
         const data = await res.json();
         return Array.isArray(data) ? data : [];
       } catch (e) {
@@ -862,7 +1123,7 @@
     }
 
     async function aprovarFoto(id, novoTitulo, novaDescricao) {
-      const url = `${CONFIG.apps_script_url}?action=aprovar&id=${encodeURIComponent(id)}&foto_titulo=${encodeURIComponent(novoTitulo)}&foto_descricao=${encodeURIComponent(novaDescricao)}`;
+      const url = `${CONFIG.apps_script_url}?action=aprovar&id=${encodeURIComponent(id)}&foto_titulo=${encodeURIComponent(novoTitulo)}&foto_descricao=${encodeURIComponent(novaDescricao)}&key=${APPS_SECRET_KEY}`;
       try {
         await fetch(url);
         showToast('✅ Foto aprovada! Aparecerá na galeria em instantes.');
@@ -878,7 +1139,7 @@
     }
 
     async function rejeitarFoto(id) {
-      const url = `${CONFIG.apps_script_url}?action=rejeitar&id=${encodeURIComponent(id)}`;
+      const url = `${CONFIG.apps_script_url}?action=rejeitar&id=${encodeURIComponent(id)}&key=${APPS_SECRET_KEY}`;
       try {
         await fetch(url, { mode: 'no-cors' });
         showToast('🚫 Foto rejeitada.');
@@ -975,6 +1236,7 @@
           method: 'POST',
           mode: 'no-cors',
           body: JSON.stringify({
+            key: APPS_SECRET_KEY,
             foto_titulo: eventoTitulo,
             foto_descricao: eventoDescricao,
             foto_categoria: eventoCategoria,
@@ -1273,7 +1535,7 @@
     async function carregarOficinas() {
       if (!CONFIG.apps_script_url || CONFIG.apps_script_url.includes('COLE')) return [];
       try {
-        const res = await fetch(`${CONFIG.apps_script_url}?action=oficinas`);
+        const res = await fetch(`${CONFIG.apps_script_url}?action=oficinas&key=${APPS_SECRET_KEY}`);
         const data = await res.json();
         return Array.isArray(data) ? data : [];
       } catch { return []; }
@@ -1365,6 +1627,7 @@
         await fetch(CONFIG.apps_script_url, {
           method: 'POST', mode: 'no-cors',
           body: JSON.stringify({
+            key: APPS_SECRET_KEY,
             tipo: 'inscricao',
             oficina_id: currentOficinaId,
             nome_oficina: currentOficinaNome,
@@ -1578,7 +1841,7 @@
       try {
         await fetch(CONFIG.apps_script_url, {
           method: 'POST', mode: 'no-cors',
-          body: JSON.stringify({ tipo: 'oficina', nome_oficina: nome, multiplicador, data, hora_inicio: horaInicio, hora_fim: horaFim, local })
+          body: JSON.stringify({ key: APPS_SECRET_KEY, tipo: 'oficina', nome_oficina: nome, multiplicador, data, hora_inicio: horaInicio, hora_fim: horaFim, local })
         });
         showToast('✅ Oficina cadastrada com sucesso!');
         document.getElementById('cadastroOficinaForm').reset();
@@ -1596,7 +1859,7 @@
     async function downloadInscritos(oficina_id, nome_oficina) {
       try {
         showToast('Preparando download...');
-        const res = await fetch(`${CONFIG.apps_script_url}?action=inscricoes&oficina_id=${encodeURIComponent(oficina_id)}`);
+        const res = await fetch(`${CONFIG.apps_script_url}?action=inscricoes&oficina_id=${encodeURIComponent(oficina_id)}&key=${APPS_SECRET_KEY}`);
         const data = await res.json();
         if (!Array.isArray(data) || data.length === 0) {
           showToast('Nenhum inscrito nesta oficina ainda.', true); return;
@@ -1700,10 +1963,47 @@
       });
     });
 
+    // Navigation functions for Trilhas de Futuro page
+    function showTrilhas() {
+      if (currentPage === 'comite') return;
+      currentPage = 'trilhas';
+      const trilhas = document.getElementById('trilhas');
+
+      document.getElementById('quemsomos').style.display = 'none';
+      document.getElementById('thinkers').style.display = 'none';
+      document.getElementById('enviar').style.display = 'none';
+      document.getElementById('eventos').style.display = 'none';
+      document.getElementById('comite-area').style.display = 'none';
+      document.getElementById('inscrever').style.display = 'none';
+      document.getElementById('oquefazemos').style.display = 'none';
+
+      const allSections = document.querySelectorAll('body > section');
+      if (allSections[0] && !allSections[0].id) allSections[0].style.display = 'none';
+
+      document.querySelector('footer').style.display = 'none';
+      trilhas.style.display = 'block';
+      showTrilhaTab('saber');
+      window.scrollTo(0, 0);
+    }
+
+    function showTrilhaTab(tab) {
+      ['saber','corp','ext'].forEach(function(t) {
+        document.getElementById('trilha-tab-' + t).style.display = (t === tab) ? 'block' : 'none';
+        var btn = document.getElementById('tab-btn-' + t);
+        if (t === tab) {
+          btn.classList.remove('bg-[#F2F2F2]', 'text-[#004587]', 'hover:bg-[#E0E6EF]');
+          btn.classList.add('bg-[#004587]', 'text-white', 'shadow-md');
+        } else {
+          btn.classList.remove('bg-[#004587]', 'text-white', 'shadow-md');
+          btn.classList.add('bg-[#F2F2F2]', 'text-[#004587]', 'hover:bg-[#E0E6EF]');
+        }
+      });
+    }
+
     // Navigation functions for O que Fazemos page
     function showOQueFazemos() {
       if (currentPage === 'comite') return; // Prevent navigation from restricted area
-      
+
       currentPage = 'oquefazemos';
       const oQueFazemos = document.getElementById('oquefazemos');
       
@@ -1713,6 +2013,7 @@
       document.getElementById('eventos').style.display = 'none';
       document.getElementById('comite-area').style.display = 'none';
       document.getElementById('inscrever').style.display = 'none';
+      document.getElementById('trilhas').style.display = 'none';
 
       const allSections = document.querySelectorAll('body > section');
       if (allSections[0] && !allSections[0].id) {
@@ -1737,6 +2038,7 @@
       document.getElementById('oquefazemos').style.display = 'none';
       document.getElementById('comite-area').style.display = 'none';
       document.getElementById('inscrever').style.display = 'none';
+      document.getElementById('trilhas').style.display = 'none';
 
       const allSections = document.querySelectorAll('body > section');
       if (allSections[0] && !allSections[0].id) {
@@ -1770,8 +2072,9 @@
       oQueFazemos.style.display = 'none';
       eventos.style.display = 'none';
       document.getElementById('inscrever').style.display = 'none';
+      document.getElementById('trilhas').style.display = 'none';
       comiteArea.style.display = 'none';
-      
+
       window.scrollTo(0, 0);
     }
 
@@ -1875,6 +2178,7 @@
       document.getElementById('enviar').style.display = 'none';
       document.getElementById('oquefazemos').style.display = 'none';
       document.getElementById('eventos').style.display = 'none';
+      document.getElementById('trilhas').style.display = 'none';
       
       const allSections = document.querySelectorAll('body > section');
       if (allSections[0] && !allSections[0].id) {

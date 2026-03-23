@@ -1543,7 +1543,7 @@
     let currentOficinaId = null;
     let currentOficinaNome = '';
 
-    function showInscrever() {
+    async function showInscrever() {
       if (currentPage === 'comite') return;
       currentPage = 'inscrever';
       ['quemsomos','thinkers','enviar','oquefazemos','eventos','comite-area','trilhas'].forEach(id => {
@@ -1554,6 +1554,9 @@
       document.querySelector('footer').style.display = 'none';
       document.getElementById('inscrever').style.display = 'block';
       window.scrollTo(0, 0);
+      const container = document.getElementById('oficinasContainer');
+      if (container) container.innerHTML = '<div class="col-span-full text-center py-8"><p class="text-gray-400 text-lg">Carregando oficinas...</p></div>';
+      oficinasData = await carregarOficinas();
       renderOficinas();
     }
 

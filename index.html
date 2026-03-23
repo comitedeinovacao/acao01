@@ -1546,8 +1546,8 @@
     function showInscrever() {
       if (currentPage === 'comite') return;
       currentPage = 'inscrever';
-      ['quemsomos','thinkers','enviar','oquefazemos','eventos','comite-area'].forEach(id => {
-        document.getElementById(id).style.display = 'none';
+      ['quemsomos','thinkers','enviar','oquefazemos','eventos','comite-area','trilhas'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.style.display = 'none';
       });
       const allSections = document.querySelectorAll('body > section');
       if (allSections[0] && !allSections[0].id) allSections[0].style.display = 'none';

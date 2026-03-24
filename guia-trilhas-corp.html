@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guia das Trilhas Corporativas · Educação Corporativa · Senac Araçatuba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul: #004587;
+      --laranja: #F7941D;
+      --branco-gelo: #F2F2F2;
+      --branco: #FFFFFF;
+      --cinza-claro: #E0E6EF;
+      --azul-200: #a8c4e0;
+      --azul-escuro: #002f5e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--branco-gelo);
+      color: #1a1a1a;
+    }
+
+    /* ══════════════════════════════
+       STICKY HEADER
+    ══════════════════════════════ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--azul);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .header-left a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--branco);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      opacity: 0.9;
+      transition: opacity 0.2s;
+    }
+    .header-left a:hover { opacity: 1; }
+    .header-center {
+      text-align: center;
+      flex: 1;
+      padding: 0 16px;
+    }
+    .header-center .sup-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--azul-200);
+      text-transform: uppercase;
+    }
+    .header-center .trail-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--branco);
+      letter-spacing: 0.04em;
+    }
+    .header-center .trail-title span { color: var(--laranja); }
+    .header-right {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    /* ══════════════════════════════
+       HERO SECTION
+    ══════════════════════════════ */
+    .hero {
+      background: linear-gradient(135deg, var(--laranja) 0%, #e07810 50%, #c06508 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 80px 24px 88px;
+      text-align: center;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 780px; margin: 0 auto; }
+    .hero-emoji {
+      font-size: 72px;
+      line-height: 1;
+      display: block;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: rgba(255,255,255,0.75);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero-title {
+      font-size: clamp(30px, 5.5vw, 54px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--branco);
+      text-transform: uppercase;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+    .hero-title .line2 {
+      color: var(--azul);
+      display: block;
+    }
+    .hero-subtitle {
+      margin-top: 18px;
+      font-size: 17px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+    }
+    .hero-tagline {
+      display: inline-block;
+      margin-top: 28px;
+      border-left: 4px solid var(--azul);
+      padding: 10px 20px;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--branco);
+      background: rgba(0,0,0,0.15);
+      border-radius: 0 10px 10px 0;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 44px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 14px;
+      padding: 16px 28px;
+      min-width: 120px;
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
+    .stat-card .stat-num {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--branco);
+      display: block;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .stat-card .stat-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ══════════════════════════════
+       SECTIONS COMMON
+    ══════════════════════════════ */
+    section { padding: 72px 24px; }
+    .section-inner { max-width: 1060px; margin: 0 auto; }
+    .section-title {
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 900;
+      color: var(--azul);
+      margin-bottom: 10px;
+      line-height: 1.15;
+    }
+    .section-title span { color: var(--laranja); }
+    .section-sub {
+      font-size: 15px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    /* ══════════════════════════════
+       O QUE É EDUCAÇÃO CORPORATIVA
+    ══════════════════════════════ */
+    .sec-oq { background: var(--branco); }
+    .highlight-card {
+      background: var(--azul);
+      color: var(--branco);
+      border-radius: 16px;
+      padding: 28px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.7;
+      margin-bottom: 28px;
+      border-left: 6px solid var(--laranja);
+    }
+    .highlight-card strong { color: var(--laranja); }
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .diff-card {
+      border-radius: 14px;
+      padding: 24px 22px;
+      border-top: 4px solid var(--laranja);
+    }
+    .diff-card.dc-azul { background: var(--azul); color: var(--branco); }
+    .diff-card.dc-gelo { background: var(--branco-gelo); color: var(--azul); }
+    .diff-card .dc-icon { font-size: 28px; display: block; margin-bottom: 10px; }
+    .diff-card .dc-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 6px;
+    }
+    .diff-card .dc-title {
+      font-size: 16px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .diff-card p { font-size: 13px; font-weight: 500; line-height: 1.65; opacity: 0.85; }
+
+    /* ══════════════════════════════
+       QUAL TRILHA
+    ══════════════════════════════ */
+    .sec-trilhas { background: var(--branco-gelo); }
+    .trilha-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 860px) { .trilha-grid { grid-template-columns: 1fr; } }
+
+    .trilha-card {
+      border-radius: 16px;
+      padding: 28px 24px 24px;
+      text-decoration: none;
+      display: block;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    .trilha-card::after {
+      content: '→';
+      position: absolute;
+      bottom: 22px;
+      right: 22px;
+      font-size: 20px;
+      font-weight: 900;
+      opacity: 0.5;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .trilha-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.2);
+    }
+    .trilha-card:hover::after { opacity: 1; transform: translateX(4px); }
+
+    .trilha-card.tc-azul { background: var(--azul); color: var(--branco); }
+    .trilha-card.tc-laranja { background: var(--laranja); color: var(--branco); }
+    .trilha-card.tc-azul-medio { background: #005aa8; color: var(--branco); }
+
+    .tc-emoji { font-size: 36px; display: block; margin-bottom: 12px; }
+    .tc-publico {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 4px;
+    }
+    .tc-nome {
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+    .tc-desc {
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0.85;
+      margin-bottom: 16px;
+      line-height: 1.55;
+    }
+    .tc-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .tc-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* ══════════════════════════════
+       ESTRUTURA 3 NÍVEIS
+    ══════════════════════════════ */
+    .sec-niveis { background: var(--branco); }
+    .niveis-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .nivel-step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 26px 28px;
+      border-radius: 16px;
+      margin-bottom: 0;
+      position: relative;
+    }
+    .nivel-connector {
+      display: flex;
+      justify-content: flex-start;
+      padding-left: 48px;
+      height: 36px;
+      align-items: center;
+    }
+    .nivel-connector::before {
+      content: '';
+      display: block;
+      width: 3px;
+      height: 100%;
+      background: var(--laranja);
+      border-radius: 2px;
+    }
+    .nivel-step.ns-1 { background: var(--branco-gelo); border: 2px solid var(--cinza-claro); }
+    .nivel-step.ns-2 { background: var(--laranja); color: var(--branco); }
+    .nivel-step.ns-3 { background: var(--azul); color: var(--branco); }
+
+    .ns-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .ns-1 .ns-num { background: var(--cinza-claro); color: var(--azul); }
+    .ns-2 .ns-num { background: rgba(255,255,255,0.25); color: var(--branco); }
+    .ns-3 .ns-num { background: rgba(255,255,255,0.15); color: var(--laranja); border: 2px solid var(--laranja); }
+
+    .ns-body { flex: 1; }
+    .ns-nivel-tag {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 2px;
+    }
+    .ns-nome {
+      font-size: 18px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .ns-1 .ns-nome { color: var(--azul); }
+    .ns-desc { font-size: 13.5px; font-weight: 500; line-height: 1.6; }
+    .ns-1 .ns-desc { color: #444; }
+    .ns-tag-inline {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-top: 10px;
+    }
+    .ns-1 .ns-tag-inline { background: var(--azul); color: var(--branco); }
+    .ns-2 .ns-tag-inline { background: rgba(255,255,255,0.25); color: var(--branco); border: 1px solid rgba(255,255,255,0.4); }
+    .ns-3 .ns-tag-inline { background: var(--laranja); color: var(--branco); }
+
+    /* ══════════════════════════════
+       COMO SE INSCREVER
+    ══════════════════════════════ */
+    .sec-inscricao { background: var(--branco-gelo); }
+    .steps-list {
+      max-width: 740px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .inscricao-step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 22px 26px;
+      border-radius: 14px;
+      margin-bottom: 0;
+      position: relative;
+    }
+    .inscricao-step + .inscricao-step {
+      margin-top: 4px;
+    }
+    .inscricao-step.is-azul { background: var(--azul); color: var(--branco); }
+    .inscricao-step.is-laranja { background: var(--laranja); color: var(--branco); }
+    .inscricao-step.is-gelo { background: var(--branco); color: var(--azul); border: 2px solid var(--cinza-claro); }
+
+    .inscricao-arrow {
+      text-align: center;
+      color: var(--laranja);
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1;
+      padding: 4px 0;
+    }
+
+    .is-num {
+      font-size: 36px;
+      font-weight: 900;
+      opacity: 0.18;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 40px;
+      text-align: center;
+    }
+    .is-body { flex: 1; }
+    .is-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .is-desc { font-size: 13px; font-weight: 500; line-height: 1.6; opacity: 0.85; }
+    .is-desc strong { opacity: 1; font-weight: 800; }
+    .is-azul .is-desc strong { color: var(--laranja); }
+    .is-laranja .is-desc strong { color: var(--branco); }
+    .is-gelo .is-desc strong { color: var(--azul); }
+
+    .intranet-cta {
+      background: var(--azul);
+      border: 3px solid var(--laranja);
+      border-radius: 16px;
+      padding: 32px 28px;
+      text-align: center;
+      color: var(--branco);
+      margin-top: 32px;
+      max-width: 740px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .intranet-cta .ic-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      color: var(--azul-200);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .intranet-cta .ic-url {
+      font-size: clamp(20px, 4vw, 32px);
+      font-weight: 900;
+      color: var(--laranja);
+      display: block;
+    }
+    .intranet-cta .ic-sub {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--azul-200);
+      margin-top: 6px;
+    }
+
+    /* ══════════════════════════════
+       AVISO SEM CERTIFICADO
+    ══════════════════════════════ */
+    .sec-aviso { background: var(--branco); padding: 56px 24px; }
+    .aviso-box {
+      background: var(--laranja);
+      color: var(--branco);
+      border-radius: 16px;
+      padding: 32px 36px;
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      box-shadow: 0 6px 24px rgba(247,148,29,0.35);
+    }
+    .aviso-icon { font-size: 40px; flex-shrink: 0; }
+    .aviso-body {}
+    .aviso-title {
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .aviso-desc {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.65;
+      opacity: 0.92;
+    }
+    .aviso-desc strong { font-weight: 800; }
+
+    /* ══════════════════════════════
+       CONTATO / DÚVIDAS
+    ══════════════════════════════ */
+    .sec-contato { background: var(--azul); padding: 72px 24px; }
+    .sec-contato .section-title { color: var(--branco); text-align: center; }
+    .sec-contato .section-sub { text-align: center; color: var(--azul-200); margin-bottom: 36px; }
+    .contato-card {
+      background: var(--branco-gelo);
+      border-top: 5px solid var(--laranja);
+      border-radius: 16px;
+      padding: 32px 36px;
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contato-card .cc-icon { font-size: 36px; display: block; margin-bottom: 12px; }
+    .contato-card .cc-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--laranja);
+      margin-bottom: 8px;
+    }
+    .contato-card .cc-email {
+      font-size: clamp(12px, 2.2vw, 16px);
+      font-weight: 800;
+      color: var(--azul);
+      word-break: break-all;
+    }
+    .contato-card .cc-sub {
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      margin-top: 8px;
+    }
+
+    /* ══════════════════════════════
+       VOLTAR LINK
+    ══════════════════════════════ */
+    .voltar-wrap {
+      text-align: center;
+      padding: 40px 24px 0;
+    }
+    .voltar-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--azul);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      opacity: 0.8;
+      transition: opacity 0.2s, gap 0.2s;
+    }
+    .voltar-link:hover { opacity: 1; gap: 12px; }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--azul-escuro);
+      color: var(--azul-200);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      margin-top: 0;
+    }
+
+    /* ══════════════════════════════
+       FADE IN ANIMATION
+    ══════════════════════════════ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 600px) {
+      .site-header { padding: 0 14px; }
+      .hero { padding: 56px 16px 64px; }
+      section { padding: 52px 16px; }
+      .aviso-box { flex-direction: column; gap: 12px; }
+      .header-center .trail-title { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════
+       STICKY HEADER
+  ═══════════════════════════════════ -->
+  <header class="site-header">
+    <div class="header-left">
+      <a href="index.html">
+        <span>←</span>
+        <span>Comitê de Inovação</span>
+      </a>
+    </div>
+    <div class="header-center">
+      <div class="sup-label">Senac Araçatuba</div>
+      <div class="trail-title">Educação <span>Corporativa</span></div>
+    </div>
+    <div class="header-right">🗺️</div>
+  </header>
+
+  <!-- ═══════════════════════════════════
+       HERO
+  ═══════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-emoji">🗺️</span>
+      <div class="hero-eyebrow">Comece por aqui</div>
+      <h1 class="hero-title">
+        Guia das Trilhas de
+        <span class="line2">Educação Corporativa</span>
+      </h1>
+      <p class="hero-subtitle">Tudo que você precisa saber para começar</p>
+      <div class="hero-tagline">
+        Núcleo de Educação Corporativa · Senac São Paulo
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num">3</span>
+          <div class="stat-label">Trilhas</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">13</span>
+          <div class="stat-label">Títulos</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">~55h</span>
+          <div class="stat-label">de formação</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">3</span>
+          <div class="stat-label">Níveis</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       O QUE É EDUCAÇÃO CORPORATIVA
+  ═══════════════════════════════════ -->
+  <section class="sec-oq">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">O que é a <span>Educação Corporativa?</span></h2>
+      <p class="section-sub fade-in">Entenda o programa antes de começar</p>
+
+      <div class="highlight-card fade-in">
+        As Trilhas de Educação Corporativa são programas de formação organizados pelo
+        <strong>Núcleo de Educação Corporativa do Senac São Paulo</strong>. São diferentes do Saber Senac:
+        enquanto o Saber Senac tem cursos online em plataforma digital, as trilhas corporativas incluem
+        <strong>oficinas remotas com facilitador</strong>, com datas e turmas programadas.
+      </div>
+
+      <div class="diff-grid">
+        <div class="diff-card dc-azul fade-in">
+          <span class="dc-icon">🏛️</span>
+          <div class="dc-label">Educação Corporativa</div>
+          <div class="dc-title">Trilhas com facilitador</div>
+          <p>Oficinas remotas com data e turma programada. Inscrição necessária. Formação estruturada em 3 níveis progressivos.</p>
+        </div>
+        <div class="diff-card dc-gelo fade-in">
+          <span class="dc-icon">💻</span>
+          <div class="dc-label">Saber Senac</div>
+          <div class="dc-title">Plataforma digital</div>
+          <p>Cursos online disponíveis a qualquer hora, no seu ritmo, sem inscrição prévia em turmas. Plataforma de autoaprendizagem.</p>
+        </div>
+        <div class="diff-card dc-gelo fade-in">
+          <span class="dc-icon">📋</span>
+          <div class="dc-label">Como funcionam</div>
+          <div class="dc-title">Horas trabalhadas</div>
+          <p>As horas de participação nas trilhas são contabilizadas como <strong>horas trabalhadas</strong>, sem emissão de certificado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       QUAL TRILHA É A CERTA PARA MIM
+  ═══════════════════════════════════ -->
+  <section class="sec-trilhas">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">Qual trilha é a <span>certa para mim?</span></h2>
+      <p class="section-sub fade-in">Clique na sua trilha para acessar o guia completo</p>
+
+      <div class="trilha-grid">
+
+        <a href="trilha-docencia-ia.html" class="trilha-card tc-azul fade-in">
+          <span class="tc-emoji">🤖</span>
+          <div class="tc-publico">Para MEP e Professores</div>
+          <div class="tc-nome">Docência com IA</div>
+          <p class="tc-desc">Integra inteligência artificial à prática pedagógica. Ferramentas e metodologias para transformar a sala de aula.</p>
+          <div class="tc-meta">
+            <span class="tc-badge">5 títulos</span>
+            <span class="tc-badge">~26h</span>
+          </div>
+        </a>
+
+        <a href="trilha-gestao-inovacao.html" class="trilha-card tc-laranja fade-in">
+          <span class="tc-emoji">🏢</span>
+          <div class="tc-publico">Para Lideranças</div>
+          <div class="tc-nome">Gestão e Inovação</div>
+          <p class="tc-desc">IA para líderes que multiplicam impacto. Ferramentas estratégicas para gestores que fazem a diferença.</p>
+          <div class="tc-meta">
+            <span class="tc-badge">4 títulos</span>
+            <span class="tc-badge">~15h</span>
+          </div>
+        </a>
+
+        <a href="trilha-ia-trabalho.html" class="trilha-card tc-azul-medio fade-in">
+          <span class="tc-emoji">💼</span>
+          <div class="tc-publico">Para todos os funcionários</div>
+          <div class="tc-nome">IA no Trabalho</div>
+          <p class="tc-desc">IA aplicada ao dia a dia administrativo. Para quem quer ganhar agilidade e eficiência nas tarefas cotidianas.</p>
+          <div class="tc-meta">
+            <span class="tc-badge">4 títulos</span>
+            <span class="tc-badge">~14h</span>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Tabela de quem é quem -->
+      <div style="margin-top: 36px; background: var(--branco); border-radius: 16px; padding: 28px 32px; box-shadow: 0 2px 14px rgba(0,0,0,0.07);" class="fade-in">
+        <div style="font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--laranja); margin-bottom: 18px;">Encontre seu perfil</div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: var(--branco-gelo); border-radius: 10px; border-left: 4px solid var(--azul);">
+            <span style="font-size: 22px;">🤖</span>
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: var(--azul);">Docente ou MEP</div>
+              <div style="font-size: 12px; font-weight: 500; color: #555;">→ Trilha Docência com IA</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: var(--branco-gelo); border-radius: 10px; border-left: 4px solid var(--laranja);">
+            <span style="font-size: 22px;">🏢</span>
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: var(--azul);">Gerente, Coordenador, TDP ou TSE</div>
+              <div style="font-size: 12px; font-weight: 500; color: #555;">→ Trilha Gestão e Inovação</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: var(--branco-gelo); border-radius: 10px; border-left: 4px solid #005aa8;">
+            <span style="font-size: 22px;">💼</span>
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: var(--azul);">Equipe administrativa, secretaria, atendimento, biblioteca ou operacional</div>
+              <div style="font-size: 12px; font-weight: 500; color: #555;">→ Trilha IA no Trabalho</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       ESTRUTURA: 3 NÍVEIS
+  ═══════════════════════════════════ -->
+  <section class="sec-niveis">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">Estrutura: <span>3 níveis</span> progressivos</h2>
+      <p class="section-sub fade-in">Todas as trilhas seguem a mesma estrutura — do fundamental ao avançado</p>
+
+      <div class="niveis-wrap">
+
+        <div class="nivel-step ns-1 fade-in">
+          <div class="ns-num">1</div>
+          <div class="ns-body">
+            <div class="ns-nivel-tag">Nível 1</div>
+            <div class="ns-nome">Fundamental</div>
+            <p class="ns-desc">Conteúdo autoinstrucional, disponível a qualquer hora, no seu próprio ritmo. Não há inscrição necessária — basta acessar pelo portal e começar.</p>
+            <span class="ns-tag-inline">Sem inscrição · Autoinstrucional</span>
+          </div>
+        </div>
+
+        <div class="nivel-connector fade-in"></div>
+
+        <div class="nivel-step ns-2 fade-in">
+          <div class="ns-num">2</div>
+          <div class="ns-body">
+            <div class="ns-nivel-tag">Nível 2</div>
+            <div class="ns-nome">Intermediário</div>
+            <p class="ns-desc">Oficina remota conduzida por um facilitador especialista. Com datas e turmas programadas — inscrição necessária pela Intranet.</p>
+            <span class="ns-tag-inline">Inscrição necessária · Facilitador</span>
+          </div>
+        </div>
+
+        <div class="nivel-connector fade-in"></div>
+
+        <div class="nivel-step ns-3 fade-in">
+          <div class="ns-num">3</div>
+          <div class="ns-body">
+            <div class="ns-nivel-tag">Nível 3</div>
+            <div class="ns-nome">Avançado</div>
+            <p class="ns-desc">Oficina remota aprofundada com facilitador. Aborda aplicações mais complexas e cenários práticos do ambiente profissional — inscrição necessária.</p>
+            <span class="ns-tag-inline">Inscrição necessária · Aprofundamento</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       COMO SE INSCREVER
+  ═══════════════════════════════════ -->
+  <section class="sec-inscricao">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">Como se <span>inscrever</span></h2>
+      <p class="section-sub fade-in">Passo a passo para garantir sua vaga</p>
+
+      <div class="steps-list">
+
+        <div class="inscricao-step is-azul fade-in">
+          <div class="is-num">1</div>
+          <div class="is-body">
+            <div class="is-title">Acesse a Intranet do Senac SP</div>
+            <p class="is-desc">Entre em <strong>intranet.sp.senac.br</strong> usando o seu login institucional</p>
+          </div>
+        </div>
+
+        <div class="inscricao-arrow fade-in">↓</div>
+
+        <div class="inscricao-step is-gelo fade-in">
+          <div class="is-num">2</div>
+          <div class="is-body">
+            <div class="is-title">Explore o portfólio corporativo</div>
+            <p class="is-desc">Navegue até a seção <strong>Educação Corporativa</strong> e encontre as trilhas disponíveis</p>
+          </div>
+        </div>
+
+        <div class="inscricao-arrow fade-in">↓</div>
+
+        <div class="inscricao-step is-laranja fade-in">
+          <div class="is-num">3</div>
+          <div class="is-body">
+            <div class="is-title">Localize e faça sua inscrição</div>
+            <p class="is-desc">Encontre o título desejado na sua trilha e realize a inscrição pela própria plataforma</p>
+          </div>
+        </div>
+
+        <div class="inscricao-arrow fade-in">↓</div>
+
+        <div class="inscricao-step is-azul fade-in">
+          <div class="is-num">4</div>
+          <div class="is-body">
+            <div class="is-title">Confirme com seu coordenador</div>
+            <p class="is-desc"><strong>Importante:</strong> Comunique e confirme sua participação com o seu coordenador de área técnica antes do evento</p>
+          </div>
+        </div>
+
+        <div class="inscricao-arrow fade-in">↓</div>
+
+        <div class="inscricao-step is-gelo fade-in">
+          <div class="is-num">5</div>
+          <div class="is-body">
+            <div class="is-title">Cursos com deslocamento</div>
+            <p class="is-desc">Se houver deslocamento presencial, encaminhe o comprovante de inscrição ao setor <strong>Administrativo</strong> para providências de hospedagem e transporte</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="intranet-cta fade-in">
+        <div class="ic-label">Portal de acesso</div>
+        <span class="ic-url">intranet.sp.senac.br</span>
+        <p class="ic-sub">Use seu login institucional do Senac SP</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       AVISO: SEM CERTIFICADO
+  ═══════════════════════════════════ -->
+  <section class="sec-aviso">
+    <div class="aviso-box fade-in">
+      <div class="aviso-icon">⚠️</div>
+      <div class="aviso-body">
+        <div class="aviso-title">Atenção: Sem certificado</div>
+        <p class="aviso-desc">
+          Nenhum curso das Trilhas de Educação Corporativa emite certificado de conclusão.
+          As horas de participação são registradas como <strong>horas trabalhadas</strong> no seu histórico profissional junto ao Senac.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       DÚVIDAS / CONTATO
+  ═══════════════════════════════════ -->
+  <section class="sec-contato">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">Ficou com <span>dúvidas?</span></h2>
+      <p class="section-sub fade-in">Entre em contato com a equipe responsável pelo programa</p>
+
+      <div class="contato-card fade-in">
+        <span class="cc-icon">✉️</span>
+        <div class="cc-label">Gestão da Oferta e Operação</div>
+        <div class="cc-email">GrupoGEPGestaodaOfertaeOperacao@sp.senac.br</div>
+        <p class="cc-sub">Dúvidas sobre inscrições, datas e operação das trilhas corporativas</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       VOLTAR
+  ═══════════════════════════════════ -->
+  <div class="voltar-wrap" style="background: var(--azul-escuro); padding: 32px 24px 0;">
+    <a href="index.html" class="voltar-link" style="color: var(--azul-200);">
+      <span>←</span>
+      <span>Voltar para o Portfólio</span>
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════ -->
+  <footer>
+    © 2025 Comitê de Inovação — Senac Araçatuba
+  </footer>
+
+  <!-- ═══════════════════════════════════
+       FADE IN SCRIPT
+  ═══════════════════════════════════ -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

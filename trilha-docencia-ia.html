@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docência com IA · Educação Corporativa · Senac Araçatuba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --azul: #004587;
+      --laranja: #F7941D;
+      --branco-gelo: #F2F2F2;
+      --branco: #FFFFFF;
+      --cinza-claro: #E0E6EF;
+      --azul-200: #a8c4e0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--branco-gelo); color: #1a1a1a; }
+
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+
+    /* HEADER */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--azul);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .header-left a {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--branco); text-decoration: none;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.03em;
+      opacity: 0.9; transition: opacity 0.2s;
+    }
+    .header-left a:hover { opacity: 1; }
+    .header-left .arrow { font-size: 18px; }
+    .header-center { text-align: center; flex: 1; padding: 0 16px; }
+    .header-center .sup-label { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; color: var(--azul-200); text-transform: uppercase; }
+    .header-center .trail-title { font-size: 16px; font-weight: 800; color: var(--branco); letter-spacing: 0.04em; }
+    .header-center .trail-title span { color: var(--laranja); }
+    .header-right { font-size: 12px; font-weight: 700; color: var(--azul-200); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* HERO */
+    .hero { position: relative; background: var(--azul); overflow: hidden; padding: 72px 40px 60px; }
+    .hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+    .hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: var(--azul-200); text-transform: uppercase; margin-bottom: 16px; }
+    .hero-emoji { font-size: 56px; display: block; margin-bottom: 16px; }
+    .hero-title { font-size: clamp(38px, 7vw, 68px); font-weight: 900; line-height: 1.0; color: var(--branco); margin-bottom: 4px; }
+    .hero-title .orange { color: var(--laranja); }
+    .hero-subtitle { font-size: 15px; font-weight: 500; color: var(--azul-200); margin-top: 14px; margin-bottom: 32px; max-width: 600px; line-height: 1.6; }
+    .hero-badges { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 12px 20px; text-align: center; }
+    .hero-badge .badge-num { font-size: 22px; font-weight: 900; color: var(--laranja); display: block; }
+    .hero-badge .badge-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 0.06em; }
+    .hero-deco { position: absolute; z-index: 1; opacity: 0.07; font-size: 280px; right: -20px; top: -30px; line-height: 1; user-select: none; }
+
+    /* SECTIONS */
+    section { width: 100%; }
+    .section-inner { max-width: 960px; margin: 0 auto; padding: 60px 32px; }
+    .section-title { font-size: 26px; font-weight: 800; color: var(--azul); margin-bottom: 8px; letter-spacing: -0.01em; }
+    .section-title span { color: var(--laranja); }
+    .section-subtitle { font-size: 14px; font-weight: 500; color: #666; margin-bottom: 32px; }
+
+    /* BREADCRUMB */
+    .breadcrumb { background: var(--branco); border-bottom: 1px solid var(--cinza-claro); }
+    .breadcrumb .section-inner { padding: 14px 32px; }
+    .breadcrumb-inner { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: #888; }
+    .breadcrumb-inner a { color: var(--azul); text-decoration: none; }
+    .breadcrumb-inner a:hover { text-decoration: underline; }
+    .breadcrumb-sep { opacity: 0.4; }
+    .breadcrumb-current { color: var(--laranja); }
+
+    /* OVERVIEW DE NÍVEIS */
+    .trilha-overview { background: var(--branco); }
+    .overview-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .ov-card { border-radius: 14px; padding: 24px 20px; }
+    .ov-lv1 { background: var(--branco-gelo); border: 2px solid var(--azul); }
+    .ov-lv2 { background: var(--azul); color: var(--branco); }
+    .ov-lv3 { background: var(--laranja); color: var(--branco); }
+    .ov-badge { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+    .ov-lv1 .ov-badge { background: var(--azul); color: var(--branco); }
+    .ov-lv2 .ov-badge { background: rgba(255,255,255,0.2); color: var(--branco); }
+    .ov-lv3 .ov-badge { background: rgba(255,255,255,0.25); color: var(--branco); }
+    .ov-title { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+    .ov-lv1 .ov-title { color: var(--azul); }
+    .ov-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .ov-list li { font-size: 12px; font-weight: 600; opacity: 0.9; padding-left: 14px; position: relative; line-height: 1.4; }
+    .ov-list li::before { content: '›'; position: absolute; left: 0; font-weight: 900; }
+    .ov-total { text-align: center; font-size: 14px; font-weight: 700; color: var(--azul); padding: 14px 24px; background: var(--branco-gelo); border-radius: 12px; border: 2px solid var(--cinza-claro); }
+
+    /* COMPETÊNCIAS */
+    .competencias { background: var(--branco-gelo); }
+    .comp-grid { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .comp-pill { background: var(--azul); color: var(--branco); border-radius: 24px; padding: 10px 20px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .comp-pill .comp-icon { font-size: 16px; }
+    .comp-info { border-left: 4px solid var(--laranja); padding: 16px 20px; background: var(--branco); border-radius: 0 12px 12px 0; font-size: 14px; font-weight: 600; color: var(--azul); line-height: 1.6; }
+
+    /* LEVEL HEADER */
+    .level-section { background: var(--branco); }
+    .level-section.alt { background: var(--branco-gelo); }
+    .level-header { background: var(--azul); border-radius: 16px; padding: 28px 32px; display: flex; align-items: center; gap: 24px; margin-bottom: 24px; }
+    .level-header.orange { background: var(--laranja); }
+    .level-num { font-size: 64px; font-weight: 900; color: var(--laranja); line-height: 1; flex-shrink: 0; }
+    .level-header.orange .level-num { color: rgba(255,255,255,0.4); }
+    .level-info .level-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.18em; color: var(--azul-200); text-transform: uppercase; margin-bottom: 4px; }
+    .level-header.orange .level-info .level-tag { color: rgba(255,255,255,0.7); }
+    .level-info .level-name { font-size: 24px; font-weight: 900; color: var(--branco); margin-bottom: 4px; }
+    .level-info .level-desc { font-size: 13px; font-weight: 500; color: var(--laranja); }
+    .level-header.orange .level-info .level-desc { color: rgba(255,255,255,0.85); }
+
+    /* COURSE CARD */
+    .course-card { background: var(--branco); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.08); margin-bottom: 20px; }
+    .course-card-top { padding: 22px 28px 14px; border-bottom: 1px solid var(--cinza-claro); display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .course-tag { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; display: inline-block; }
+    .tag-blue { background: var(--azul); color: var(--branco); }
+    .tag-orange { background: var(--laranja); color: var(--branco); }
+    .tag-outline { background: transparent; color: var(--azul); border: 2px solid var(--laranja); }
+    .course-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .cbadge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; }
+    .cbadge-orange { background: var(--laranja); color: var(--branco); }
+    .cbadge-blue { background: var(--azul); color: var(--branco); }
+    .cbadge-gray { background: var(--cinza-claro); color: #444; }
+    .course-name { padding: 12px 28px 0; font-size: 17px; font-weight: 800; color: var(--azul); line-height: 1.3; }
+    .course-body { padding: 18px 28px; }
+    .info-row { display: flex; flex-direction: column; gap: 12px; }
+    .info-item { background: var(--branco-gelo); border-left: 4px solid var(--laranja); border-radius: 0 10px 10px 0; padding: 12px 16px; }
+    .info-label { font-size: 11px; font-weight: 800; color: var(--azul); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .info-text { font-size: 13px; font-weight: 500; color: #333; line-height: 1.6; }
+    .course-footer { padding: 14px 28px; background: var(--branco-gelo); border-top: 1px solid var(--cinza-claro); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .footer-pill { font-size: 11px; font-weight: 700; color: var(--azul); background: var(--cinza-claro); padding: 5px 14px; border-radius: 20px; }
+    .prereq-pill { font-size: 11px; font-weight: 700; color: var(--branco); background: var(--azul); padding: 5px 14px; border-radius: 20px; }
+
+    /* AVISO SEM CERTIFICADO */
+    .aviso-certificado { background: var(--branco); }
+    .aviso-box { background: var(--laranja); border-radius: 16px; padding: 28px 32px; display: flex; align-items: flex-start; gap: 20px; }
+    .aviso-icon { font-size: 36px; flex-shrink: 0; }
+    .aviso-text .aviso-title { font-size: 18px; font-weight: 900; color: var(--branco); margin-bottom: 8px; }
+    .aviso-text .aviso-desc { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.92); line-height: 1.6; }
+
+    /* COMO ACESSAR */
+    .como-acessar { background: var(--branco-gelo); }
+    .steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+    .step-card { border-radius: 14px; padding: 22px 20px; display: flex; gap: 14px; align-items: flex-start; }
+    .step-blue { background: var(--azul); color: var(--branco); }
+    .step-orange { background: var(--laranja); color: var(--branco); }
+    .step-num { font-size: 34px; font-weight: 900; opacity: 0.45; line-height: 1; flex-shrink: 0; }
+    .step-text { font-size: 13px; font-weight: 600; line-height: 1.6; padding-top: 4px; }
+    .acesso-cta { background: var(--azul); border: 3px solid var(--laranja); border-radius: 16px; padding: 28px 32px; text-align: center; margin-bottom: 20px; }
+    .acesso-cta .cta-label { font-size: 11px; font-weight: 700; color: var(--azul-200); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; }
+    .acesso-cta .cta-url { font-size: clamp(13px, 2.5vw, 18px); font-weight: 900; color: var(--laranja); word-break: break-all; }
+    .duvidas-box { background: var(--branco); border-radius: 12px; padding: 18px 24px; display: flex; align-items: center; gap: 12px; border: 2px solid var(--cinza-claro); }
+    .duvidas-box .duvidas-label { font-size: 12px; font-weight: 700; color: var(--azul); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .duvidas-box .duvidas-email { font-size: 13px; font-weight: 600; color: #333; word-break: break-all; }
+    .duvidas-icon { font-size: 28px; flex-shrink: 0; }
+
+    /* FOOTER */
+    .page-footer { background: #002f5e; color: rgba(255,255,255,0.5); text-align: center; padding: 20px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .overview-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .hero { padding: 48px 20px 40px; }
+      .section-inner { padding: 40px 20px; }
+      .level-header { padding: 18px 20px; gap: 14px; }
+      .level-num { font-size: 48px; }
+      .header-center .trail-title { font-size: 13px; }
+      .course-card-top { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-left">
+      <a href="index.html">
+        <span class="arrow">←</span>
+        Voltar ao Portfólio
+      </a>
+    </div>
+    <div class="header-center">
+      <div class="sup-label">Educação Corporativa</div>
+      <div class="trail-title">Docência com <span>IA</span></div>
+    </div>
+    <div class="header-right">Comitê de Inovação</div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb">
+    <div class="section-inner">
+      <div class="breadcrumb-inner">
+        <a href="index.html">Portfólio</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>Educação Corporativa</span>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Docência com IA</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-deco" aria-hidden="true">🤖</div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow fade-in">Trilha de IA e Inovação para Docentes · Senac SP</div>
+      <span class="hero-emoji fade-in fade-in-delay-1">🤖</span>
+      <h1 class="hero-title fade-in fade-in-delay-1">Docência<br>com <span class="orange">IA</span></h1>
+      <p class="hero-subtitle fade-in fade-in-delay-2">Trilha de IA e Inovação para Docentes do Senac SP — Educação Corporativa</p>
+      <div class="hero-badges fade-in fade-in-delay-3">
+        <div class="hero-badge">
+          <span class="badge-num">5</span>
+          <span class="badge-label">Títulos</span>
+        </div>
+        <div class="hero-badge">
+          <span class="badge-num">~26h</span>
+          <span class="badge-label">Carga horária</span>
+        </div>
+        <div class="hero-badge">
+          <span class="badge-num">—</span>
+          <span class="badge-label">Sem certificado</span>
+        </div>
+        <div class="hero-badge">
+          <span class="badge-num">MEP</span>
+          <span class="badge-label">e Professores</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISÃO GERAL DOS NÍVEIS -->
+  <section class="trilha-overview">
+    <div class="section-inner fade-in">
+      <h2 class="section-title">Visão Geral da <span>Trilha</span></h2>
+      <p class="section-subtitle">Três níveis progressivos — do fundamental ao avançado em IA aplicada à docência.</p>
+      <div class="overview-grid">
+        <div class="ov-card ov-lv1">
+          <span class="ov-badge">Nível 1</span>
+          <div class="ov-title">Fundamental</div>
+          <ul class="ov-list">
+            <li>Inovação e Transformação Digital · 2h</li>
+            <li>Soft skills para inovação · 1h</li>
+          </ul>
+        </div>
+        <div class="ov-card ov-lv2">
+          <span class="ov-badge">Nível 2</span>
+          <div class="ov-title">Intermediário</div>
+          <ul class="ov-list">
+            <li>Oficina IA: inspirando e criando possibilidades · 4h</li>
+          </ul>
+        </div>
+        <div class="ov-card ov-lv3">
+          <span class="ov-badge">Nível 3</span>
+          <div class="ov-title">Avançado</div>
+          <ul class="ov-list">
+            <li>Oficina de Prompts · 8h</li>
+            <li>IA na prática docente · 11h</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ov-total">
+        5 títulos · carga total ~26 horas · público: MEP e Professores
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETÊNCIAS -->
+  <section class="competencias">
+    <div class="section-inner fade-in">
+      <h2 class="section-title"><span>Competências</span> Desenvolvidas</h2>
+      <p class="section-subtitle">Competências do Modelo de Educação Profissional trabalhadas nesta trilha.</p>
+      <div class="comp-grid">
+        <div class="comp-pill"><span class="comp-icon">💡</span> Inovação</div>
+        <div class="comp-pill"><span class="comp-icon">💻</span> Fluência Digital</div>
+        <div class="comp-pill"><span class="comp-icon">🎓</span> Prestação de Serviços em Educação</div>
+      </div>
+      <div class="comp-info">
+        Esta trilha prepara o docente para integrar a Inteligência Artificial às práticas pedagógicas, desenvolvendo fluência digital, postura inovadora e qualificação dos serviços educacionais oferecidos pelo Senac.
+      </div>
+    </div>
+  </section>
+
+  <!-- NÍVEL 1 — FUNDAMENTAL -->
+  <section class="level-section alt">
+    <div class="section-inner fade-in">
+      <div class="level-header">
+        <div class="level-num">01</div>
+        <div class="level-info">
+          <div class="level-tag">Nível 1</div>
+          <div class="level-name">Fundamental</div>
+          <div class="level-desc">Autoinstrucional — sem necessidade de inscrição prévia</div>
+        </div>
+      </div>
+
+      <!-- Curso 1 -->
+      <div class="course-card">
+        <div class="course-card-top">
+          <span class="course-tag tag-blue">Curso 01</span>
+          <div class="course-badges">
+            <span class="cbadge cbadge-orange">⏱ 2 horas</span>
+            <span class="cbadge cbadge-gray">Autoinstrucional</span>
+          </div>
+        </div>
+        <div class="course-name">Inovação e Transformação Digital</div>
+        <div class="course-body">
+          <div class="info-row">
+            <div class="info-item">
+              <div class="info-label">Modalidade</div>
+              <div class="info-text">Autoinstrucional — disponível a qualquer momento, sem facilitador</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Plataforma</div>
+              <div class="info-text">Intranet Senac SP — Educação Corporativa</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Inscrição</div>
+              <div class="info-text">Não é necessária inscrição prévia. Acesse diretamente pela Intranet.</div>
+            </div>
+          </div>
+        </div>
+        <div class="course-footer">
+          <span class="footer-pill">📚 Fundamental</span>
+          <span class="footer-pill">🕐 2h</span>
+        </div>
+      </div>
+
+      <!-- Curso 2 -->
+      <div class="course-card">
+        <div class="course-card-top">
+          <span class="course-tag tag-blue">Curso 02</span>
+          <div class="course-badges">
+            <span class="cbadge cbadge-orange">⏱ 1 hora</span>
+            <span class="cbadge cbadge-gray">Webinar Gravado</span>
+          </div>
+        </div>
+        <div class="course-name">Soft Skills para Inovação e Transformação Digital</div>
+        <div class="course-body">
+          <div class="info-row">
+            <div class="info-item">
+              <div class="info-label">Modalidade</div>
+              <div class="info-text">Webinar gravado — assista no seu próprio ritmo</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Plataforma</div>
+              <div class="info-text">Intranet Senac SP — Educação Corporativa</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Inscrição</div>
+              <div class="info-text">Não é necessária inscrição prévia. Acesse diretamente pela Intranet.</div>
+            </div>
+          </div>
+        </div>
+        <div class="course-footer">
+          <span class="footer-pill">📚 Fundamental</span>
+          <span class="footer-pill">🕐 1h</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NÍVEL 2 — INTERMEDIÁRIO -->
+  <section class="level-section">
+    <div class="section-inner fade-in">
+      <div class="level-header">
+        <div class="level-num">02</div>
+        <div class="level-info">
+          <div class="level-tag">Nível 2</div>
+          <div class="level-name">Intermediário</div>
+          <div class="level-desc">Inscrição necessária pela Intranet · Remoto com facilitador</div>
+        </div>
+      </div>
+
+      <!-- Curso 3 -->
+      <div class="course-card">
+        <div class="course-card-top">
+          <span class="course-tag tag-outline">Curso 03</span>
+          <div class="course-badges">
+            <span class="cbadge cbadge-orange">⏱ 4 horas</span>
+            <span class="cbadge cbadge-blue">Remoto com Facilitador</span>
+          </div>
+        </div>
+        <div class="course-name">Oficina IA: Inspirando e Criando Possibilidades com Sistemas Inteligentes</div>
+        <div class="course-body">
+          <div class="info-row">
+            <div class="info-item">
+              <div class="info-label">Modalidade</div>
+              <div class="info-text">Oficina remota ao vivo, com facilitador — participação interativa</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Inscrição</div>
+              <div class="info-text">Inscrição obrigatória pela Intranet Senac SP — Educação Corporativa</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Plataforma</div>
+              <div class="info-text">Intranet Senac SP — acesse o portfólio e localize o título para se inscrever</div>
+            </div>
+          </div>
+        </div>
+        <div class="course-footer">
+          <span class="footer-pill">🎯 Intermediário</span>
+          <span class="footer-pill">🕐 4h</span>
+          <span class="footer-pill">📝 Inscrição necessária</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NÍVEL 3 — AVANÇADO -->
+  <section class="level-section alt">
+    <div class="section-inner fade-in">
+      <div class="level-header orange">
+        <div class="level-num">03</div>
+        <div class="level-info">
+          <div class="level-tag">Nível 3</div>
+          <div class="level-name">Avançado</div>
+          <div class="level-desc">Inscrição necessária · Atenção aos pré-requisitos</div>
+        </div>
+      </div>
+
+      <!-- Curso 4 -->
+      <div class="course-card">
+        <div class="course-card-top">
+          <span class="course-tag tag-orange">Curso 04</span>
+          <div class="course-badges">
+            <span class="cbadge cbadge-orange">⏱ 8 horas</span>
+            <span class="cbadge cbadge-blue">Remoto com Facilitador</span>
+          </div>
+        </div>
+        <div class="course-name">Oficina de Prompts: Técnicas e Aplicações para IA</div>
+        <div class="course-body">
+          <div class="info-row">
+            <div class="info-item">
+              <div class="info-label">Modalidade</div>
+              <div class="info-text">Oficina remota ao vivo, com facilitador</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Inscrição</div>
+              <div class="info-text">Inscrição obrigatória pela Intranet Senac SP — Educação Corporativa</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Pré-requisito</div>
+              <div class="info-text">Não há pré-requisito formal declarado para este título</div>
+            </div>
+          </div>
+        </div>
+        <div class="course-footer">
+          <span class="footer-pill">🔥 Avançado</span>
+          <span class="footer-pill">🕐 8h</span>
+          <span class="footer-pill">📝 Inscrição necessária</span>
+        </div>
+      </div>
+
+      <!-- Curso 5 -->
+      <div class="course-card">
+        <div class="course-card-top">
+          <span class="course-tag tag-orange">Curso 05</span>
+          <div class="course-badges">
+            <span class="cbadge cbadge-orange">⏱ 11 horas</span>
+            <span class="cbadge cbadge-blue">Remoto com Facilitador</span>
+          </div>
+        </div>
+        <div class="course-name">IA na Prática Docente</div>
+        <div class="course-body">
+          <div class="info-row">
+            <div class="info-item">
+              <div class="info-label">Modalidade</div>
+              <div class="info-text">Oficina remota ao vivo, com facilitador</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Inscrição</div>
+              <div class="info-text">Inscrição obrigatória pela Intranet Senac SP — Educação Corporativa</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Pré-requisito</div>
+              <div class="info-text">Exige a <strong>Certificação JSE</strong> como pré-requisito para inscrição</div>
+            </div>
+          </div>
+        </div>
+        <div class="course-footer">
+          <span class="footer-pill">🔥 Avançado</span>
+          <span class="footer-pill">🕐 11h</span>
+          <span class="prereq-pill">⚠️ Pré-req: Certificação JSE</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- AVISO SEM CERTIFICADO -->
+  <section class="aviso-certificado">
+    <div class="section-inner fade-in">
+      <div class="aviso-box">
+        <div class="aviso-icon">⚠️</div>
+        <div class="aviso-text">
+          <div class="aviso-title">Nenhum curso emite certificado</div>
+          <div class="aviso-desc">
+            Todos os títulos desta trilha são parte da Educação Corporativa do Senac SP.
+            A participação é registrada como <strong>horas trabalhadas</strong>, não gerando certificado de conclusão.
+            Confirme sua participação com o coordenador de área técnica antes de se inscrever.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO ACESSAR -->
+  <section class="como-acessar">
+    <div class="section-inner fade-in">
+      <h2 class="section-title">Como <span>Acessar</span></h2>
+      <p class="section-subtitle">Siga os passos abaixo para se inscrever nos títulos desta trilha pela Intranet do Senac SP.</p>
+
+      <div class="steps-grid">
+        <div class="step-card step-blue">
+          <div class="step-num">1</div>
+          <div class="step-text">Acesse a Intranet do Senac SP com seu login institucional</div>
+        </div>
+        <div class="step-card step-blue">
+          <div class="step-num">2</div>
+          <div class="step-text">Vá em <strong>Educação Corporativa</strong> e navegue pelo portfólio de ofertas</div>
+        </div>
+        <div class="step-card step-blue">
+          <div class="step-num">3</div>
+          <div class="step-text">Localize o título desejado e realize a inscrição</div>
+        </div>
+        <div class="step-card step-orange">
+          <div class="step-num">4</div>
+          <div class="step-text">Confirme a participação com seu <strong>coordenador de área técnica</strong></div>
+        </div>
+        <div class="step-card step-orange" style="grid-column: 1 / -1;">
+          <div class="step-num">5</div>
+          <div class="step-text">Para cursos presenciais: encaminhe o comprovante de inscrição ao setor Administrativo para providências de deslocamento e hospedagem</div>
+        </div>
+      </div>
+
+      <div class="acesso-cta">
+        <div class="cta-label">Acesse agora</div>
+        <div class="cta-url">intranet.sp.senac.br/intranet-frontend/pagina/educacao-corporativa</div>
+      </div>
+
+      <div class="duvidas-box">
+        <div class="duvidas-icon">✉️</div>
+        <div>
+          <div class="duvidas-label">Dúvidas sobre a oferta</div>
+          <div class="duvidas-email">GrupoGEPGestaodaOfertaeOperacao@sp.senac.br</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="page-footer">
+    © 2025 Comitê de Inovação — Senac Araçatuba
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

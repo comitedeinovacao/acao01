@@ -1309,7 +1309,7 @@
     async function carregarGaleria() {
       if (!CONFIG.apps_script_url || CONFIG.apps_script_url.includes('COLE')) return [];
       try {
-        const res = await fetch(`${CONFIG.apps_script_url}?action=galeria&key=${APPS_SECRET_KEY}`);
+        const res = await fetch(`${CONFIG.apps_script_url}?action=galeria&key=${encodeURIComponent(APPS_SECRET_KEY)}`);
         const data = await res.json();
         return Array.isArray(data) ? data : [];
       } catch (e) {
@@ -1321,7 +1321,7 @@
     async function carregarPendentes() {
       if (!CONFIG.apps_script_url || CONFIG.apps_script_url.includes('COLE')) return [];
       try {
-        const res = await fetch(`${CONFIG.apps_script_url}?action=pendentes&key=${APPS_SECRET_KEY}`);
+        const res = await fetch(`${CONFIG.apps_script_url}?action=pendentes&key=${encodeURIComponent(APPS_SECRET_KEY)}`);
         const data = await res.json();
         return Array.isArray(data) ? data : [];
       } catch (e) {
@@ -1331,7 +1331,7 @@
     }
 
     async function aprovarFoto(id, novoTitulo, novaDescricao) {
-      const url = `${CONFIG.apps_script_url}?action=aprovar&id=${encodeURIComponent(id)}&foto_titulo=${encodeURIComponent(novoTitulo)}&foto_descricao=${encodeURIComponent(novaDescricao)}&key=${APPS_SECRET_KEY}`;
+      const url = `${CONFIG.apps_script_url}?action=aprovar&id=${encodeURIComponent(id)}&foto_titulo=${encodeURIComponent(novoTitulo)}&foto_descricao=${encodeURIComponent(novaDescricao)}&key=${encodeURIComponent(APPS_SECRET_KEY)}`;
       try {
         await fetch(url);
         showToast('✅ Foto aprovada! Aparecerá na galeria em instantes.');
@@ -1347,7 +1347,7 @@
     }
 
     async function rejeitarFoto(id) {
-      const url = `${CONFIG.apps_script_url}?action=rejeitar&id=${encodeURIComponent(id)}&key=${APPS_SECRET_KEY}`;
+      const url = `${CONFIG.apps_script_url}?action=rejeitar&id=${encodeURIComponent(id)}&key=${encodeURIComponent(APPS_SECRET_KEY)}`;
       try {
         await fetch(url, { mode: 'no-cors' });
         showToast('🚫 Foto rejeitada.');
@@ -1746,7 +1746,7 @@
     async function carregarOficinas() {
       if (!CONFIG.apps_script_url || CONFIG.apps_script_url.includes('COLE')) return [];
       try {
-        const res = await fetch(`${CONFIG.apps_script_url}?action=oficinas&key=${APPS_SECRET_KEY}`);
+        const res = await fetch(`${CONFIG.apps_script_url}?action=oficinas&key=${encodeURIComponent(APPS_SECRET_KEY)}`);
         const data = await res.json();
         return Array.isArray(data) ? data : [];
       } catch { return []; }
@@ -2208,7 +2208,7 @@
     async function downloadInscritos(oficina_id, nome_oficina) {
       try {
         showToast('Preparando download...');
-        const res = await fetch(`${CONFIG.apps_script_url}?action=inscricoes&oficina_id=${encodeURIComponent(oficina_id)}&key=${APPS_SECRET_KEY}`);
+        const res = await fetch(`${CONFIG.apps_script_url}?action=inscricoes&oficina_id=${encodeURIComponent(oficina_id)}&key=${encodeURIComponent(APPS_SECRET_KEY)}`);
         const data = await res.json();
         if (!Array.isArray(data) || data.length === 0) {
           showToast('Nenhum inscrito nesta oficina ainda.', true); return;

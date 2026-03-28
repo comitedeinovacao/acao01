@@ -2086,8 +2086,18 @@
         return db.localeCompare(da);
       });
 
+      // Atualizar contadores nas abas
+      const btnAtivas = document.getElementById('btnOfAtivasTab');
+      const btnRealizadas = document.getElementById('btnOfRealizadasTab');
+      if (btnAtivas) btnAtivas.innerHTML = `🗓️ Ativas <span class="ml-1 bg-[#004587] text-white text-xs font-bold px-2 py-0.5 rounded-full">${ativas.length}</span>`;
+      if (btnRealizadas) btnRealizadas.innerHTML = `✅ Realizadas <span class="ml-1 ${realizadas.length > 0 ? 'bg-green-600' : 'bg-gray-400'} text-white text-xs font-bold px-2 py-0.5 rounded-full">${realizadas.length}</span>`;
+
       if (ativas.length === 0) {
-        containerAtivas.innerHTML = '<div class="text-center py-8"><p class="text-gray-400">Nenhuma oficina ativa no momento.</p></div>';
+        containerAtivas.innerHTML = `
+          <div class="text-center py-10">
+            <p class="text-gray-400 mb-2">Nenhuma oficina agendada no momento.</p>
+            ${realizadas.length > 0 ? `<p class="text-sm text-green-600 font-semibold cursor-pointer hover:underline" onclick="switchOficinaTab('realizadas')">Ver ${realizadas.length} oficina(s) já realizada(s) →</p>` : ''}
+          </div>`;
       } else {
         containerAtivas.innerHTML = ativas.map(of => _renderOficinaCard(of, false)).join('');
       }

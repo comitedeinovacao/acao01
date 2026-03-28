@@ -403,6 +403,72 @@
    </div>
   </div>
 
+  <!-- Modal Editar Oficina -->
+  <div id="editarOficinaModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden" style="display:none!important">
+   <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+    <div class="bg-gradient-to-r from-[#004587] to-[#003366] text-white p-6 rounded-t-3xl">
+     <div class="flex justify-between items-start">
+      <div>
+       <h3 class="text-xl font-bold mb-1">✏️ Editar Oficina</h3>
+       <p id="editModalSubtitle" class="text-blue-200 text-sm font-medium"></p>
+      </div>
+      <button onclick="fecharModalEditarOficina()" class="text-white/70 hover:text-white transition-colors text-2xl leading-none">×</button>
+     </div>
+    </div>
+    <form id="editarOficinaForm" class="p-6 space-y-4" onsubmit="handleEditarOficinaSalvar(event)">
+     <input type="hidden" id="editOfId" />
+     <div>
+      <label class="block text-sm font-semibold text-[#004587] mb-1">Nome da Oficina *</label>
+      <input type="text" id="editOfNome" required
+       class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors" />
+     </div>
+     <div>
+      <label class="block text-sm font-semibold text-[#004587] mb-1">Multiplicador (Ministrante) *</label>
+      <input type="text" id="editOfMultiplicador" required
+       class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors" />
+     </div>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div>
+       <label class="block text-sm font-semibold text-[#004587] mb-1">Data *</label>
+       <input type="date" id="editOfData" required
+        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors" />
+      </div>
+      <div>
+       <label class="block text-sm font-semibold text-[#004587] mb-1">Início *</label>
+       <input type="time" id="editOfHoraInicio" required
+        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors" />
+      </div>
+      <div>
+       <label class="block text-sm font-semibold text-[#004587] mb-1">Término *</label>
+       <input type="time" id="editOfHoraFim" required
+        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none transition-colors" />
+      </div>
+     </div>
+     <div>
+      <label class="block text-sm font-semibold text-[#004587] mb-1">Local *</label>
+      <select id="editOfLocal" required class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#F7941D] focus:outline-none bg-white cursor-pointer">
+       <option value="">Selecione o local</option>
+       <option value="Sala de Aula">🎓 Sala de Aula</option>
+       <option value="Auditório">🎭 Auditório</option>
+       <option value="Mezanino">🏛️ Mezanino</option>
+       <option value="Laboratório de Informática">💻 Laboratório de Informática</option>
+       <option value="Biblioteca">📚 Biblioteca</option>
+       <option value="Área Externa">🌿 Área Externa</option>
+       <option value="Outro">📍 Outro</option>
+      </select>
+     </div>
+     <button type="submit"
+      class="w-full bg-[#F7941D] text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition-all flex items-center justify-center gap-2">
+      <span id="editOfBtnText">Salvar Alterações</span>
+      <svg id="editOfSpinner" class="w-5 h-5 animate-spin hidden" fill="none" viewbox="0 0 24 24">
+       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+      </svg>
+     </button>
+    </form>
+   </div>
+  </div>
+
   <!-- Comitê Restrito Section (Hidden by default) -->
   <section id="comite-area" class="py-20 px-6 bg-white hidden" style="display: none;">
    <div class="max-w-6xl mx-auto">
@@ -509,8 +575,22 @@
      </div>
      <!-- Lista de oficinas cadastradas -->
      <h3 class="text-xl font-bold text-[#004587] mb-4">📋 Oficinas Cadastradas</h3>
+     <!-- Sub-abas: Ativas / Realizadas -->
+     <div class="flex border-b border-gray-200 mb-6 gap-1">
+      <button id="btnOfAtivasTab" onclick="switchOficinaTab('ativas')"
+        class="px-5 py-2 rounded-t-xl text-sm font-semibold border-b-2 border-[#F7941D] text-[#004587] bg-white">
+        🗓️ Ativas
+      </button>
+      <button id="btnOfRealizadasTab" onclick="switchOficinaTab('realizadas')"
+        class="px-5 py-2 rounded-t-xl text-sm font-semibold border-b-2 border-transparent text-gray-500 bg-white hover:text-[#004587] transition-colors">
+        ✅ Realizadas
+      </button>
+     </div>
      <div id="oficinasAdminContainer" class="space-y-4">
       <div class="text-center py-8"><p class="text-gray-400">Carregando oficinas...</p></div>
+     </div>
+     <div id="oficinasRealizadasContainer" class="space-y-4 hidden">
+      <div class="text-center py-8"><p class="text-gray-400">Carregando oficinas realizadas...</p></div>
      </div>
     </div><!-- Ideias Tab -->
     <div id="ideias-tab" class="comite-tab-content hidden">
@@ -1689,10 +1769,20 @@
       return String(val).substring(0, 5);
     }
 
+    function _isOficinaFutura(of) {
+      if (!of.data) return true;
+      const m = String(of.data).match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (!m) return true;
+      const dataOf = new Date(Number(m[1]), Number(m[2])-1, Number(m[3]));
+      const hoje = new Date(); hoje.setHours(0,0,0,0);
+      return dataOf >= hoje;
+    }
+
     function renderOficinas() {
       const container = document.getElementById('oficinasContainer');
       if (!container) return;
-      if (oficinasData.length === 0) {
+      const ativas = oficinasData.filter(_isOficinaFutura);
+      if (ativas.length === 0) {
         container.innerHTML = `
           <div class="col-span-full text-center py-16">
             <div class="text-6xl mb-4">📋</div>
@@ -1701,7 +1791,7 @@
           </div>`;
         return;
       }
-      container.innerHTML = oficinasData.map(of => {
+      container.innerHTML = ativas.map(of => {
         const dataFmt = _fmtData(of.data, {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
         const hi = _fmtHora(of.hora_inicio);
         const hf = _fmtHora(of.hora_fim);
@@ -1928,32 +2018,87 @@
     // ================================================================
     // 📋 OFICINAS — painel restrito
     // ================================================================
-    function renderComiteOficinas() {
-      const container = document.getElementById('oficinasAdminContainer');
-      if (!container) return;
-      if (oficinasData.length === 0) {
-        container.innerHTML = '<div class="text-center py-8"><p class="text-gray-400">Nenhuma oficina cadastrada ainda.</p></div>';
-        return;
+    let _currentOficinaTab = 'ativas';
+
+    function switchOficinaTab(tab) {
+      _currentOficinaTab = tab;
+      const containerAtivas = document.getElementById('oficinasAdminContainer');
+      const containerRealizadas = document.getElementById('oficinasRealizadasContainer');
+      const btnAtivas = document.getElementById('btnOfAtivasTab');
+      const btnRealizadas = document.getElementById('btnOfRealizadasTab');
+      if (tab === 'ativas') {
+        containerAtivas.classList.remove('hidden');
+        containerRealizadas.classList.add('hidden');
+        btnAtivas.classList.add('border-[#F7941D]','text-[#004587]');
+        btnAtivas.classList.remove('border-transparent','text-gray-500');
+        btnRealizadas.classList.add('border-transparent','text-gray-500');
+        btnRealizadas.classList.remove('border-[#F7941D]','text-[#004587]');
+      } else {
+        containerRealizadas.classList.remove('hidden');
+        containerAtivas.classList.add('hidden');
+        btnRealizadas.classList.add('border-[#F7941D]','text-[#004587]');
+        btnRealizadas.classList.remove('border-transparent','text-gray-500');
+        btnAtivas.classList.add('border-transparent','text-gray-500');
+        btnAtivas.classList.remove('border-[#F7941D]','text-[#004587]');
       }
-      container.innerHTML = oficinasData.map(of => {
-        const dataFmt = _fmtData(of.data, {day:'2-digit', month:'long', year:'numeric'});
-        return `
-          <div class="bg-white rounded-2xl shadow border border-gray-200 p-5">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <h4 class="font-bold text-[#004587] text-lg">${of.nome_oficina || ''}</h4>
-                <p class="text-sm text-gray-600 mt-1">👤 ${of.multiplicador || ''}  •  📅 ${dataFmt}  •  🕐 ${_fmtHora(of.hora_inicio)} às ${_fmtHora(of.hora_fim)}</p>
-                <p class="text-sm text-gray-600">📍 ${of.local || ''}</p>
-              </div>
-              <div class="flex gap-2 flex-shrink-0">
-                <button onclick="downloadInscritos('${of.id}','${(of.nome_oficina||'').replace(/'/g,"\\'")}' )"
-                  class="bg-[#004587] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#003366] transition-colors flex items-center gap-2">
-                  ⬇️ Download Lista
-                </button>
-              </div>
+    }
+
+    function _renderOficinaCard(of, isRealizada) {
+      const dataFmt = _fmtData(of.data, {day:'2-digit', month:'long', year:'numeric'});
+      const badgeHtml = isRealizada
+        ? `<span class="inline-block bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-full mb-2">✅ Realizada</span>`
+        : '';
+      return `
+        <div class="bg-white rounded-2xl shadow border ${isRealizada ? 'border-green-200' : 'border-gray-200'} p-5">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              ${badgeHtml}
+              <h4 class="font-bold text-[#004587] text-lg">${of.nome_oficina || ''}</h4>
+              <p class="text-sm text-gray-600 mt-1">👤 ${of.multiplicador || ''}  •  📅 ${dataFmt}  •  🕐 ${_fmtHora(of.hora_inicio)} às ${_fmtHora(of.hora_fim)}</p>
+              <p class="text-sm text-gray-600">📍 ${of.local || ''}</p>
             </div>
-          </div>`;
-      }).join('');
+            <div class="flex gap-2 flex-shrink-0 flex-wrap">
+              <button onclick="abrirModalEditarOficina('${of.id}')"
+                class="bg-white border-2 border-[#004587] text-[#004587] px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#004587] hover:text-white transition-colors flex items-center gap-2">
+                ✏️ Editar
+              </button>
+              <button onclick="downloadInscritos('${of.id}','${(of.nome_oficina||'').replace(/'/g,"\\'")}' )"
+                class="bg-[#004587] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#003366] transition-colors flex items-center gap-2">
+                ⬇️ Download Lista
+              </button>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function renderComiteOficinas() {
+      const containerAtivas = document.getElementById('oficinasAdminContainer');
+      const containerRealizadas = document.getElementById('oficinasRealizadasContainer');
+      if (!containerAtivas) return;
+
+      const ativas = oficinasData.filter(_isOficinaFutura);
+      const realizadas = oficinasData.filter(of => !_isOficinaFutura(of));
+
+      // Ordenar realizadas da mais recente para a mais antiga
+      realizadas.sort((a, b) => {
+        const da = a.data ? String(a.data).substring(0,10) : '';
+        const db = b.data ? String(b.data).substring(0,10) : '';
+        return db.localeCompare(da);
+      });
+
+      if (ativas.length === 0) {
+        containerAtivas.innerHTML = '<div class="text-center py-8"><p class="text-gray-400">Nenhuma oficina ativa no momento.</p></div>';
+      } else {
+        containerAtivas.innerHTML = ativas.map(of => _renderOficinaCard(of, false)).join('');
+      }
+
+      if (containerRealizadas) {
+        if (realizadas.length === 0) {
+          containerRealizadas.innerHTML = '<div class="text-center py-8"><p class="text-gray-400">Nenhuma oficina realizada ainda.</p></div>';
+        } else {
+          containerRealizadas.innerHTML = realizadas.map(of => _renderOficinaCard(of, true)).join('');
+        }
+      }
     }
 
     async function handleCadastroOficina(e) {
@@ -1984,6 +2129,69 @@
       finally {
         document.getElementById('ofBtnText').textContent = 'Cadastrar Oficina';
         document.getElementById('ofSpinner').classList.add('hidden');
+      }
+    }
+
+    function _horaParaInput(val) {
+      if (!val) return '';
+      const mT = String(val).match(/T(\d{2}:\d{2})/);
+      if (mT) return mT[1];
+      return String(val).substring(0, 5);
+    }
+
+    function abrirModalEditarOficina(id) {
+      const of = oficinasData.find(o => String(o.id) === String(id));
+      if (!of) { showToast('Oficina não encontrada.', true); return; }
+      document.getElementById('editOfId').value = of.id;
+      document.getElementById('editModalSubtitle').textContent = of.nome_oficina || '';
+      document.getElementById('editOfNome').value = of.nome_oficina || '';
+      document.getElementById('editOfMultiplicador').value = of.multiplicador || '';
+      // Data: extrair YYYY-MM-DD
+      const mData = String(of.data || '').match(/^(\d{4}-\d{2}-\d{2})/);
+      document.getElementById('editOfData').value = mData ? mData[1] : '';
+      document.getElementById('editOfHoraInicio').value = _horaParaInput(of.hora_inicio);
+      document.getElementById('editOfHoraFim').value = _horaParaInput(of.hora_fim);
+      document.getElementById('editOfLocal').value = of.local || '';
+      const modal = document.getElementById('editarOficinaModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+
+    function fecharModalEditarOficina() {
+      const modal = document.getElementById('editarOficinaModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+
+    async function handleEditarOficinaSalvar(e) {
+      e.preventDefault();
+      const id = document.getElementById('editOfId').value;
+      const nome = document.getElementById('editOfNome').value.trim();
+      const multiplicador = document.getElementById('editOfMultiplicador').value.trim();
+      const data = document.getElementById('editOfData').value;
+      const horaInicio = document.getElementById('editOfHoraInicio').value;
+      const horaFim = document.getElementById('editOfHoraFim').value;
+      const local = document.getElementById('editOfLocal').value;
+      if (!nome || !multiplicador || !data || !horaInicio || !horaFim || !local) {
+        showToast('Preencha todos os campos!', true); return;
+      }
+      document.getElementById('editOfBtnText').textContent = 'Salvando...';
+      document.getElementById('editOfSpinner').classList.remove('hidden');
+      try {
+        await fetch(CONFIG.apps_script_url, {
+          method: 'POST', mode: 'no-cors',
+          body: JSON.stringify({ key: APPS_SECRET_KEY, tipo: 'editar_oficina', id, nome_oficina: nome, multiplicador, data, hora_inicio: horaInicio, hora_fim: horaFim, local })
+        });
+        showToast('✅ Oficina atualizada com sucesso!');
+        fecharModalEditarOficina();
+        setTimeout(async () => {
+          oficinasData = await carregarOficinas();
+          renderComiteOficinas();
+        }, 1500);
+      } catch { showToast('Erro ao salvar. Tente novamente.', true); }
+      finally {
+        document.getElementById('editOfBtnText').textContent = 'Salvar Alterações';
+        document.getElementById('editOfSpinner').classList.add('hidden');
       }
     }
 
@@ -2300,29 +2508,42 @@
 
       // Senha correta
       closePasswordModal();
-      
+
       currentPage = 'comite';
       const comiteArea = document.getElementById('comite-area');
-      
+
       document.getElementById('quemsomos').style.display = 'none';
       document.getElementById('thinkers').style.display = 'none';
       document.getElementById('enviar').style.display = 'none';
       document.getElementById('oquefazemos').style.display = 'none';
       document.getElementById('eventos').style.display = 'none';
       document.getElementById('trilhas').style.display = 'none';
-      
+
       const allSections = document.querySelectorAll('body > section');
       if (allSections[0] && !allSections[0].id) {
         allSections[0].style.display = 'none';
       }
-      
+
       document.querySelector('footer').style.display = 'none';
       comiteArea.style.display = 'block';
-      
       window.scrollTo(0, 0);
-      renderComitePanel();
-      
-      showToast('✅ Bem-vindo à área restrita do Comitê!');
+
+      // Recarrega todos os dados ao abrir o painel (garante que oficinas realizadas apareçam)
+      showToast('⏳ Carregando dados do painel...');
+      Promise.all([
+        carregarGaleria(),
+        carregarPendentes(),
+        carregarOficinas()
+      ]).then(([gal, pend, ofic]) => {
+        galeriaData   = gal;
+        pendentesData = pend;
+        oficinasData  = ofic;
+        renderComitePanel();
+        showToast('✅ Bem-vindo à área restrita do Comitê!');
+      }).catch(() => {
+        renderComitePanel();
+        showToast('✅ Bem-vindo à área restrita do Comitê!');
+      });
     }
 
   </script>

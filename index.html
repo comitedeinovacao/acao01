@@ -1412,8 +1412,9 @@
       document.getElementById('btn-spinner').classList.remove('hidden');
 
       try {
-        const res = await fetch(CONFIG.apps_script_url, {
+        await fetch(CONFIG.apps_script_url, {
           method: 'POST',
+          mode: 'no-cors',
           body: JSON.stringify({
             tipo: 'ideia',
             key: APPS_SECRET_KEY,
@@ -1423,11 +1424,8 @@
             ideia
           })
         });
-        const data = await res.json();
-        if (data.ok) {
-          showToast('🎉 Ideia enviada com sucesso! Obrigado pela contribuição!');
-          document.getElementById('idea-form').reset();
-        } else { throw new Error('server'); }
+        showToast('🎉 Ideia enviada com sucesso! Obrigado pela contribuição!');
+        document.getElementById('idea-form').reset();
       } catch {
         showToast('Erro ao enviar. Verifique sua conexão e tente novamente.', true);
       } finally {

@@ -2395,11 +2395,13 @@
     // 🚀 INICIALIZAÇÃO
     // ================================================================
     async function init() {
-      galeriaData = await carregarGaleria();
-      pendentesData = await carregarPendentes();
-      oficinasData = await carregarOficinas();
-      ideiasData = await carregarIdeias();
-      comentariosData = await carregarComentarios();
+      [galeriaData, pendentesData, oficinasData, ideiasData, comentariosData] = await Promise.all([
+        carregarGaleria(),
+        carregarPendentes(),
+        carregarOficinas(),
+        carregarIdeias(),
+        carregarComentarios()
+      ]);
       document.getElementById('idea-form').addEventListener('submit', handleSubmit);
       document.getElementById('eventoPhotoForm').addEventListener('submit', handleEventoPhotoSubmit);
       document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);
@@ -2671,11 +2673,15 @@
       Promise.all([
         carregarGaleria(),
         carregarPendentes(),
-        carregarOficinas()
-      ]).then(([gal, pend, ofic]) => {
-        galeriaData   = gal;
-        pendentesData = pend;
-        oficinasData  = ofic;
+        carregarOficinas(),
+        carregarIdeias(),
+        carregarComentarios()
+      ]).then(([gal, pend, ofic, ideias, comentarios]) => {
+        galeriaData      = gal;
+        pendentesData    = pend;
+        oficinasData     = ofic;
+        ideiasData       = ideias;
+        comentariosData  = comentarios;
         renderComitePanel();
         showToast('✅ Bem-vindo à área restrita do Comitê!');
       }).catch(() => {

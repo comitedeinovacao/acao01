@@ -1672,7 +1672,11 @@
       if (tabEl) tabEl.classList.remove('hidden');
       const activeBtn = document.querySelector(`.tab-${tabName}`);
       if (activeBtn) { activeBtn.classList.add('border-b-4', 'border-[#F7941D]', 'text-[#004587]'); activeBtn.classList.remove('text-gray-600'); }
-      if (tabName === 'galeria') renderGaleria();
+      if (tabName === 'galeria') {
+        const container = document.getElementById('galeriaContainer');
+        if (container) container.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-gray-400 text-lg">Carregando fotos...</p></div>';
+        carregarGaleria().then(data => { galeriaData = data; renderGaleria(); });
+      }
     }
 
     // ================================================================
